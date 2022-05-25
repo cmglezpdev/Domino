@@ -8,7 +8,9 @@ Proyecto de Programaciom II
 **Instalar Node, Yarn y .NET 6.0**
 
 Para instalar node visitar su [pagina oficial](https://nodejs.org/).
+
 Para instalar .NET 6.0 visitar su [pagina oficial](https://dotnet.microsoft.com/en-us/download/dotnet/6.0).
+
 Para instalar yarn:
 
 ```bash
