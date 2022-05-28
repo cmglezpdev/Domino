@@ -1,16 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFetch } from '../../Hooks/useFetch.js';
 import { BASE_URL } from '../../helpers/api.js';
 
 export const Options = () => {
 
-    const state = useFetch( BASE_URL );
+    const [options, setOptions] = useState({});
+
+    useEffect(() => {
+        
+        fetch( `${BASE_URL}/loader` )
+            .then( response => response.json())
+            .then( data => {
+              setOptions(data);  
+            })
+     
+    }, []);
 
     return (
         <div>
             <h1>Seleccionar el tipo de juego</h1>
-           
-            <h3> Hola a todos </h3>
+            <pre>
+                {
+                    JSON.stringify( options, null, 3 )
+                }
+            </pre>
         </div>
     )
 

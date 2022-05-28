@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Options } from "./components/Forms/Options";
 import { Game } from "./components/Game/Game";
 
@@ -15,6 +15,8 @@ function App() {
       distributeTokens: 0,
       done: false
   });
+
+
 
   
   return (
