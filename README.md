@@ -3,13 +3,23 @@
 Proyecto de Programaciom II
 
 
+
+
+
 ## Dependencias
 
 **Instalar Node, Yarn y .NET 6.0**
 
-Para instalar node visitar su [pagina oficial](https://nodejs.org/).
-
 Para instalar .NET 6.0 visitar su [pagina oficial](https://dotnet.microsoft.com/en-us/download/dotnet/6.0).
+
+Para instalar node.
+
+```bash
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+
 
 Para instalar yarn:
 
