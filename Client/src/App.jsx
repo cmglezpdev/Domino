@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Options } from "./components/Forms/Options";
 import { Game } from "./components/Game/Game";
+import './index.scss';
+
 
 function App() {
   
@@ -20,13 +22,7 @@ function App() {
 
   
   return (
-
-    <>
-      {  
-        !typeGame.done ? ( <Options typeGame={typeGame} setTypeGame={setTypeGame}/> ) : ( <Game /> )  
-      }
-    </>
-
+    <Options />
   );
 }
 
