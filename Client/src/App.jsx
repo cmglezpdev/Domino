@@ -40,7 +40,7 @@ function App() {
         )
         :
         (
-          <Game />
+          <Game settings={settings}/>
         )
       }
 

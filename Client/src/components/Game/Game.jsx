@@ -1,7 +1,13 @@
 import React from 'react'
 
-export const Game = () => {
+export const Game = ({ settings }) => {
   return (
-    <div>Game</div>
+    <>
+      <pre>
+        {
+          JSON.stringify( settings, null , 3 )
+        }
+      </pre>
+    </>
   )
 }
