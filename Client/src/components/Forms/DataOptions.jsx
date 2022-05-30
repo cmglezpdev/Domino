@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
+import { SettingsContext } from '../../helpers/SettingsContext';
 
-export const DataOptions = ({ titleOption, nameValue }) => {
+export const DataOptions = ({ titleOption, nameOptions, id }) => {
 
-    const TypeOptions = GetTypeOptions(nameValue);
-    console.log(nameValue);
+    const { settings, setSettings } = useContext( SettingsContext );
+    const TypeOptions = GetTypeOptions(nameOptions);
+
+    const handleChange = (e, result) => {
+        setSettings({
+            ...settings,
+            [id]: result.value
+        });
+    }
+
     return (
     <div className='container__selected-option'>
         <h3>{ titleOption }</h3>
@@ -14,6 +23,7 @@ export const DataOptions = ({ titleOption, nameValue }) => {
             fluid
             selection
             options={ TypeOptions }
+            onChange={handleChange}
         />
     </div>
   )
@@ -21,7 +31,8 @@ export const DataOptions = ({ titleOption, nameValue }) => {
 
 DataOptions.prototype = {
     titleOption: PropTypes.string.isRequired,
-    nameValue: PropTypes.array.isRequired
+    nameOptions: PropTypes.array.isRequired,
+    id: PropTypes.string.isRequired
 }
 
 
@@ -37,3 +48,4 @@ const GetTypeOptions = (nameValue) => {
     });
     return options;
 }
+

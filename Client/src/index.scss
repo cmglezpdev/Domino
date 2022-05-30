@@ -31,3 +31,24 @@ body {
 }
 
 
+.Toastify__toast-container {
+  width: 80%;
+
+  .Toastify__toast {
+    display: flex;
+    align-items: center;
+
+    button {
+      align-self: center;
+    }
+
+    &-body {
+      text-align: center;
+      font-size: 18px;
+    }
+
+  }
+
+}
+
+

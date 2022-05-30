@@ -11,6 +11,7 @@ public class InterfaceOfOptions {
             Options = new ChangeOptions[]{
                 new ChangeOptions() {
                     titleOption = "Selecciona el tipo de Jugador",
+                    id = "player",
                     nameOptions = new string[] {
                         "Aleatorio",
                         "Bota Gorda",
@@ -20,6 +21,7 @@ public class InterfaceOfOptions {
                 },
                 new ChangeOptions() {
                     titleOption = "Cuando terminara el juego?",
+                    id = "finishGame",
                     nameOptions = new string[] {
                         "Cuando nadie lleve fichas",
                         "Cuando alguien se pase por 3ra vez",
@@ -28,6 +30,7 @@ public class InterfaceOfOptions {
                 },
                 new ChangeOptions() {
                     titleOption = "Quien gana el juego?",
+                    id = "winGame",
                     nameOptions = new string[] {
                         "El que menos puntos tenga",
                         "El que mas puntos tenga",
@@ -37,6 +40,7 @@ public class InterfaceOfOptions {
                 },
                 new ChangeOptions() {
                     titleOption = "Como se selecciona el proximo jugador?",
+                    id = "nextPlayer",
                     nameOptions = new string[] {
                         "En orden, uno de tras del otro",
                         "Aleatorio",
@@ -44,6 +48,7 @@ public class InterfaceOfOptions {
                 },
                 new ChangeOptions() {
                     titleOption = "Tipo de fichas",
+                    id = "token",
                     nameOptions = new string[] {
                         "Con numeros",
                         "Con frutas",
