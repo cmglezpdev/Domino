@@ -4,25 +4,7 @@
 }
 
 
-// Colors
-$primary-color: #1db954;
-$primary-color-hover: #1ed75f;
-
-$font-light: #fff;
-$font-gray: #969696;
-$font-dark: #000;
-
-$background-primary: $primary-color;
-$background-super-light: #fff;
-$background-light: rgb(185, 240, 178);
-$background-gray: #2d2d2d;
-$background-gray-dark: #101010;
-$background-dark: #000;
-
-$background-gray-hover: #3c3c3c;
-
-$danger: #f00;
-
+@import './scss/variables';
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -30,6 +12,10 @@ body {
     sans-serif;  
 }
 
+#root {
+  width: 100%;
+  height: 100%;
+}
 
 .Toastify__toast-container {
   width: 80%;

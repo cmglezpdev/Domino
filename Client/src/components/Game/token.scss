@@ -1,0 +1,30 @@
+@import '../../scss/variables';
+
+.token {
+    width: $width-token;
+    height: $height-token;
+    border: 1px solid #000;
+    display: inline-block;
+    margin: 3px;
+
+    .vertex { 
+        width: $width-token;
+        height: $width-token;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+   
+        span {
+            font-size: 23px;
+        }
+    }
+
+    &--left {
+        border-bottom: 2px solid black;
+    }
+
+    &--right {
+        border-top: 2px solid black;
+    }
+}
+
