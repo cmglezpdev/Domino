@@ -4,16 +4,23 @@
 .container-game {
     width: 100%;
     height: 100%;
-    display: flex;
+    // display: flex;
     border: 1px solid red;
+
+    &__board {
+        width: 100%;
+        height: 70%;
+        border: 3px solid green;
+    }
 
 
     .list-tokens {
+        display: flex;
         height: auto;
         margin: 0 auto;
         border: 1px solid blue;
-        align-self: flex-end;
-        margin-bottom: 20px;
+        margin-top: 30px;
+        justify-content: center;
     }
 
 }
