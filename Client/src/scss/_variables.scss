@@ -1,6 +1,9 @@
 
 $width-token: 50px;
-$height-token: 2 * $width-token + 4;
+$height-token: 2 * $width-token;
+
+$height-token-board: $width-token;
+$width-token-board: $height-token;
 
 
 
