@@ -10,7 +10,16 @@ export const Game = ({ settings }) => {
 
       <div className="container-game__board">
           <Token left={6} right={3} key={2} id={2} isBorad={true}/>
-          {/* <Token left={3} right={5} key={3} id={3} isBorad={true}/> */}
+          <Token left={3} right={5} key={3} id={3} isBorad={true}/>
+          <Token left={4} right={1} key={4} id={4} isBorad={true}/>
+          <Token left={6} right={4} key={5} id={5} isBorad={true}/>
+          <Token left={9} right={7} key={6} id={6} isBorad={true}/>
+          <Token left={0} right={8} key={7} id={7} isBorad={true}/>
+          <Token left={2} right={6} key={8} id={8} isBorad={true}/>
+          <Token left={1} right={3} key={9} id={9} isBorad={true}/>
+          <Token left={1} right={3} key={10} id={10} isBorad={true}/>
+          <Token left={1} right={3} key={11} id={11} isBorad={true}/>
+          <Token left={1} right={3} key={12} id={12} isBorad={true}/>
       </div>      
 
       <div className='list-tokens'>

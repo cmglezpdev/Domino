@@ -6,6 +6,7 @@
     border: 1px solid #000;
     display: inline-block;
     margin: 3px;
+    border-radius: 5px;    
 
     .vertex { 
         width: $width-token;
@@ -34,7 +35,8 @@
     width: $width-token-board + 3;
     border: 1px solid #000;
     display: inline-block;
-
+    border-radius: 5px;
+    margin-top: 3px;
     .vertex { 
         width: $width-token;
         height: $width-token;
