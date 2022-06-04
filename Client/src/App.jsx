@@ -28,7 +28,9 @@ function App() {
         pauseOnHover={false}
         theme={"colored"}
       />
-      {
+
+      <Game />
+      {/* {
         ( !settings.done ) ?
         (
           <SettingsContext.Provider value={{
@@ -42,7 +44,7 @@ function App() {
         (
           <Game settings={settings}/>
         )
-      }
+      } */}
 
     </>
   );
