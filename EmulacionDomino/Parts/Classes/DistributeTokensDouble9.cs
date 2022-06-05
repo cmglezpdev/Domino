@@ -1,7 +1,7 @@
 namespace Domino.Classes;
 using Domino.Interfaces;
  public class DistributeTokensDouble9 : IDistributeTokens {
-    public IEnumerable<IPlayer> DistributeTokens( IEnumerable< IToken > tokens, IEnumerable<IPlayer> players ) {
+    public IEnumerable<IPlayer> DistributeTokens( IEnumerable< IToken > tokens, IEnumerable<IPlayer> players) {
         Random random = new Random();
         List< IToken > auxT = new List<IToken>();
         foreach(IToken itemT in tokens){

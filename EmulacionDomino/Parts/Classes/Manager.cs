@@ -11,7 +11,7 @@ public class Manager {
     INextPlayer nextPlayer;
 
     public Manager( int countPlayers, IBoard board, IDistributeTokens distributeTokens, IFinishGame finishGame, IWinGame winnersGame, INextPlayer nextPlayer ) {
-        this. players = new IPlayer[countPlayers];
+        this.players = new IPlayer[countPlayers];
         this.board = board;
         this.distributeTokens = distributeTokens;
         this.finishGame = finishGame;
@@ -29,8 +29,8 @@ public class Manager {
     IEnumerable< IPlayer > GamePlay() {
 
         while( true ) {
-            IPlayer current = this.nextPlayer.NextPlayer( this.board, this.players );
-            current.PlayToken( this.board );
+            IPlayer current = this.nextPlayer.NextPlayer( this.players );
+            current.PlayToken( this.board,this.finishGame );
             
             if( this.finishGame.FinishGame( this.board, this.players ) ) {
                 return this.winnersGame.GetWinnersGame(this.board, this.players);

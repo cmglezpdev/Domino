@@ -4,4 +4,7 @@ namespace Domino.Interfaces;
 
 public interface IFinishGame {
     bool FinishGame( IBoard board, IEnumerable<IPlayer> players );
+    void Pass();
+    //cambio posible
+    void notpass();
 }
