@@ -4,6 +4,8 @@ Proyecto de Programacion II
 
 [Orientacion del proyecto](https://github.com/matcom/domino)
 
+[Lista de tareas](https://github.com/cmglezpdev/Domino/projects/1)
+
 Esta aplicación es una simulación de un jugador de domino, en donde usted podra jugar diferentes variantes del juego de domino clásico, cambiando las reglas de juego a su gusto.
 
 La aplicación está compuesta por una aplicación de cliente desarrollada en [React](https://es.reactjs.org/) y una aplicación de servidor con una API y toda la lógica del juego desarrollado en [C# .net6](https://docs.microsoft.com/en-us/dotnet/).
