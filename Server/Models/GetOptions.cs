@@ -45,16 +45,7 @@ public class InterfaceOfOptions {
                         "En orden, uno de tras del otro",
                         "Aleatorio",
                     }
-                },
-                new ChangeOptions() {
-                    titleOption = "Tipo de fichas",
-                    id = "token",
-                    nameOptions = new string[] {
-                        "Con numeros",
-                        "Con frutas",
-                    }
                 }
-                
             }
         };
     }
