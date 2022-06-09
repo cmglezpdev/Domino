@@ -1,0 +1,29 @@
+
+@import '../../scss/variables';
+
+.container-game {
+    width: 100%;
+    height: 100%;
+    border: 1px solid red;
+    
+    &__board {
+        width: 100%;
+        height: 70%;
+        border: 3px solid green;
+        padding: 10px;
+        overflow-y: scroll;
+        overflow-x: scroll;
+    }
+
+
+    .list-tokens {
+        display: flex;
+        height: auto;
+        margin: 0 auto;
+        border: 1px solid blue;
+        margin-top: 30px;
+        justify-content: center;
+    }
+
+}
+

@@ -1,0 +1,62 @@
+@import '../../scss/variables';
+
+.token--hand {
+    width: $width-token;
+    height: $height-token;
+    border: 1px solid #000;
+    display: inline-block;
+    margin: 3px;
+    border-radius: 5px;    
+
+    .vertex { 
+        width: $width-token;
+        height: $width-token;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+   
+        span {
+            font-size: 23px;
+        }
+    }
+
+    .left {
+        border-bottom: 2px solid black;
+    }
+
+    .right {
+        border-top: 2px solid black;
+    }
+}
+
+
+.token--board {
+    height: $height-token-board;
+    width: $width-token-board + 3;
+    border: 1px solid #000;
+    display: inline-block;
+    border-radius: 5px;
+    margin-top: 3px;
+    .vertex { 
+        width: $width-token;
+        height: $width-token;
+        display: inline-block;
+        
+        span {
+            width: 100%;
+            text-align: center;
+            margin-top: ($width-token - 18) / 2;
+            display: block;
+            font-size: 18px;
+        }
+    }
+
+    .left {
+        border-right: 1px solid black;
+    }
+
+    .right {
+        border-left: 1px solid black;
+    }
+
+}

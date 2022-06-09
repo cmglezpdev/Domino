@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
+@import './scss/variables';
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;  
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+.Toastify__toast-container {
+  width: 80%;
+
+  .Toastify__toast {
+    display: flex;
+    align-items: center;
+
+    button {
+      align-self: center;
+    }
+
+    &-body {
+      text-align: center;
+      font-size: 18px;
+    }
+
+  }
+
+}
+
+
