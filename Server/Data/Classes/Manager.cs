@@ -23,26 +23,36 @@ public class Manager {
         this.players = ply.ToArray();
     }
 
-    public void StartGame( int MaxIdOfToken ) {
+    public IEnumerable<IPlayer> StartGame( int MaxIdOfToken ) {
         IToken[] bTokens = this.board.BuildTokens( MaxIdOfToken );
         this.players = this.distributeTokens.DistributeTokens(bTokens, this.players.ToArray());
-
-        var winners = GamePlay();
+        return this.players;
     }
-    // Lista de ganadores
-    IEnumerable< IPlayer > GamePlay() {
+    // Realiza una jugada y devuelve informacion de la jugada
+    public PlayInfo GamePlay() { 
         
-        while( true ) {
-            int idxCurrentPlayer = this.nextPlayer.NextPlayer( this.players );
-            bool ToPlay = this.players[idxCurrentPlayer].PlayToken( this.board );
-            
-            if( ToPlay ) finishGame.Pass( false );
-            else finishGame.Pass( true );
-            
-            if( this.finishGame.FinishGame( this.board, this.players ) ) {            
-                return this.winnersGame.GetWinnersGame(this.board, this.players);
-            }
-        }
+        int idxCurrentPlayer = this.nextPlayer.NextPlayer( this.players );
+        bool ToPlay = this.players[idxCurrentPlayer].PlayToken( this.board );
+        
+        if( ToPlay ) finishGame.Pass( false );
+        else finishGame.Pass( true );
+        
+        PlayInfo CurrInfo = new PlayInfo() {
+            IndexPlayer = idxCurrentPlayer,
+            Passed = ToPlay,
+            TokensInBoard = this.board.TokensInBoard,
+            FinishGame = this.finishGame.FinishGame( this.board, this.players ),
+            Winners = this.winnersGame.GetWinnersGame(this.board, this.players)
+        };
 
+        return CurrInfo;
     }
+}
+
+public class PlayInfo {
+    public int? IndexPlayer {get; set;} // Indice de jugador en la lista de jugadores
+    public bool? Passed {get; set;} // Si el jugador se paso o no
+    public IEnumerable<IToken>? TokensInBoard {get; set;} // Las fichas que estan en el tablero despues de la jugada
+    public bool? FinishGame {get; set;} // True si se termino el juego
+    public IEnumerable<IPlayer>? Winners{get; set;} // Lista de ganadores en la ronda actual
 }

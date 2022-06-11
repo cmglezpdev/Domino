@@ -8,4 +8,6 @@ public interface IPlayer {
     int Count {get;}
     //decir cuantas fichas tiene
     int points {get; }
+    // Fichas que tiene
+    IEnumerable<IToken> Hand{ get; }
 }

@@ -19,5 +19,7 @@ public class Data {
     };
 }
 
-
+public static class Game {
+    public static Manager? manager;
+}
 

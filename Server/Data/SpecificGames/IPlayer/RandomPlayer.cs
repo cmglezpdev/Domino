@@ -43,4 +43,8 @@ public class RandomPlayer : IPlayer {
             return total;
         }
     }
+
+    public IEnumerable<IToken> Hand {
+        get{ return this.hand; }
+    }
 }
