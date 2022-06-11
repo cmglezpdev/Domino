@@ -1,5 +1,5 @@
-namespace Domino.Classes;
-using Domino.Interfaces;
+namespace Server.Data.Classes;
+using Server.Data.Interfaces;
 using System.Diagnostics;
 
 public class Manager {

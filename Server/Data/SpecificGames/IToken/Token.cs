@@ -1,5 +1,5 @@
-namespace Domino.Classes;
-using Domino.Interfaces;
+namespace Server.Data.Classes;
+using Server.Data.Interfaces;
 public class Token : IToken {
 
     // id de la cara, true si esta disponible pa jugarla

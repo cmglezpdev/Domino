@@ -1,4 +1,4 @@
-namespace Domino.Interfaces;
+namespace Server.Data.Interfaces;
 
 public interface IPlayer {
     (int, string) IDPlayer {get; set;}

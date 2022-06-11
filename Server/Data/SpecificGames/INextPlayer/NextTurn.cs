@@ -1,5 +1,5 @@
-namespace Domino.Classes;
-using Domino.Interfaces;
+namespace Server.Data.Classes;
+using Server.Data.Interfaces;
 public class NextTurn : INextPlayer {
     int cursor = 0;
     public int NextPlayer( IEnumerable< IPlayer > players ) {

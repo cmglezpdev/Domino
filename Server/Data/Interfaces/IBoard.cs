@@ -1,4 +1,4 @@
-namespace Domino.Interfaces;
+namespace Server.Data.Interfaces;
 
 public interface IBoard {
     public IToken[] BuildTokens( int MaxIdOfToken ); // Construir las fichas del juego

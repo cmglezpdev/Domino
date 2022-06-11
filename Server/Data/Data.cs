@@ -1,4 +1,4 @@
-namespace Domino.Data;
+namespace Server.Data;
 public static class Data {
 
     

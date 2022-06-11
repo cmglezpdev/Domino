@@ -1,5 +1,5 @@
-namespace Domino.Classes;
-using Domino.Interfaces;
+namespace Server.Data.Classes;
+using Server.Data.Interfaces;
 // fin del juego
 public class Finish : IFinishGame {
     int pass = 0;

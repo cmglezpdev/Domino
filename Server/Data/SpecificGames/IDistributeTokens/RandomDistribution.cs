@@ -1,5 +1,5 @@
-namespace Domino.Classes;
-using Domino.Interfaces;
+namespace Server.Data.Classes;
+using Server.Data.Interfaces;
  public class RandomDistribution : IDistributeTokens {
     public IPlayer[] DistributeTokens( IToken[] tokens, IPlayer[] players) {
         Random random = new Random();

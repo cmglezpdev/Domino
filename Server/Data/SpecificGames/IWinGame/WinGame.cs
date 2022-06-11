@@ -1,5 +1,5 @@
-namespace Domino.Classes;
-using Domino.Interfaces;
+namespace Server.Data.Classes;
+using Server.Data.Interfaces;
 public class WinGame : IWinGame {
     public IEnumerable<IPlayer> GetWinnersGame( IBoard board, IEnumerable<IPlayer> players ) {
         List< IPlayer > winners = new List<IPlayer>();

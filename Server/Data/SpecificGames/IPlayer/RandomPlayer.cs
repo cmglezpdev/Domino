@@ -1,5 +1,5 @@
-namespace Domino.Classes;
-using Domino.Interfaces;
+namespace Server.Data.Classes;
+using Server.Data.Interfaces;
 public class RandomPlayer : IPlayer {
     List< IToken > hand = new List<IToken>();
     (int, string) ID; // id number, player name
