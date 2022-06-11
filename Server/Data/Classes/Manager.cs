@@ -28,12 +28,6 @@ public class Manager {
         this.players = this.distributeTokens.DistributeTokens(bTokens, this.players.ToArray());
 
         var winners = GamePlay();
-
-        // System.Console.WriteLine();
-        // System.Console.WriteLine();
-        // System.Console.WriteLine();
-        foreach( var x in winners )
-            System.Console.WriteLine($"JUGADOR: {x.IDPlayer.Item1} : {x.points}");
     }
     // Lista de ganadores
     IEnumerable< IPlayer > GamePlay() {

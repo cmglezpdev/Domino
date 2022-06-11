@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { BASE_URL } from '../../helpers/api.js';
 import { DataOptions } from './DataOptions.jsx';
 import './options.scss';
@@ -9,7 +9,6 @@ import { toast } from 'react-toastify';
 export const Options = () => {
 
     const [settings, setSettings] = useState([]);
-    const [error, setError] = useState({});
     const context = useContext(SettingsContext);
 
     useEffect(() => {
@@ -22,14 +21,22 @@ export const Options = () => {
     
     const handleStartGame = () => {
         const len = Object.keys( context.settings ).length - 1;
-        if( len != settings.length ) {
+        if( len !== settings.length ) {
             toast.error("Por favor, seleccione todos los campos");
         } 
         else {
             context.setSettings({
                 ...context.settings,
                 done: true
-            })            
+            })
+            
+            fetch(`${BASE_URL}/TypeGame`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify( context.settings )
+            });
         }
     }
 

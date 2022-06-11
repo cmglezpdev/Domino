@@ -1,7 +1,6 @@
 namespace ServerApp.Models;
 
 public class GeneralOptions {
-    public int CountOptions {get; set;} // Cantidad de opciones a modificar en el juego
     public ChangeOptions[]? Options { get; set; }
 
 }

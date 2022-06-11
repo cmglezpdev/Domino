@@ -35,6 +35,13 @@ public class InterfaceOfOptions {
                     nameOptions = new string[] {
                         "En orden, uno de tras del otro",
                     }
+                },
+                new ChangeOptions() {
+                    titleOption = "Distribucion de las fichas",
+                    id = "distributeTokens",
+                    nameOptions = new string[] {
+                        "Aleatorio",
+                    }
                 }
             }
         };

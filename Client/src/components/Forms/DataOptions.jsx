@@ -16,17 +16,17 @@ export const DataOptions = ({ titleOption, nameOptions, id }) => {
     }
 
     return (
-    <div className='container__selected-option'>
-        <h3>{ titleOption }</h3>
-        <Dropdown
-            placeholder='Selecciona una opcion'
-            fluid
-            selection
-            options={ TypeOptions }
-            onChange={handleChange}
-        />
-    </div>
-  )
+        <div className='container__selected-option'>
+            <h3>{ titleOption }</h3>
+            <Dropdown
+                placeholder='Selecciona una opcion'
+                fluid
+                selection
+                options={ TypeOptions }
+                onChange={handleChange}
+            />
+        </div>
+    )
 }
 
 DataOptions.prototype = {

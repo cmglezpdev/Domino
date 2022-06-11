@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Options } from "./components/Forms/Options";
 import { Game } from "./components/Game/Game";
 import { SettingsContext } from './helpers/SettingsContext';
@@ -29,8 +29,7 @@ function App() {
         theme={"colored"}
       />
 
-      <Game />
-      {/* {
+      {
         ( !settings.done ) ?
         (
           <SettingsContext.Provider value={{
@@ -44,7 +43,7 @@ function App() {
         (
           <Game settings={settings}/>
         )
-      } */}
+      }
 
     </>
   );
