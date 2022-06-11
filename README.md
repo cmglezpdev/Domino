@@ -67,3 +67,23 @@ yarn electron-dev
 #Ejecutar como aplicacion web
 yarn start
 ```
+
+
+
+## Anadir nueva variacion de una caracteristicas
+
+Si tienes una nueva implementacion diferente de una de las caracteristicas que se pueden variar del juego sigues estos pasos:
+
+**1. Crear la clase** 
+
+En la carpeta `Data/SpecificGames` buscas la parte del juego que quieres crear nueva y creas una clase en un fichero.cs nuevo que herede la interfas corresponiente e implementas la variacion. Es recomendable que el nombre de la clase decriba o identifique el tipo de variacion correspondiente para poder diferenciarla con las demas implementaciones. 
+
+**2. Anadir los datos**
+
+En la carpeta `Data` modificas la clase `Data` y anades una nueva instancia al arreglo del tipo de variacion creada
+
+**3. Anadir descripcion**
+
+En la carpeta `Models` se modifica el fichero `GetOptions.cs` y se andade en el grupo de opciones correspondiente, en el array de `nameOptions` de ese grupo una descripcion identificadora de la implementacion desarrollada.
+
+**Importante:** Es importante que las descripciones de las variaciones tengan el mismo orden que las instancias de las clases que identifican cada una de las descripciones anadidas, ya que estos se seleccionaran dinamicamente por el indice que ocupen en el array. Si no tiene un orden correcto, este puede traer errores en la ejecucion del juego.
