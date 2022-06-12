@@ -5,6 +5,10 @@ public class Data {
     public IPlayer[] Players = new IPlayer[] {
         new RandomPlayer(),
     };
+    public IBoard[] Boards = new IBoard[] {
+        new UnidimensionalBoard(),
+    };
+
     public IDistributeTokens[] DistributeTokens = new IDistributeTokens[] {
         new RandomDistribution(),
     };

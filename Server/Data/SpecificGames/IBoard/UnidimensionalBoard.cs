@@ -1,6 +1,6 @@
 namespace Server.Data.Classes;
 using Server.Data.Interfaces;
-public class Board : IBoard {
+public class UnidimensionalBoard : IBoard {
     List<IToken> board = new List<IToken>();
     public IToken[] BuildTokens( int MaxIdOfToken ) {
         List<Token> tokens = new List<Token>();

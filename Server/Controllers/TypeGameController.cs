@@ -27,7 +27,7 @@ public class TypeGameController : ControllerBase
         Game.manager = new Manager( 
                 4,
                 players,
-                new Board(), 
+                data.Boards[ options.board ], 
                 data.DistributeTokens[ options.distributeTokens ],
                 data.FinishGames[ options.finishGame ],
                 data.WinGames[ options.winGame ],

@@ -16,6 +16,13 @@ public class InterfaceOfOptions {
                     }
                 },
                 new ChangeOptions() {
+                    titleOption = "Selecciona el tipo de tablero",
+                    id = "board",
+                    nameOptions = new string[] {
+                        "Clasico, colocar fichas solo a las esquinas",
+                    }
+                },
+                new ChangeOptions() {
                     titleOption = "Cuando terminara el juego?",
                     id = "finishGame",
                     nameOptions = new string[] {

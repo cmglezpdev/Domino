@@ -1,6 +1,7 @@
 namespace Server.Models;
 public class TypeGame {
     public int player {get; set;}
+    public int board {get; set;}
     public int finishGame {get; set;}
     public int winGame {get; set;}
     public int nextPlayer {get; set;}
