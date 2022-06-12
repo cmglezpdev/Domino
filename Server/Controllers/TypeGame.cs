@@ -19,9 +19,9 @@ public class TypeGameController : ControllerBase
         // Crear jugadores
         List<IPlayer> players = new List<IPlayer>();
         players.Add( new RandomPlayer() ); players[0].IDPlayer = (0, "Marcos");
-        players.Add( new RandomPlayer() ); players[1].IDPlayer = (0, "Juanito");
-        players.Add( new RandomPlayer() ); players[2].IDPlayer = (0, "Pedrito");
-        players.Add( new RandomPlayer() ); players[3].IDPlayer = (0, "Lucas");
+        players.Add( new RandomPlayer() ); players[1].IDPlayer = (1, "Juanito");
+        players.Add( new RandomPlayer() ); players[2].IDPlayer = (2, "Pedrito");
+        players.Add( new RandomPlayer() ); players[3].IDPlayer = (3, "Lucas");
 
         // Iniciar el estado del manager y empezar el juego
         Game.manager = new Manager( 

@@ -38,7 +38,7 @@ public class Manager {
         else finishGame.Pass( true );
         
         PlayInfo CurrInfo = new PlayInfo() {
-            IndexPlayer = idxCurrentPlayer,
+            CurrentPlayer = idxCurrentPlayer,
             Passed = ToPlay,
             TokensInBoard = this.board.TokensInBoard,
             FinishGame = this.finishGame.FinishGame( this.board, this.players ),
@@ -50,7 +50,7 @@ public class Manager {
 }
 
 public class PlayInfo {
-    public int? IndexPlayer {get; set;} // Indice de jugador en la lista de jugadores
+    public int? CurrentPlayer {get; set;} // Indice de jugador en la lista de jugadores
     public bool? Passed {get; set;} // Si el jugador se paso o no
     public IEnumerable<IToken>? TokensInBoard {get; set;} // Las fichas que estan en el tablero despues de la jugada
     public bool? FinishGame {get; set;} // True si se termino el juego
