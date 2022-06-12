@@ -16,15 +16,33 @@
     }
 
     .alert-player-game {
-        font-size: 25px;
-        text-transform: uppercase;
         padding: 10px;
-        background-color: rgb(233, 88, 88);
-        color: #fff;
-        text-align: center;
         position: absolute;
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #fff;
+        font-size: 25px;
+    }
+    
+    .passed {
         top: 200px;
+        text-transform: uppercase;
+        background-color: rgb(233, 88, 88);
+    }
+    
+    .finished {
+        background-color: rgb(117, 233, 88);
+        top: 150px;
+
+        .alert {
+            text-transform: uppercase;
+            padding: 8px;
+        }
+        .player {
+            padding: 8px;   
+        }
     }
 
     .player {

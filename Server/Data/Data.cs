@@ -28,13 +28,14 @@ public static class Game {
         }
         return TokensJson;
     }
-    public static List<Res> PlayersForJson( IEnumerable<IPlayer> players ) {
-        List<Res> result = new List<Res>();
+    public static List<ResPlayer> PlayersForJson( IEnumerable<IPlayer> players ) {
+        List<ResPlayer> result = new List<ResPlayer>();
         foreach( var p in players ) {   
             List<VertexToken> hand = Game.TokenForJson( p.Hand );
-            result.Add(new Res() {
+            result.Add(new ResPlayer() {
                 Id = p.IDPlayer.Item1,
                 Name = p.IDPlayer.Item2,
+                Points = p.points,
                 HandTokens = hand.ToArray()
             });
         }
@@ -45,14 +46,14 @@ public static class Game {
 
 
 
-public class Res {
+public class ResPlayer {
     public int? Id {get; set;}
     public string? Name {get; set;}
+    public int? Points {get; set;}
     public VertexToken[]? HandTokens {get; set;}
 }
 
 public class VertexToken {
-    public int Left {get; set;}
-    public int Right {get; set;}
+    public int? Left {get; set;}
+    public int? Right {get; set;}
 }
-
