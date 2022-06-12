@@ -12,6 +12,7 @@ export const Game = () => {
   const [currentPlay, setCurrentPlay] = useState(undefined);
 
   useEffect(() => {
+    console.log(settings); 
     fetch(`${BASE_URL}/TypeGame`, {
       method: 'POST',
       headers: {
