@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ServerApp.Models;
+using Server.Models;
 using Server.Data;
 using Server.Data.Classes;
 using Server.Data.Interfaces;

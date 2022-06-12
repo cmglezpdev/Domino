@@ -1,4 +1,4 @@
-namespace ServerApp.Models;
+namespace Server.Models;
 public class TypeGame {
     public int player {get; set;}
     public int finishGame {get; set;}

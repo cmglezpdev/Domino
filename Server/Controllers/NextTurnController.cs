@@ -1,19 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
 using Server.Models;
+using Server.Data;
+using Server.Data.Classes;
 
 namespace ServerApp.Controllers;
 
 
 [Route("api/[controller]")]
 [ApiController]
-public class LoaderController : ControllerBase
+public class NextTurnController : ControllerBase
 {
     [HttpGet]
     public IActionResult Get()
     {
-        InterfaceOfOptions IGOpt = new InterfaceOfOptions();
-
-        return Ok( IGOpt.GetGeneralOptions() );
+        PlayInfo info = Game.manager?.GamePlay()!;
+        return Ok( info );
     }
 
 }

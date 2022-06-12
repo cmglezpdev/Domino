@@ -1,4 +1,4 @@
-namespace ServerApp.Models;
+namespace Server.Models;
 
 public class GeneralOptions {
     public ChangeOptions[]? Options { get; set; }
