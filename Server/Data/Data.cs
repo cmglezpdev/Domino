@@ -8,18 +8,17 @@ public class Data {
     public IBoard[] Boards = new IBoard[] {
         new UnidimensionalBoard(),
     };
-
     public IDistributeTokens[] DistributeTokens = new IDistributeTokens[] {
         new RandomDistribution(),
     };
     public IFinishGame[] FinishGames = new IFinishGame[] {
-        new Finish(),
+        new AllPassFinish(),
     };
     public IWinGame[] WinGames = new IWinGame[] {
         new WinGame(),
     };
     public INextPlayer[] NextPlayers = new INextPlayer[] {
-        new NextTurn(),
+        new OrderTurn(),
     };
 }
 

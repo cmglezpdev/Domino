@@ -1,7 +1,8 @@
 namespace Server.Data.Classes;
 using Server.Data.Interfaces;
-// fin del juego
-public class Finish : IFinishGame {
+
+// * El juego finaliza solo cuando todos los jugadores se pasan
+public class AllPassFinish : IFinishGame {
     int pass = 0;
     public bool FinishGame( IBoard board, IEnumerable<IPlayer> players ) {
         if(this.pass == players.Count()) return true;

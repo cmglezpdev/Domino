@@ -1,5 +1,7 @@
 namespace Server.Data.Classes;
 using Server.Data.Interfaces;
+
+// * Ficha con dos caras
 public class Token : IToken {
 
     // id de la cara, true si esta disponible pa jugarla

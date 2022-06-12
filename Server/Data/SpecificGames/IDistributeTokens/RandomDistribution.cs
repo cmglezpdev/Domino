@@ -1,5 +1,7 @@
 namespace Server.Data.Classes;
 using Server.Data.Interfaces;
+
+// * Distribuye las fichas de forma random entre todos los jugadores
  public class RandomDistribution : IDistributeTokens {
     public IPlayer[] DistributeTokens( IToken[] tokens, IPlayer[] players) {
         Random random = new Random();

@@ -1,5 +1,7 @@
 namespace Server.Data.Classes;
 using Server.Data.Interfaces;
+
+// * Tablero con que se coloca las nuevas fichas consecutivamente
 public class UnidimensionalBoard : IBoard {
     List<IToken> board = new List<IToken>();
     public IToken[] BuildTokens( int MaxIdOfToken ) {

@@ -1,5 +1,7 @@
 namespace Server.Data.Classes;
 using Server.Data.Interfaces;
+
+// *Jugador que realiza jugadas de forma random
 public class RandomPlayer : IPlayer {
     List< IToken > hand = new List<IToken>();
     (int, string) ID; // id number, player name
