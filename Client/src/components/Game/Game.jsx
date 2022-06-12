@@ -50,6 +50,12 @@ export const Game = ({ settings }) => {
         }
       </div> 
 
+      {
+        currentPlay?.passed && (<div className='alert-player-game'>
+          El jugador # { currentPlay?.currentPlayer } se paso!
+        </div>)
+      }
+
       <div className='player'>
         <div className='player__name'>{`Jugador # ${ currentPlay?.currentPlayer }`}</div>
         <button 
