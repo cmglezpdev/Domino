@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Token } from './Token';
 import { BASE_URL } from '../../helpers/api.js';
+import generateId from '../../helpers/generateIds';
 
 import './game.scss';
 
-
 export const Game = ({ settings }) => {
 
-  const [players, setPlayers] = useState([]);
-  const [currentPlay, setCurrentPlay] = useState({
-                            CurrentPlayer: 0,
-                            Passed: false,
-                            TokensInBoard: [],
-                            FinishGame: false,
-                            Winners: []
-                        });
+  const [currentPlay, setCurrentPlay] = useState(undefined);
   // const { Players, CurrentPlayer, Passed, TokensInBoard, FinishGame, Winners } = currentPlay; 
 
   useEffect(() => {
@@ -26,27 +19,39 @@ export const Game = ({ settings }) => {
       body: JSON.stringify( settings )
     }).then(result => result.json())
       .then( data => {
-        setPlayers(data);
+        setCurrentPlay({
+          players: data,
+          currentPlayer: 0,
+          passed: false,
+          tokensInBoard: [],
+          finishGame: false,
+          winners: []
+      });
       })
   }, []);
 
          
   const handleNextTurn = (e) => {
-    // fetch( `${BASE_URL}/NextTurn` )
-    //   .then(result => result.json())
-    //   .then(play => {
-    //     console.log(play);
-    //   })
+    fetch( `${BASE_URL}/NextTurn` )
+      .then(result => result.json())
+      .then(play => {
+        console.warn(play);
+        setCurrentPlay(play);
+      })
   }
 
   return (
     <div className='container-game'>
       <div className="container-game__board">
-          <Token left={6} right={3} key={2} id={2} isBorad={true}/>
-      </div>      
+       {            
+          currentPlay?.tokensInBoard.map((token, index) => {
+            return (<Token left={token.left} right={token.right} key={ generateId() } id={index} isBorad={true}/>)
+          }) 
+        }
+      </div> 
 
       <div className='player'>
-        <div className='player__name'>{`Jugador #${1}`}</div>
+        <div className='player__name'>{`Jugador # ${ currentPlay?.currentPlayer }`}</div>
         <button 
           className='next-turn'
           onClick={handleNextTurn}  
@@ -58,8 +63,8 @@ export const Game = ({ settings }) => {
       <div className='list-tokens'>
         <div className='list-tokens__group'>
           {            
-            players[ currentPlay?.CurrentPlayer ]?.handTokens?.map((token, index) => {
-              return (<Token left={token.left} right={token.right} key={index} id={index}/>)
+            currentPlay?.players[ currentPlay?.currentPlayer ]?.handTokens?.map((token, index) => {
+              return (<Token left={token.left} right={token.right} key={ generateId() } id={index}/>)
             }) 
           }
         </div>

@@ -33,36 +33,11 @@ public class TypeGameController : ControllerBase
                 data.WinGames[ options.winGame ],
                 data.NextPlayers[ options.nextPlayer ]
         );
-
+        
         // Lista de players con las fichas asignadas
         IEnumerable<IPlayer> ply = Game.manager.StartGame( 9 );
-        List<Res> result = new List<Res>();
-        foreach( var p in ply ) {
-
-            List<VertexToken> hand = new List<VertexToken>();
-            foreach( var t in p.Hand ) {
-                hand.Add( new VertexToken(){ Left = t.left.Item1, Right = t.right.Item1 } );
-            }
-
-
-            result.Add(new Res() {
-                Id = p.IDPlayer.Item1,
-                Name = p.IDPlayer.Item2,
-                HandTokens = hand.ToArray()
-            });
-        }
+        List<Res> result = Game.PlayersForJson( players );
 
         return Ok( result );
     }
-}
-
-public class Res {
-    public int? Id {get; set;}
-    public string? Name {get; set;}
-    public VertexToken[]? HandTokens {get; set;}
-}
-
-public class VertexToken {
-    public int Left {get; set;}
-    public int Right {get; set;}
 }
