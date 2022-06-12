@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Token } from './Token';
 import { BASE_URL } from '../../helpers/api.js';
 import generateId from '../../helpers/generateIds';
+import { SettingsContext } from '../../helpers/SettingsContext';
 
 import './game.scss';
 
-export const Game = ({ settings }) => {
-
+export const Game = () => {
+  
+  const { settings, setSettings } = useContext(SettingsContext);
   const [currentPlay, setCurrentPlay] = useState(undefined);
-  // const { Players, CurrentPlayer, Passed, TokensInBoard, FinishGame, Winners } = currentPlay; 
 
   useEffect(() => {
     fetch(`${BASE_URL}/TypeGame`, {
@@ -32,10 +33,17 @@ export const Game = ({ settings }) => {
 
          
   const handleNextTurn = (e) => {
+    const btnText = e.target.innerText;
+    if( btnText === 'New Game'.toUpperCase() ) {
+      setSettings({
+        done: false
+      });
+      return;
+    }
+
     fetch( `${BASE_URL}/NextTurn` )
       .then(result => result.json())
       .then(play => {
-        console.warn(play);
         setCurrentPlay(play);
       })
   }

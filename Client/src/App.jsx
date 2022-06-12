@@ -29,21 +29,18 @@ function App() {
         theme={"colored"}
       />
 
+      <SettingsContext.Provider value={{ settings, setSettings }}>
       {
-        ( !settings.done ) ?
-        (
-          <SettingsContext.Provider value={{
-            settings,
-            setSettings
-          }}>
+          ( !settings.done ) ?
+          (
             <Options />
-          </SettingsContext.Provider>
-        )
-        :
-        (
-          <Game settings={settings}/>
-        )
+          )
+          :
+          (
+            <Game />
+          )
       }
+      </SettingsContext.Provider>
 
     </>
   );
