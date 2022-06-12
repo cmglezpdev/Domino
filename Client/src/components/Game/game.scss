@@ -35,6 +35,7 @@
     .finished {
         background-color: rgb(117, 233, 88);
         top: 150px;
+        z-index: 1;
 
         .alert {
             text-transform: uppercase;
@@ -70,6 +71,8 @@
         
             &:hover {
                 background-color: $primary-color-hover;
+                letter-spacing: 2px;
+                cursor: pointer;
             }
         } 
         
