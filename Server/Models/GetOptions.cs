@@ -20,6 +20,7 @@ public class InterfaceOfOptions {
                     id = "player",
                     nameOptions = new string[] {
                         "Aleatorio",
+                        "Bota Gorda",
                     }
                 },
                 new ChangeOptions() {

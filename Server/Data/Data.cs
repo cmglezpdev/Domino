@@ -4,6 +4,7 @@ using Server.Data.Classes;
 public class Data {
     public IPlayer[] Players = new IPlayer[] {
         new RandomPlayer(),
+        new BotaGordaPlayer(),
     };
     public IBoard[] Boards = new IBoard[] {
         new UnidimensionalBoard(),
