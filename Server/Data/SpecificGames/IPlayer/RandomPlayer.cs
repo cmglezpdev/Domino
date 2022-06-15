@@ -17,17 +17,25 @@ public class RandomPlayer : IPlayer {
     }    
     public bool PlayToken( IBoard board ) {
 
-        //revisa si es posible jugar alguna ficha
-        for( int i = 0; i < hand.Count; i++){
-            if(board.ValidPlay(hand[i])){
-                
-                board.PlaceToken( hand[i].Clone() );
-                hand.RemoveAt(i);
+        Random random = new Random();
+        int aux = -1;
+        bool[] mask = new bool[hand.Count];
+        int count = hand.Count;
 
+        while(count != 0){
+            aux = random.Next(0, hand.Count);
+
+            if(board.ValidPlay(hand[aux])) {
+                board.PlaceToken( hand[aux].Clone() );
+                hand.RemoveAt(aux);
                 return true;
             }
-        }
 
+            if(!mask[aux]) {
+                mask[aux] = true;
+                count--;
+            }
+        }
         return false;
     }
     public int Count {
