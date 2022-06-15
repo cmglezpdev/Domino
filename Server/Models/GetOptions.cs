@@ -49,6 +49,7 @@ public class InterfaceOfOptions {
                     id = "nextPlayer",
                     nameOptions = new string[] {
                         "En orden, uno de tras del otro",
+                        "Orden aleatorio",
                     }
                 },
                 new ChangeOptions() {
