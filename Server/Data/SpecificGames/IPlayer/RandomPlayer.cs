@@ -3,7 +3,7 @@ using Server.Data.Interfaces;
 
 // *Jugador que realiza jugadas de forma random
 public class RandomPlayer : IPlayer {
-    List< Token > hand = new List<Token>();
+    protected List< Token > hand = new List<Token>();
     (int, string) ID; // id number, player name
 
     public (int, string) IDPlayer {
@@ -15,7 +15,7 @@ public class RandomPlayer : IPlayer {
             hand.Add(item);
         }
     }    
-    public bool PlayToken( IBoard board ) {
+    public virtual bool PlayToken( IBoard board ) {
 
         Random random = new Random();
         int aux = -1;
