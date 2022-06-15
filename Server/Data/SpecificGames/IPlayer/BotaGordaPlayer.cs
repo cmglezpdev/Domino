@@ -1,5 +1,7 @@
 namespace Server.Data.Classes;
 using Server.Data.Interfaces;
+
+//jugador que juega la ficha de mas valor
 public class BotaGordaPlayer : RandomPlayer {
     public override bool PlayToken( IBoard board ) {
         int aux = int.MinValue;
