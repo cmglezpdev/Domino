@@ -1,12 +1,13 @@
 namespace Server.Data.Interfaces;
+using Server.Data.Classes;
 
 public interface IBoard {
-    public IToken[] BuildTokens( int MaxIdOfToken ); // Construir las fichas del juego
-    void PlaceToken( IToken token ); // Coloca la carta dada por un jugador
+    public Token[] BuildTokens( int MaxIdOfToken ); // Construir las fichas del juego
+    void PlaceToken( Token token ); // Coloca la carta dada por un jugador
     //cambio posible
-    bool ValidPlay(IToken token);
+    bool ValidPlay(Token token);
 
-    public IToken[] TokensInBoard {
+    public Token[] TokensInBoard {
         get;
     }
 }

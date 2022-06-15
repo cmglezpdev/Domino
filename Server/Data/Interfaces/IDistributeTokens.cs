@@ -1,5 +1,6 @@
 namespace Server.Data.Interfaces;
+using Server.Data.Classes;
 
 public interface IDistributeTokens {
-    IPlayer[] DistributeTokens( IToken[] tokens, IPlayer[] players );   
+    IPlayer[] DistributeTokens( Token[] tokens, IPlayer[] players );   
 }

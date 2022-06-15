@@ -24,7 +24,7 @@ public class Data {
 
 public static class Game {
     public static Manager? manager;
-    public static List<VertexToken> TokenForJson( IEnumerable<IToken> tokens ) {
+    public static List<VertexToken> TokenForJson( IEnumerable<Token> tokens ) {
         List<VertexToken> TokensJson = new List<VertexToken>();
         foreach( var t in tokens ) {
             TokensJson.Add( new VertexToken(){ Left = t.left.Item1, Right = t.right.Item1 } );

@@ -3,15 +3,15 @@ using Server.Data.Interfaces;
 
 // *Jugador que realiza jugadas de forma random
 public class RandomPlayer : IPlayer {
-    List< IToken > hand = new List<IToken>();
+    List< Token > hand = new List<Token>();
     (int, string) ID; // id number, player name
 
     public (int, string) IDPlayer {
         get{return this.ID;}
         set{this.ID = value;}
     }
-    public void MakeTokens( IEnumerable< IToken > tokens ) {
-        foreach(IToken item in tokens){
+    public void MakeTokens( IEnumerable< Token > tokens ) {
+        foreach(Token item in tokens){
             hand.Add(item);
         }
     }    
@@ -46,7 +46,7 @@ public class RandomPlayer : IPlayer {
         }
     }
 
-    public IEnumerable<IToken> Hand {
+    public IEnumerable<Token> Hand {
         get{ return this.hand; }
     }
 }

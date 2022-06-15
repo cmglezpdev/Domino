@@ -3,8 +3,8 @@ using Server.Data.Interfaces;
 
 // * Tablero con que se coloca las nuevas fichas consecutivamente
 public class UnidimensionalBoard : IBoard {
-    List<IToken> board = new List<IToken>();
-    public IToken[] BuildTokens( int MaxIdOfToken ) {
+    List<Token> board = new List<Token>();
+    public Token[] BuildTokens( int MaxIdOfToken ) {
         List<Token> tokens = new List<Token>();
 
         for(int i = 0; i <= MaxIdOfToken; i++){
@@ -14,7 +14,7 @@ public class UnidimensionalBoard : IBoard {
         }
         return tokens.ToArray();
     }
-    public void PlaceToken( IToken token ) {
+    public void PlaceToken( Token token ) {
         if( board.Count == 0 ) {
             board.Add(token);
             return;
@@ -30,7 +30,7 @@ public class UnidimensionalBoard : IBoard {
             return;
         }    
     }
-     private void Play(IToken token, int pos) {
+     private void Play(Token token, int pos) {
         if( pos == 0 ) {
             // Solo se juega por la parte izquierda de la ficha del tablero
             int faceToken = board[0].left.Item1;
@@ -71,7 +71,7 @@ public class UnidimensionalBoard : IBoard {
         }
         
     }
-    public bool ValidPlay(IToken token) {
+    public bool ValidPlay(Token token) {
         // Puede jugar cualquier ficha
         if( board.Count == 0 ) return true;
         
@@ -79,7 +79,7 @@ public class UnidimensionalBoard : IBoard {
         
         return false;
     }
-    public bool ValidPlay(IToken token, IToken item) {
+    public bool ValidPlay(Token token, Token item) {
 
         if( item.left.Item2 ) {
             int faceToken = item.left.Item1;
@@ -99,7 +99,7 @@ public class UnidimensionalBoard : IBoard {
 
         return false;
     }
-    public IToken[] TokensInBoard {
+    public Token[] TokensInBoard {
         get{ return this.board.ToArray(); }
     }
 }

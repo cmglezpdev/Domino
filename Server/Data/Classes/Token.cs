@@ -1,8 +1,7 @@
 namespace Server.Data.Classes;
-using Server.Data.Interfaces;
 
-// * Ficha con dos caras
-public class Token : IToken {
+// * Ficha 
+public class Token {
 
     // id de la cara, true si esta disponible pa jugarla
     int Right;
@@ -52,8 +51,8 @@ public class Token : IToken {
         this.DisponibilityLeft = aux2;
     }
 
-    public IToken Clone() {
-        IToken CloneT = new Token(this.Left, this.Right);
+    public Token Clone() {
+        Token CloneT = new Token(this.Left, this.Right);
         if( !this.DisponibilityLeft ) CloneT.Played( this.Left );
         if( !this.DisponibilityRight ) CloneT.Played( this.Right );
 
