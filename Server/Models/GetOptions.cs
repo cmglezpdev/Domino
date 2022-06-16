@@ -57,6 +57,7 @@ public class InterfaceOfOptions {
                     id = "distributeTokens",
                     nameOptions = new string[] {
                         "Aleatorio",
+                        "Cada uno recibe todas las fichas que se puedan del mismo numero"
                     }
                 }
             }

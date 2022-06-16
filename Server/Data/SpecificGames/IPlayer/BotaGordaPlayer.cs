@@ -6,7 +6,7 @@ public class BotaGordaPlayer : RandomPlayer {
     public override bool PlayToken( IBoard board ) {
         int aux = int.MinValue;
         int auxindex = -1;
-        for(int i = 1; i < hand.Count; i++){
+        for(int i = 0; i < hand.Count; i++){
             if(board.ValidPlay(hand[i])) 
                 if(hand[i].value > aux) {
                     auxindex = i;

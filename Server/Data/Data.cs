@@ -11,6 +11,7 @@ public class Data {
     };
     public IDistributeTokens[] DistributeTokens = new IDistributeTokens[] {
         new RandomDistribution(),
+        new AllforOneDistribution(),
     };
     public IFinishGame[] FinishGames = new IFinishGame[] {
         new AllPassFinish(),
