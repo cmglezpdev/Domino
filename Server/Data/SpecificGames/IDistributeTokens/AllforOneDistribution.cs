@@ -17,15 +17,16 @@ public class AllforOneDistribution : IDistributeTokens {
         for(int i = 0; i < players.Length; i++){
             List<Token> aux = new List<Token>();
             int auxI = r.Next(0,9);
-            while(!mask[auxI]){
+            while(mask[auxI]){
                 auxI = r.Next(0,9);
             }
             mask[auxI] = true;
-            for(int j = 0; j < tokens.Length; j++){
+            for(int j = 0; j < auxT.Count; j++){
                 if(auxT[j].right.Item1 == auxI || auxT[j].left.Item1 == auxI){
                     aux.Add(auxT[j]);
                     auxT.RemoveAt(j);
                     count++;
+                    j--;
                 }
             }
             while(count < 10) {
