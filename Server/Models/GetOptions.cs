@@ -42,6 +42,7 @@ public class InterfaceOfOptions {
                     id = "winGame",
                     nameOptions = new string[] {
                         "El que menos puntos tenga",
+                        "El que mas puntos tenga"
                     }
                 },
                 new ChangeOptions() {

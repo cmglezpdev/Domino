@@ -17,7 +17,8 @@ public class Data {
         new AllPassFinish(),
     };
     public IWinGame[] WinGames = new IWinGame[] {
-        new WinGame(),
+        new FewPoints(),
+        new ALotPoints()
     };
     public INextPlayer[] NextPlayers = new INextPlayer[] {
         new OrderTurn(),
