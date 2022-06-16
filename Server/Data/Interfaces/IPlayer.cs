@@ -11,4 +11,6 @@ public interface IPlayer {
     int points {get; }
     // Fichas que tiene
     IEnumerable<Token> Hand{ get; }
+
+    IPlayer Clone();
 }

@@ -29,6 +29,7 @@ export const Options = () => {
                 ...context.settings,
                 done: true
             })
+            console.log(context.settings);
         }
     }
 

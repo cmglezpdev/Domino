@@ -20,4 +20,12 @@ public class BotaGordaPlayer : RandomPlayer {
         }
         return false;
     }  
+
+    public override IPlayer Clone() {
+        BotaGordaPlayer clone = new BotaGordaPlayer();
+        clone.MakeTokens( this.hand );
+
+        return clone;
+    }
+
 }

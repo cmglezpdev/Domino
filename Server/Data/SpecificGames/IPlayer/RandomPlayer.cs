@@ -57,4 +57,11 @@ public class RandomPlayer : IPlayer {
     public IEnumerable<Token> Hand {
         get{ return this.hand; }
     }
+
+    public virtual IPlayer Clone() {
+        RandomPlayer clone = new RandomPlayer();
+        clone.MakeTokens( this.hand );
+
+        return clone;
+    }
 }
