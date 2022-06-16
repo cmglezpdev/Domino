@@ -4,7 +4,11 @@ using Server.Data.Interfaces;
 public class AllforOneDistribution : IDistributeTokens {
     public IPlayer[] DistributeTokens( List<Token> tokens, IPlayer[] players) {
         Random r = new Random();
-        players = players.OrderBy(x => r.Next()).ToArray();
+        int[] playerindex = new int[players.Length];
+        for(int i = 0; i < playerindex.Length; i++){
+            playerindex[i] = i;
+        }
+        playerindex = playerindex.OrderBy(x => r.Next()).ToArray();
         
         bool[] mask = new bool[10];
 
@@ -39,7 +43,7 @@ public class AllforOneDistribution : IDistributeTokens {
                 hands[i].Add(tokens[aux2]);
                 tokens.RemoveAt(aux2);   
                 }
-            players[i].MakeTokens(hands[i]);
+            players[playerindex[i]].MakeTokens(hands[i]);
         } 
         return players;
     }
