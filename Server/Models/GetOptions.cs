@@ -51,6 +51,7 @@ public class InterfaceOfOptions {
                     nameOptions = new string[] {
                         "En orden, uno de tras del otro",
                         "Orden aleatorio",
+                        "Orden consecutivo, y si alguien se pasa se invierte el orden"
                     }
                 },
                 new ChangeOptions() {

@@ -23,6 +23,7 @@ public class Data {
     public INextPlayer[] NextPlayers = new INextPlayer[] {
         new OrderTurn(),
         new RandomTurn(),
+        new InvertedTurn()
     };
 }
 
