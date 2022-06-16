@@ -2,7 +2,7 @@ namespace Server.Data.Interfaces;
 using Server.Data.Classes;
 
 public interface IBoard {
-    public Token[] BuildTokens( int MaxIdOfToken ); // Construir las fichas del juego
+    public List<Token> BuildTokens( int MaxIdOfToken ); // Construir las fichas del juego
     void PlaceToken( Token token ); // Coloca la carta dada por un jugador
     //cambio posible
     bool ValidPlay(Token token);

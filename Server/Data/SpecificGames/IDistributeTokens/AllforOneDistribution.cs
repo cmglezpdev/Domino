@@ -2,18 +2,13 @@ namespace Server.Data.Classes;
 using Server.Data.Interfaces;
 
 public class AllforOneDistribution : IDistributeTokens {
-    public IPlayer[] DistributeTokens( Token[] tokens, IPlayer[] players) {
+    public IPlayer[] DistributeTokens( List<Token> tokens, IPlayer[] players) {
         Random r = new Random();
         players = players.OrderBy(x => r.Next()).ToArray();
         
-        List<Token> auxT = new List<Token>();
-        foreach(Token itemT in tokens){
-            auxT.Add(itemT);
-        }
         int count = 0;
         bool[] mask = new bool[10];
-        
-
+    
         for(int i = 0; i < players.Length; i++){
             List<Token> aux = new List<Token>();
             int auxI = r.Next(0,9);
@@ -21,18 +16,18 @@ public class AllforOneDistribution : IDistributeTokens {
                 auxI = r.Next(0,9);
             }
             mask[auxI] = true;
-            for(int j = 0; j < auxT.Count; j++){
-                if(auxT[j].right.Item1 == auxI || auxT[j].left.Item1 == auxI){
-                    aux.Add(auxT[j]);
-                    auxT.RemoveAt(j);
+            for(int j = 0; j < tokens.Count; j++){
+                if(tokens[j].right.Item1 == auxI || tokens[j].left.Item1 == auxI){
+                    aux.Add(tokens[j]);
+                    tokens.RemoveAt(j);
                     count++;
                     j--;
                 }
             }
             while(count < 10) {
-                int aux2 = r.Next(0, auxT.Count);
-                aux.Add(auxT[aux2]);
-                auxT.RemoveAt(aux2);
+                int aux2 = r.Next(0, tokens.Count);
+                aux.Add(tokens[aux2]);
+                tokens.RemoveAt(aux2);
                 count++;    
                 }
             count = 0;

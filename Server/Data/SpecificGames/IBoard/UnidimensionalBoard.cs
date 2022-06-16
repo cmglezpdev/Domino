@@ -4,7 +4,7 @@ using Server.Data.Interfaces;
 // * Tablero con que se coloca las nuevas fichas consecutivamente
 public class UnidimensionalBoard : IBoard {
     List<Token> board = new List<Token>();
-    public Token[] BuildTokens( int MaxIdOfToken ) {
+    public List<Token> BuildTokens( int MaxIdOfToken ) {
         List<Token> tokens = new List<Token>();
 
         for(int i = 0; i <= MaxIdOfToken; i++){
@@ -12,7 +12,7 @@ public class UnidimensionalBoard : IBoard {
                 tokens.Add(new Token(i , j));
             }
         }
-        return tokens.ToArray();
+        return tokens;
     }
     public void PlaceToken( Token token ) {
         if( board.Count == 0 ) {

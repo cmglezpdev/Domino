@@ -24,7 +24,7 @@ public class Manager {
     }
 
     public IEnumerable<IPlayer> StartGame( int MaxIdOfToken ) {
-        Token[] bTokens = this.board.BuildTokens( MaxIdOfToken );
+        List<Token> bTokens = this.board.BuildTokens( MaxIdOfToken );
         this.players = this.distributeTokens.DistributeTokens(bTokens, this.players.ToArray());
         return this.players;
     }

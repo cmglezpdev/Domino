@@ -3,20 +3,16 @@ using Server.Data.Interfaces;
 
 // * Distribuye las fichas de forma random entre todos los jugadores
  public class RandomDistribution : IDistributeTokens {
-    public IPlayer[] DistributeTokens( Token[] tokens, IPlayer[] players) {
+    public IPlayer[] DistributeTokens( List<Token> tokens, IPlayer[] players) {
         Random random = new Random();
-        List< Token > auxT = new List<Token>();
-        /* Copying the tokens to a new list. */
-        foreach(Token itemT in tokens){
-            auxT.Add(itemT);
-        }
+
         foreach(IPlayer itemP in players){
 
             List< Token > aux = new List<Token>();
             for ( int j = 0; j < 10; j++) {
-                int r = random.Next(0,auxT.Count);
-                aux.Add(auxT[r]);
-                auxT.RemoveAt(r);
+                int r = random.Next(0,tokens.Count);
+                aux.Add(tokens[r]);
+                tokens.RemoveAt(r);
             }
             itemP.MakeTokens(aux);
             // foreach(var x in aux) 
