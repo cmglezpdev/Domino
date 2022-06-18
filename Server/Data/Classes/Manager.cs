@@ -23,9 +23,9 @@ public class Manager {
         this.players = ply.ToArray();
     }
 
-    public IEnumerable<IPlayer> StartGame( int MaxIdOfToken ) {
+    public IEnumerable<IPlayer> StartGame( int MaxIdOfToken, int countTokens ) {
         List<Token> bTokens = this.board.BuildTokens( MaxIdOfToken );
-        this.players = this.distributeTokens.DistributeTokens(bTokens, this.players.ToArray());
+        this.players = this.distributeTokens.DistributeTokens(bTokens, this.players.ToArray(), countTokens);
         return this.players;
     }
     // Realiza una jugada y devuelve informacion de la jugada

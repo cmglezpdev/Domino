@@ -2,7 +2,7 @@ namespace Server.Data.Classes;
 using Server.Data.Interfaces;
 
 public class AllforOneDistribution : IDistributeTokens {
-    public IPlayer[] DistributeTokens( List<Token> tokens, IPlayer[] players) {
+    public IPlayer[] DistributeTokens( List<Token> tokens, IPlayer[] players, int countTokens ) {
         Random r = new Random();
         int[] playerindex = new int[players.Length];
         for(int i = 0; i < playerindex.Length; i++){
@@ -10,7 +10,7 @@ public class AllforOneDistribution : IDistributeTokens {
         }
         playerindex = playerindex.OrderBy(x => r.Next()).ToArray();
         
-        bool[] mask = new bool[10];
+        bool[] mask = new bool[countTokens];
 
         int IntMax = 0;
         int mark = tokens[0].right.Item1;
@@ -38,7 +38,7 @@ public class AllforOneDistribution : IDistributeTokens {
             hands.Add(aux);    
         }
         for(int i = 0; i < hands.Count; i++){
-            while(hands[i].Count < 10) {
+            while(hands[i].Count < countTokens) {
                 int aux2 = r.Next(0, tokens.Count);
                 hands[i].Add(tokens[aux2]);
                 tokens.RemoveAt(aux2);   

@@ -35,7 +35,7 @@ public class TypeGameController : ControllerBase
         );
         
         // Lista de players con las fichas asignadas
-        IEnumerable<IPlayer> ply = Game.manager.StartGame( 9 );
+        IEnumerable<IPlayer> ply = Game.manager.StartGame( 9, 10 );
         List<ResPlayer> result = Game.PlayersForJson( players );
 
         return Ok( result );
