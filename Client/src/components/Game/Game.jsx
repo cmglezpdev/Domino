@@ -5,6 +5,7 @@ import generateId from '../../helpers/generateIds';
 import { SettingsContext } from '../../helpers/SettingsContext';
 
 import './game.scss';
+import { PlayerTokens } from './PlayerTokens';
 
 export const Game = () => {
   
@@ -49,6 +50,9 @@ export const Game = () => {
       })
   }
 
+
+
+
   return (
     <div className='container-game'>
       <div className="container-game__board">
@@ -58,6 +62,8 @@ export const Game = () => {
           }) 
         }
       </div> 
+
+
 
       {
         currentPlay?.finishGame && (<div className='alert-player-game finished'>
@@ -76,25 +82,9 @@ export const Game = () => {
         </div>)
       }
 
-      <div className='player'>
-        <div className='player__name'>{`Jugador # ${ currentPlay?.currentPlayer }`}</div>
-        <button 
-          className='next-turn'
-          onClick={handleNextTurn}  
-        >
-            { ( currentPlay?.finishGame ) ? 'New Game' : 'Next Turn'}
-        </button>
-      </div>
 
-      <div className='list-tokens'>
-        <div className='list-tokens__group'>
-          {            
-            currentPlay?.players[ currentPlay?.currentPlayer ]?.handTokens?.map((token, index) => {
-              return (<Token left={token.left} right={token.right} key={ generateId() } id={index}/>)
-            }) 
-          }
-        </div>
-      </div>
+      <PlayerTokens currentPlay={currentPlay} handleNextTurn={handleNextTurn}/>
+
     </div>
   )
 }
