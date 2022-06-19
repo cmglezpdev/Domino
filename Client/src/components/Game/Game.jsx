@@ -32,7 +32,7 @@ export const Game = () => {
           winners: []
       });
       })
-  }, []);
+  }, [] );
 
          
   const handleNextTurn = (e) => {
