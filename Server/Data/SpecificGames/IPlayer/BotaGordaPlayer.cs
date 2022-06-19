@@ -14,7 +14,7 @@ public class BotaGordaPlayer : RandomPlayer {
             }
         }
         if(auxindex != -1) {
-            board.PlaceToken( hand[auxindex].Clone() );
+            board.PlaceToken( hand[auxindex].Clone(), this.IDPlayer.Item1 );
             hand.RemoveAt(auxindex);
             return true;
         }

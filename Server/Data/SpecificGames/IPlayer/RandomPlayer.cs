@@ -26,7 +26,7 @@ public class RandomPlayer : IPlayer {
             aux = random.Next(0, hand.Count);
 
             if(board.ValidPlay(hand[aux])) {
-                board.PlaceToken( hand[aux].Clone() );
+                board.PlaceToken( hand[aux].Clone(), this.IDPlayer.Item1 );
                 hand.RemoveAt(aux);
                 return true;
             }
