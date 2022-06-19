@@ -6,6 +6,7 @@ import { SettingsContext } from '../../helpers/SettingsContext';
 
 import './game.scss';
 import { PlayerTokens } from './PlayerTokens';
+import { MessageGame } from './MessageGame';
 
 export const Game = () => {
   
@@ -54,7 +55,9 @@ export const Game = () => {
 
 
   return (
+
     <div className='container-game'>
+      {/* Muestra las fuchas del tablero */}
       <div className="container-game__board">
        {            
           currentPlay?.tokensInBoard.map((token, index) => {
@@ -65,24 +68,11 @@ export const Game = () => {
 
 
 
-      {
-        currentPlay?.finishGame && (<div className='alert-player-game finished'>
-          <span className='alert'>El juego ha terminado...</span>
-          <span className='alert'>Lista de Ganadores:</span>
-          {
-            currentPlay?.winners.map((player) => {
-              return (<span className='player'>{ `Jugador #${player.id}: ${player.points} puntos.` }</span>)
-            })
-          }
-        </div>)
-      }
-      {
-        currentPlay?.passed && (<div className='alert-player-game passed'>
-          <span>El jugador # { currentPlay?.currentPlayer } se paso!</span>
-        </div>)
-      }
+      {/* Mensaje que se muestra cuando alguien se pasa o termina el juego */}
+     <MessageGame currentPlay={currentPlay}/>
+      
 
-
+        {/* Muestra al jugador actual y a la lista de fichas del jugador */}
       <PlayerTokens currentPlay={currentPlay} handleNextTurn={handleNextTurn}/>
 
     </div>
