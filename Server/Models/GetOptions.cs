@@ -35,6 +35,7 @@ public class InterfaceOfOptions {
                     id = "finishGame",
                     nameOptions = new string[] {
                         "Cuando nadie lleve fichas o se pegue",
+                        "Cuando alguien se pase por primera vez"
                     }
                 },
                 new ChangeOptions() {

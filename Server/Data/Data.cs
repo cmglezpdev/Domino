@@ -15,6 +15,7 @@ public class Data {
     };
     public IFinishGame[] FinishGames = new IFinishGame[] {
         new AllPassFinish(),
+        new APassFinish()
     };
     public IWinGame[] WinGames = new IWinGame[] {
         new FewPoints(),
