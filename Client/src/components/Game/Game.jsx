@@ -7,6 +7,7 @@ import { SettingsContext } from '../../helpers/SettingsContext';
 import './game.scss';
 import { PlayerTokens } from './PlayerTokens';
 import { MessageGame } from './MessageGame';
+import { Board } from './Board';
 
 export const Game = () => {
   
@@ -58,23 +59,7 @@ export const Game = () => {
 
     <div className='container-game'>
       {/* Muestra las fuchas del tablero */}
-      <div className="container-game__board">
-       {            
-          currentPlay?.tokensInBoard.map((token, index) => {
-            return (
-              <Token 
-                left={token.left} 
-                right={token.right} 
-                key={ generateId() } 
-                id={index} 
-                direction={"horizontal"}
-                visible="true"
-              />)
-          }) 
-        }
-      </div> 
-
-
+      <Board currentPlay={currentPlay}/>
 
       {/* Mensaje que se muestra cuando alguien se pasa o termina el juego */}
      <MessageGame currentPlay={currentPlay}/>
