@@ -2,7 +2,7 @@ namespace Server.Data.Classes;
 using Server.Data.Interfaces;
 
 public class AllforOneDistribution : IDistributeTokens {
-    public IPlayer[] DistributeTokens( List<Token> tokens, IPlayer[] players, int countTokens ) {
+    public Player[] DistributeTokens( List<Token> tokens, Player[] players, int countTokens ) {
         Random r = new Random();
         int[] playerindex = new int[players.Length];
         for(int i = 0; i < playerindex.Length; i++){

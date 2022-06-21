@@ -21,7 +21,7 @@ public class BotaGordaPlayer : RandomPlayer {
         return false;
     }  
 
-    public override IPlayer Clone() {
+    public override Player Clone() {
         BotaGordaPlayer clone = new BotaGordaPlayer();
         clone.MakeTokens( this.hand );
 

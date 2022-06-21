@@ -2,20 +2,8 @@ namespace Server.Data.Classes;
 using Server.Data.Interfaces;
 
 // *Jugador que realiza jugadas de forma random
-public class RandomPlayer : IPlayer {
-    protected List< Token > hand = new List<Token>();
-    (int, string) ID; // id number, player name
-
-    public (int, string) IDPlayer {
-        get{return this.ID;}
-        set{this.ID = value;}
-    }
-    public void MakeTokens( IEnumerable< Token > tokens ) {
-        foreach(Token item in tokens){
-            hand.Add(item);
-        }
-    }    
-    public virtual bool PlayToken( IBoard board ) {
+public class RandomPlayer : Player {
+    public override bool PlayToken( IBoard board ) {
 
         Random random = new Random();
         int aux = -1;
@@ -38,10 +26,8 @@ public class RandomPlayer : IPlayer {
         }
         return false;
     }
-    public int Count {
-        get { return hand.Count; }
-    }
-    public int points {
+ 
+    public override int points {
         get {
             int total = 0;
             // string s = "";
@@ -54,11 +40,7 @@ public class RandomPlayer : IPlayer {
         }
     }
 
-    public IEnumerable<Token> Hand {
-        get{ return this.hand; }
-    }
-
-    public virtual IPlayer Clone() {
+    public override Player Clone() {
         RandomPlayer clone = new RandomPlayer();
         clone.MakeTokens( this.hand );
 

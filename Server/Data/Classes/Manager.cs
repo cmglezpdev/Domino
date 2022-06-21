@@ -4,26 +4,26 @@ using System.Diagnostics;
 
 public class Manager {
 
-    IPlayer[] players;
+    Player[] players;
     IBoard board;
     IDistributeTokens distributeTokens;
     IFinishGame finishGame;
     IWinGame winnersGame;
     INextPlayer nextPlayer;
 
-    public Manager( int countPlayers, IEnumerable<IPlayer> players, IBoard board, IDistributeTokens distributeTokens, IFinishGame finishGame, IWinGame winnersGame, INextPlayer nextPlayer ) {
+    public Manager( int countPlayers, IEnumerable<Player> players, IBoard board, IDistributeTokens distributeTokens, IFinishGame finishGame, IWinGame winnersGame, INextPlayer nextPlayer ) {
         this.board = board;
         this.distributeTokens = distributeTokens;
         this.finishGame = finishGame;
         this.winnersGame = winnersGame;
         this.nextPlayer = nextPlayer;
         
-        List<IPlayer> ply = new List<IPlayer>();
+        List<Player> ply = new List<Player>();
         foreach( var pl in players ) ply.Add(pl);
         this.players = ply.ToArray();
     }
 
-    public IEnumerable<IPlayer> StartGame( int MaxIdOfToken, int countTokens ) {
+    public IEnumerable<Player> StartGame( int MaxIdOfToken, int countTokens ) {
         List<Token> bTokens = this.board.BuildTokens( MaxIdOfToken );
         this.players = this.distributeTokens.DistributeTokens(bTokens, this.players.ToArray(), countTokens);
         return this.players;

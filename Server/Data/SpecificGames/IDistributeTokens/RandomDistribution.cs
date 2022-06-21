@@ -3,10 +3,10 @@ using Server.Data.Interfaces;
 
 // * Distribuye las fichas de forma random entre todos los jugadores
  public class RandomDistribution : IDistributeTokens {
-    public IPlayer[] DistributeTokens( List<Token> tokens, IPlayer[] players, int countTokens) {
+    public Player[] DistributeTokens( List<Token> tokens, Player[] players, int countTokens) {
         Random random = new Random();
 
-        foreach(IPlayer itemP in players){
+        foreach(Player itemP in players){
 
             List< Token > aux = new List<Token>();
             for ( int j = 0; j < 10; j++) {

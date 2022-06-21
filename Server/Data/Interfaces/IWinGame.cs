@@ -1,6 +1,7 @@
 namespace Server.Data.Interfaces;
+using Server.Data.Classes;
 
 public interface IWinGame {
-    IEnumerable<IPlayer> GetWinnersGame( IBoard board, IEnumerable<IPlayer> players );
+    IEnumerable<Player> GetWinnersGame( IBoard board, IEnumerable<Player> players );
 
 }

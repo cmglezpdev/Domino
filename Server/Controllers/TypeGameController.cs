@@ -17,7 +17,7 @@ public class TypeGameController : ControllerBase
         // ejecutar el juego
         var data = new Data(); // Cargar tipos de juego
         // Crear jugadores
-        List<IPlayer> players = new List<IPlayer>();
+        List<Player> players = new List<Player>();
         players.Add( data.Players[ options.player ].Clone() ); players[0].IDPlayer = (0, "Marcos");
         players.Add( data.Players[ options.player ].Clone() ); players[1].IDPlayer = (1, "Juanito");
         players.Add( data.Players[ options.player ].Clone() ); players[2].IDPlayer = (2, "Pedrito");
@@ -35,7 +35,7 @@ public class TypeGameController : ControllerBase
         );
         
         // Lista de players con las fichas asignadas
-        IEnumerable<IPlayer> ply = Game.manager.StartGame( 9, 10 );
+        IEnumerable<Player> ply = Game.manager.StartGame( 9, 10 );
         List<ResPlayer> result = Game.PlayersForJson( players );
 
         return Ok( result );

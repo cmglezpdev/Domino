@@ -1,5 +1,6 @@
 namespace Server.Data.Interfaces;
+using Server.Data.Classes;
 
 public interface INextPlayer {
-    int NextPlayer( IEnumerable< IPlayer > players );
+    int NextPlayer( IEnumerable< Player > players );
 }

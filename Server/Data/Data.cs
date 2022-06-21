@@ -2,7 +2,7 @@ namespace Server.Data;
 using Server.Data.Interfaces;
 using Server.Data.Classes;
 public class Data {
-    public IPlayer[] Players = new IPlayer[] {
+    public Player[] Players = new Player[] {
         new RandomPlayer(),
         new BotaGordaPlayer(),
     };
@@ -37,7 +37,7 @@ public static class Game {
         }
         return TokensJson;
     }
-    public static List<ResPlayer> PlayersForJson( IEnumerable<IPlayer> players ) {
+    public static List<ResPlayer> PlayersForJson( IEnumerable<Player> players ) {
         List<ResPlayer> result = new List<ResPlayer>();
         foreach( var p in players ) {   
             List<VertexToken> hand = Game.TokenForJson( p.Hand );
