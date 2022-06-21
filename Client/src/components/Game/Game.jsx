@@ -61,7 +61,15 @@ export const Game = () => {
       <div className="container-game__board">
        {            
           currentPlay?.tokensInBoard.map((token, index) => {
-            return (<Token left={token.left} right={token.right} key={ generateId() } id={index} isBorad={true}/>)
+            return (
+              <Token 
+                left={token.left} 
+                right={token.right} 
+                key={ generateId() } 
+                id={index} 
+                direction={"horizontal"}
+                visible="true"
+              />)
           }) 
         }
       </div> 
