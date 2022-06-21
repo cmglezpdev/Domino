@@ -9,13 +9,6 @@ public class InterfaceOfOptions {
         this.options = new GeneralOptions() {
             Options = new ChangeOptions[]{
                 new ChangeOptions() {
-                    titleOption = "Selecciona el tipo de Juego",
-                    id = "typeGame",
-                    nameOptions = new string[] {
-                        "Computer vs Computer"
-                    }
-                },
-                new ChangeOptions() {
                     titleOption = "Selecciona el tipo de Jugador",
                     id = "player",
                     nameOptions = new string[] {
