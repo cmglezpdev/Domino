@@ -1,13 +1,15 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Token } from './Token';
-import { BASE_URL } from '../../helpers/api.js';
-import generateId from '../../helpers/generateIds';
-import { SettingsContext } from '../../helpers/SettingsContext';
+import { Board } from './Board/Board';
+import { MessageGame } from './MessageGame/MessageGame';
+import { PlayerTokens } from './PlayerTokens/PlayerTokens';
 
+import { SettingsContext } from '../../helpers/SettingsContext';
+import { BASE_URL } from '../../helpers/api.js';
 import './game.scss';
-import { PlayerTokens } from './PlayerTokens';
-import { MessageGame } from './MessageGame';
-import { Board } from './Board';
+
+
+
+
 
 export const Game = () => {
   

@@ -1,5 +1,5 @@
 import React from 'react'
-import DotContainer from '../Game/dotContainer/dotContainer';
+import DotContainer from '../dotContainer/dotContainer';
 import './token.scss';
 
 

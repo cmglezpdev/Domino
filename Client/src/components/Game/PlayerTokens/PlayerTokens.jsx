@@ -1,6 +1,8 @@
 import React from 'react'
-import { Token } from './Token';
-import generateId from '../../helpers/generateIds';
+import { Token } from '../Token/Token';
+
+import generateId from '../../../helpers/generateIds';
+ import './playerTokens.scss';
 
 export const PlayerTokens = ({ currentPlay, handleNextTurn }) => {
   return (

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import generateId from './../../helpers/generateIds';
-import { Token } from './Token';
+import generateId from '../../../helpers/generateIds';
+import { Token } from '../Token/Token';
 import './board.scss';
 
 export const Board = ({ currentPlay }) => {
