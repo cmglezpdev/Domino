@@ -1,6 +1,8 @@
 import React from 'react'
-import { Token } from './Token';
-import generateId from '../../helpers/generateIds';
+import { Token } from '../Token/Token';
+
+import generateId from '../../../helpers/generateIds';
+ import './playerTokens.scss';
 
 export const PlayerTokens = ({ currentPlay, handleNextTurn }) => {
   return (
@@ -16,13 +18,19 @@ export const PlayerTokens = ({ currentPlay, handleNextTurn }) => {
         </div>
 
         <div className='list-tokens'>
-            <div className='list-tokens__group'>
             {            
                 currentPlay?.players[ currentPlay?.currentPlayer ]?.handTokens?.map((token, index) => {
-                return (<Token left={token.left} right={token.right} key={ generateId() } id={index}/>)
+                return (
+                    <Token 
+                        left={token.left}
+                        right={token.right}
+                        key={ generateId() }
+                        id={index}
+                        direction={"vertical"}
+                        visible={"true"}
+                    />)
                 }) 
             }
-            </div>
         </div>
     </>
   )

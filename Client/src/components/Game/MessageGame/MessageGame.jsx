@@ -1,4 +1,5 @@
 import React from 'react'
+import './messageGame.scss'
 
 export const MessageGame = ({ currentPlay }) => {
   return (
