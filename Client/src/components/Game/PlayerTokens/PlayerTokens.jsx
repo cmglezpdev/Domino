@@ -18,7 +18,7 @@ return (
                 <div className='player__data'>
                     <img src={iconsPlayers[currentPlay?.currentPlayer]} alt="player" />
                     <span>
-                        {`${ namesPlayers[currentPlay?.currentPlayer] }: ${currentPlay?.points}`}
+                        {`${ namesPlayers[currentPlay?.currentPlayer] }: ${currentPlay?.points || 0}`}
                     </span>
                 </div>
                 <button 
