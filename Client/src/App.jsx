@@ -31,14 +31,7 @@ function App() {
 
       <SettingsContext.Provider value={{ settings, setSettings }}>
       {
-          ( !settings.done ) ?
-          (
-            <Options />
-          )
-          :
-          (
-            <Game />
-          )
+          ( !settings.done ) ? ( <Options /> ) : ( <Game /> )
       }
       </SettingsContext.Provider>
 
