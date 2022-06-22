@@ -7,7 +7,7 @@ public interface IBoard {
     //cambio posible
     bool ValidPlay(Token token);
 
-    public Token[] TokensInBoard {
+    public Token[][] TokensInBoard {
         get;
     }
     public int[] PlayerByTokens {

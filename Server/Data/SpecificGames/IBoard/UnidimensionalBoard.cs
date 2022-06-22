@@ -103,8 +103,13 @@ public class UnidimensionalBoard : IBoard {
 
         return false;
     }
-    public Token[] TokensInBoard {
-        get{ return this.board.ToArray(); }
+    public Token[][] TokensInBoard {
+        get{ 
+            Token[][] tokens = new Token[1][];
+            tokens[0] = this.board.ToArray();
+            
+            return tokens; 
+        }
     }
     public int[] PlayerByTokens {
         get{ return this.PlayerByToken.ToArray(); }
