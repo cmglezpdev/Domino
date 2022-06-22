@@ -17,7 +17,9 @@ return (
             <div className='player-info'>
                 <div className='player__data'>
                     <img src={iconsPlayers[currentPlay?.currentPlayer]} alt="player" />
-                    <span>{`${ namesPlayers[currentPlay?.currentPlayer] }`}</span>
+                    <span>
+                        {`${ namesPlayers[currentPlay?.currentPlayer] }: ${currentPlay?.points}`}
+                    </span>
                 </div>
                 <button 
                     className='next-turn'
