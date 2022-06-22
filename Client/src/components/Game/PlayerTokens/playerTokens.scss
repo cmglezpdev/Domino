@@ -1,42 +1,66 @@
 @import '../../../scss/variables';
 
-.player {
-
-    display: flex;
-
-    &__name {
-        text-align: center;
-        margin: 0;
-        width: 80%;
-        font-size: 25px;
-        padding: 10px;
-        text-transform: uppercase;
-    }
-    
-    .next-turn {
-        width: 20%;
-        font-size: 15px;
-        text-transform: uppercase;
-        background-color: $background-primary;
-        height: auto;
-        padding: 5px;
-        border: 1px solid black;
-        border-radius: 5px;
-    
-        &:hover {
-            background-color: $primary-color-hover;
-            letter-spacing: 2px;
-            cursor: pointer;
-        }
-    } 
-    
-}
-
-.list-tokens {
+.container-info-player {
     display: flex;
     flex-direction: row;
-    height: auto;
-    margin: 0 auto;
-    // border: 1px solid blue;
-    justify-content: center;
+
+    .player-info {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        width: 300px;
+        .player__data {
+
+            text-align: center;
+            img {
+                width: 60px;
+                // height: 20px;
+                margin-bottom: 4px;
+            }
+
+            span {
+                display: block;
+                text-transform: uppercase;
+                font-weight: bold;
+                font-size: 20px;
+                margin-top: -10px;
+                text-align: center;
+            
+            }
+
+            // text-align: center;
+            // margin: 0;
+            // font-size: 25px;
+            // padding: 10px;
+            // text-transform: uppercase;
+
+        }
+       
+        button {
+            // width: 20%;
+            font-size: 15px;
+            text-transform: uppercase;
+            background-color: $background-primary;
+            height: auto;
+            padding: 10px;
+            border: 1px solid black;
+            border-radius: 5px;
+            margin: 2px 0;
+        
+            &:hover {
+                background-color: $primary-color-hover;
+                letter-spacing: 2px;
+            }
+        } 
+    }
+
+    .list-tokens {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+        // border: 1px solid blue;
+        justify-content: center;
+    }
 }
