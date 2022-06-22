@@ -1,58 +1,48 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import generateId from '../../../helpers/generateIds';
 import { Token } from '../Token/Token';
 import './board.scss';
 
 export const Board = ({ currentPlay }) => {
-  
-//   useEffect(() => {
-//     if( currentPlay?.tokensInBoard ) {
-//         const tokens = currentPlay.tokensInBoard;
-//         const width = tokens.length;
-//         let height = 0;
-        
-//         // calcular el tamano de la matrix
-//         for(let i = 0; i < tokens.width; i ++) {
-//             if( tokens[i].length > 0 )  
-//                 height = Math.max(height, tokens[i].length);
-//         }
-//         height = Math.max(1, height);
 
-//         // Crear la matrix
-//         let board = new Array(height);
-        
-//         tokens.forEach((token) => {
-//             if( token.length > 0 ) {
+  const [gridSettings, setGridSettings] = useState({});
 
-//             } else {
-//                 board.push(token);
-//             }
-//         })
+  useEffect(() => {
+    if( currentPlay?.tokensInBoard ) {
+      const tokens = currentPlay?.tokensInBoard;
+      console.log(tokens);
+      // count of rows and columns
+      const height = tokens.length;
+      const width = (height > 0) ? tokens[0].length : 0;
+      console.log(height, width);
 
+      setGridSettings({
+          gridTemplateRows: `repeat(${height}, 100px)`,
+          gridTemplateColumns: `repeat(${width}, 100px)`
+      });
 
-
-//     }
-//   }, [currentPlay])
+    }
+  }, [currentPlay])
   
   
     return (
-    <div className="container-game__board">
-    {/* {
-
-    } */}
-    
+    <div className="container-game__board" style={gridSettings}>
+ 
     {            
-       currentPlay?.tokensInBoard.map((token, index) => {
-         return (
-           <Token 
-             left={token.left} 
-             right={token.right} 
-             key={ generateId() } 
-             id={index} 
-             direction={"horizontal"}
-             visible="true"
-           />)
-       }) 
+      currentPlay?.tokensInBoard.map((level) => {
+        const row = level.map((token, index) => {
+          return (
+            <Token 
+              left={token.left} 
+              right={token.right} 
+              key={ generateId() } 
+              id={index} 
+              direction={"horizontal"}
+              visible="true"
+            />)
+          }) 
+          return row;
+      })
      }
    </div> 
 

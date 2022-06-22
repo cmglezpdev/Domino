@@ -40,8 +40,9 @@ public class Manager {
         PlayInfo CurrInfo = new PlayInfo() {
             Players = Game.PlayersForJson(this.players),
             CurrentPlayer = idxCurrentPlayer,
+            points = this.players[ idxCurrentPlayer ].points,
             Passed = !ToPlay,
-            TokensInBoard = Game.TokenForJson( this.board.TokensInBoard ),
+            TokensInBoard = Game.TokensInBoardJson( this.board.TokensInBoard ),
             FinishGame = this.finishGame.FinishGame( this.board, this.players ),
             Winners = Game.PlayersForJson( this.winnersGame.GetWinnersGame(this.board, this.players) )
         };
@@ -53,8 +54,9 @@ public class Manager {
 public class PlayInfo {
     public IEnumerable<ResPlayer>? Players {get; set;}
     public int? CurrentPlayer {get; set;} // Indice de jugador en la lista de jugadores
+    public int? points {get; set;} // cantidad actual de puntos de jugador
     public bool? Passed {get; set;} // Si el jugador se paso o no
-    public IEnumerable<VertexToken>? TokensInBoard {get; set;} // Las fichas que estan en el tablero despues de la jugada
+    public IEnumerable< IEnumerable<VertexToken> >? TokensInBoard {get; set;} // Las fichas que estan en el tablero despues de la jugada
     public bool? FinishGame {get; set;} // True si se termino el juego
     public IEnumerable<ResPlayer>? Winners{get; set;} // Lista de ganadores en la ronda actual
 }

@@ -50,6 +50,19 @@ public static class Game {
         }
         return result;
     }
+
+    public static List<List<VertexToken>> TokensInBoardJson ( IEnumerable<IEnumerable<Token>> Tokens ) {
+        List<List<VertexToken>> TokensJson = new List<List<VertexToken>>();
+        
+        foreach( var l in Tokens ) {
+            TokensJson.Add( new List<VertexToken>() );
+            foreach( var t in l ) {
+                TokensJson.Last().Add( new VertexToken(){ Left = t.left.Item1, Right = t.right.Item1 } );
+            }
+        }
+
+        return TokensJson;
+    }
 }
 
 
