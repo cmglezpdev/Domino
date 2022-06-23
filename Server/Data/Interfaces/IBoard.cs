@@ -13,4 +13,7 @@ public interface IBoard {
     public int[] PlayerByTokens {
         get;
     }
+    public int MaxIdOfToken {
+        get;
+    } 
 }

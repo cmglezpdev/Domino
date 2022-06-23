@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 public class Manager {
 
+    public int MaxIdOfToken;
     Player[] players;
     IBoard board;
     IDistributeTokens distributeTokens;
@@ -11,7 +12,10 @@ public class Manager {
     IWinGame winnersGame;
     INextPlayer nextPlayer;
 
-    public Manager( int countPlayers, IEnumerable<Player> players, IBoard board, IDistributeTokens distributeTokens, IFinishGame finishGame, IWinGame winnersGame, INextPlayer nextPlayer ) {
+    public Manager( int countPlayers, IEnumerable<Player> players, IBoard board, 
+                    IDistributeTokens distributeTokens, IFinishGame finishGame, 
+                    IWinGame winnersGame, INextPlayer nextPlayer ) {
+
         this.board = board;
         this.distributeTokens = distributeTokens;
         this.finishGame = finishGame;
