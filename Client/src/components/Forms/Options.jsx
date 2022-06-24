@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { BASE_URL } from '../../helpers/api.js';
 import { DataOptions } from './DataOptions.jsx';
 import './options.scss';
-import { Button } from 'semantic-ui-react';
+import { Button, Input } from 'semantic-ui-react';
 import { SettingsContext } from '../../helpers/SettingsContext.js';
 import { toast } from 'react-toastify';
 
@@ -36,6 +36,7 @@ export const Options = () => {
     return (
         <div className='container'>
             <h1>Seleccionar el tipo de juego</h1>
+            
             {
                 settings.map(({ titleOption, id, nameOptions }) => {
                     return (
@@ -49,6 +50,32 @@ export const Options = () => {
                 })
             }
             
+            <div className='data-numbers'>
+                <Input 
+                label="Id max Fichas"
+                    type='number'
+                    value={4}
+                    min={5}
+                    max={9}
+                />
+
+                <Input 
+                label="Cantidad de jugadores"
+                    type='number'
+                    value={2}
+                    min={2}
+                    max={10}
+                />
+
+                <Input 
+                label="Fichas por jugador"
+                    type='number'
+                    value={2}
+                    min={2}
+                    max={10}
+                />
+            </div>
+
             <Button
                 className='container__button-game'
                 onClick={handleStartGame}

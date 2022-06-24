@@ -45,7 +45,9 @@ const GetTypeOptions = (nameValue) => {
             text: opt,
             value: index
         });
+        return undefined;
     });
+
     return options;
 }
 
