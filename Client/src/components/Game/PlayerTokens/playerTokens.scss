@@ -24,6 +24,7 @@
                 font-weight: bold;
                 font-size: 20px;
                 margin-top: -10px;
+                color: #bbb;
                 text-align: center;
             
             }
@@ -41,11 +42,12 @@
             font-size: 15px;
             text-transform: uppercase;
             background-color: $background-primary;
+            font-weight: bold;
             height: auto;
             padding: 10px;
             border: 1px solid black;
             border-radius: 5px;
-            margin: 2px 0;
+            margin: 5px 0;
         
             &:hover {
                 background-color: $primary-color-hover;

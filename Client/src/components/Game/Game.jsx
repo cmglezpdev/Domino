@@ -5,38 +5,15 @@ import { PlayerTokens } from './PlayerTokens/PlayerTokens';
 
 import { SettingsContext } from '../../helpers/SettingsContext';
 import { BASE_URL } from '../../helpers/api.js';
+import getBackground from '../../helpers/backgroundBoard';
+
 import './game.scss';
-
-
-
-
 
 export const Game = () => {
   
   const { settings, setSettings } = useContext(SettingsContext);
   const [currentPlay, setCurrentPlay] = useState(undefined);
-
-  useEffect(() => {
-    console.log(settings); 
-    fetch(`${BASE_URL}/TypeGame`, {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify( settings )
-    }).then(result => result.json())
-      .then( data => {
-        setCurrentPlay({
-          players: data,
-          currentPlayer: 0,
-          passed: false,
-          tokensInBoard: [],
-          finishGame: false,
-          winners: []
-      });
-      })
-  }, [] );
-
+  const [background, setBackground] = useState(getBackground());
          
   const handleNextTurn = (e) => {
     const btnText = e.target.innerText;
@@ -54,12 +31,51 @@ export const Game = () => {
       })
   }
 
+  const handleStartGame = () => {
+    fetch(`${BASE_URL}/TypeGame`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify( settings )
+    }).then(result => result.json())
+      .then( data => {
+        setCurrentPlay({
+          players: data,
+          currentPlayer: 0,
+          passed: false,
+          tokensInBoard: [],
+          finishGame: false,
+          winners: []
+      });
+      })
+  }
+
+  useEffect(() => {
+    handleStartGame();
+  }, [] );
 
 
 
   return (
 
-    <div className='container-game'>
+    <div 
+      className='container-game'
+      style={{
+        background: `url(${background})`
+      }}
+    >
+
+      <button 
+        className="change-background"
+        onClick={() => {
+          setBackground( getBackground() );
+        }}
+      > 
+        background
+      </button>
+
+
       {/* Muestra las fuchas del tablero */}
       <Board currentPlay={currentPlay}/>
 
@@ -68,7 +84,7 @@ export const Game = () => {
       
 
         {/* Muestra al jugador actual y a la lista de fichas del jugador */}
-      <PlayerTokens currentPlay={currentPlay} handleNextTurn={handleNextTurn}/>
+      <PlayerTokens currentPlay={currentPlay} handleNextTurn={handleNextTurn} handleResetGame={handleStartGame}/>
 
     </div>
   )
