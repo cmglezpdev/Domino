@@ -21,18 +21,6 @@ return (
                         {`${ namesPlayers[currentPlay?.currentPlayer] }: ${currentPlay?.points || 0}`}
                     </span>
                 </div>
-                <button 
-                    className='next-turn'
-                    onClick={handleNextTurn}  
-                >
-                    { ( currentPlay?.finishGame ) ? 'New Game' : 'Next Turn'}
-                </button>
-                <button
-                    className='next-turn'
-                    onClick={handleResetGame}
-                >
-                    Reset Game
-                </button>
             </div>
 
             <div className='list-tokens'>
@@ -50,6 +38,22 @@ return (
                     }) 
                 }
             </div>
+
+            <div className="buttons">
+                <button 
+                        className='next-turn'
+                        onClick={handleNextTurn}  
+                    >
+                        { ( currentPlay?.finishGame ) ? 'New Game' : 'Next Turn'}
+                    </button>
+                    <button
+                        className='next-turn'
+                        onClick={handleResetGame}
+                    >
+                        Reset Game
+                </button>
+            </div>
+
         </div>
 
     </>
