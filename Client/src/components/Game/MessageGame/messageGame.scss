@@ -7,30 +7,35 @@
     align-items: center;
     color: #fff;
     font-size: 25px;
+    width: 500px;
+    margin-left: -250px;
+    left: 50%;
 }
 
 .passed {
     top: 200px;
-    left: 50%;
     text-transform: uppercase;
     background-color: rgb(233, 88, 88);
     padding: 20px;
     border-radius: 10px;
     font-weight: bold;
-    width: 500px;
-    margin-left: -250px;
 }
 
 .finished {
     background-color: rgb(117, 233, 88);
     top: 150px;
     z-index: 1;
+    border-radius: 15px;
+    padding: 10px;
 
     .alert {
         text-transform: uppercase;
         padding: 8px;
+        color: green;
+        font-weight: bold;
     }
     .player {
         padding: 8px;   
+        color: #eee;
     }
 }
