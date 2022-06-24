@@ -7,7 +7,7 @@ import './playerTokens.scss';
 import { iconsPlayers, namesPlayers } from '../../../helpers/dataPlayers';
 
 
-export const PlayerTokens = ({ currentPlay, handleNextTurn }) => {
+export const PlayerTokens = ({ currentPlay, handleNextTurn, handleResetGame }) => {
 
 
 return (
@@ -29,6 +29,7 @@ return (
                 </button>
                 <button
                     className='next-turn'
+                    onClick={handleResetGame}
                 >
                     Reset Game
                 </button>

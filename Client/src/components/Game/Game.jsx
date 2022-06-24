@@ -14,28 +14,6 @@ export const Game = () => {
   const { settings, setSettings } = useContext(SettingsContext);
   const [currentPlay, setCurrentPlay] = useState(undefined);
   const [background, setBackground] = useState(getBackground());
-
-  useEffect(() => {
-    console.log(settings); 
-    fetch(`${BASE_URL}/TypeGame`, {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify( settings )
-    }).then(result => result.json())
-      .then( data => {
-        setCurrentPlay({
-          players: data,
-          currentPlayer: 0,
-          passed: false,
-          tokensInBoard: [],
-          finishGame: false,
-          winners: []
-      });
-      })
-  }, [] );
-
          
   const handleNextTurn = (e) => {
     const btnText = e.target.innerText;
@@ -53,6 +31,29 @@ export const Game = () => {
       })
   }
 
+  const handleStartGame = () => {
+    fetch(`${BASE_URL}/TypeGame`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify( settings )
+    }).then(result => result.json())
+      .then( data => {
+        setCurrentPlay({
+          players: data,
+          currentPlayer: 0,
+          passed: false,
+          tokensInBoard: [],
+          finishGame: false,
+          winners: []
+      });
+      })
+  }
+
+  useEffect(() => {
+    handleStartGame();
+  }, [] );
 
 
 
@@ -83,7 +84,7 @@ export const Game = () => {
       
 
         {/* Muestra al jugador actual y a la lista de fichas del jugador */}
-      <PlayerTokens currentPlay={currentPlay} handleNextTurn={handleNextTurn}/>
+      <PlayerTokens currentPlay={currentPlay} handleNextTurn={handleNextTurn} handleResetGame={handleStartGame}/>
 
     </div>
   )
