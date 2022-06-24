@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { Confirm } from 'semantic-ui-react'
 import { Board } from './Board/Board';
 import { MessageGame } from './MessageGame/MessageGame';
 import { PlayerTokens } from './PlayerTokens/PlayerTokens';
@@ -14,6 +15,7 @@ export const Game = () => {
   const { settings, setSettings } = useContext(SettingsContext);
   const [currentPlay, setCurrentPlay] = useState(undefined);
   const [background, setBackground] = useState(getBackground());
+  const [open, setOpen] = useState(false);
          
   const handleNextTurn = (e) => {
     const btnText = e.target.innerText;
@@ -55,7 +57,9 @@ export const Game = () => {
     handleStartGame();
   }, [] );
 
-
+  const showAlert = () => {
+      setOpen(true);
+  } 
 
   return (
 
@@ -75,6 +79,15 @@ export const Game = () => {
         background
       </button>
 
+      <Confirm
+        open={open}
+        onCancel={ () => setOpen(false) }
+        onConfirm={ () => {
+          setOpen(false);
+          handleStartGame();
+        } }
+      />
+
 
       {/* Muestra las fuchas del tablero */}
       <Board currentPlay={currentPlay}/>
@@ -84,7 +97,7 @@ export const Game = () => {
       
 
         {/* Muestra al jugador actual y a la lista de fichas del jugador */}
-      <PlayerTokens currentPlay={currentPlay} handleNextTurn={handleNextTurn} handleResetGame={handleStartGame}/>
+      <PlayerTokens currentPlay={currentPlay} handleNextTurn={handleNextTurn} handleResetGame={ showAlert }/>
 
     </div>
   )
