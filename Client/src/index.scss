@@ -6,6 +6,10 @@
 
 @import './scss/variables';
 
+html, body, #root {
+  background-color: #eff2f3;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
