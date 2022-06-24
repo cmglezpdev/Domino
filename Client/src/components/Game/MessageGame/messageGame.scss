@@ -1,7 +1,7 @@
 .alert-player-game {
     padding: 10px;
     position: absolute;
-    width: 100%;
+    // width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,8 +11,14 @@
 
 .passed {
     top: 200px;
+    left: 50%;
     text-transform: uppercase;
     background-color: rgb(233, 88, 88);
+    padding: 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    width: 500px;
+    margin-left: -250px;
 }
 
 .finished {
