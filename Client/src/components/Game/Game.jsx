@@ -5,16 +5,15 @@ import { PlayerTokens } from './PlayerTokens/PlayerTokens';
 
 import { SettingsContext } from '../../helpers/SettingsContext';
 import { BASE_URL } from '../../helpers/api.js';
+import getBackground from '../../helpers/backgroundBoard';
+
 import './game.scss';
-
-
-
-
 
 export const Game = () => {
   
   const { settings, setSettings } = useContext(SettingsContext);
   const [currentPlay, setCurrentPlay] = useState(undefined);
+  const [background, setBackground] = useState(getBackground());
 
   useEffect(() => {
     console.log(settings); 
@@ -59,7 +58,23 @@ export const Game = () => {
 
   return (
 
-    <div className='container-game'>
+    <div 
+      className='container-game'
+      style={{
+        background: `url(${background})`
+      }}
+    >
+
+      <button 
+        className="change-background"
+        onClick={() => {
+          setBackground( getBackground() );
+        }}
+      > 
+        background
+      </button>
+
+
       {/* Muestra las fuchas del tablero */}
       <Board currentPlay={currentPlay}/>
 

@@ -2,7 +2,24 @@
     width: 100%;
     height: 100%;
     // border: 1px solid red;
-    background: url("../../images/casino_bg_4.jpg");
     background-image: cover;
+
+    .change-background {
+        position: fixed;
+        right: 20px;
+        border-radius: 10px;
+        border-color: rgb(29, 127, 151);
+        padding: 5px;
+        background-color: rgb(29, 127, 151);
+        color: #bbb;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin: 5px;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
 }
 
