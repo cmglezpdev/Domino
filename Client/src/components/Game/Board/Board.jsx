@@ -37,7 +37,7 @@ export const Board = ({ currentPlay }) => {
               right={token.right} 
               key={ generateId() } 
               id={index} 
-              direction={"horizontal"}
+              direction={( token.left !== token.right ) ? "horizontal" : "vertical"}
               visible="true"
             />)
           }) 
