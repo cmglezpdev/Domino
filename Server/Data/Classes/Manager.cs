@@ -12,7 +12,7 @@ public class Manager {
     IWinGame winnersGame;
     INextPlayer nextPlayer;
 
-    public Manager( int countPlayers, IEnumerable<Player> players, IBoard board, 
+    public Manager( IEnumerable<Player> players, IBoard board, 
                     IDistributeTokens distributeTokens, IFinishGame finishGame, 
                     IWinGame winnersGame, INextPlayer nextPlayer ) {
 

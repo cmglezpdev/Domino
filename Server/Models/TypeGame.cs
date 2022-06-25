@@ -1,9 +1,12 @@
 namespace Server.Models;
 public class TypeGame {
-    public int player {get; set;}
-    public int board {get; set;}
-    public int finishGame {get; set;}
-    public int winGame {get; set;}
-    public int nextPlayer {get; set;}
-    public int distributeTokens {get; set;}
+    public int countTokensByPlayer {get; set;} // Cantidad de fichas por jugador
+    public int maxIdTokens {get; set;} // Id maximo que tiene una ficha
+    public int countPlayer {get; set;} // Cantidad de jugadores
+    public int player {get; set;} // tipo de jugador
+    public int board {get; set;} // tipo de tablero
+    public int finishGame {get; set;} // tipo de finalizacion del juego
+    public int winGame {get; set;} // de que forma se selecciona los ganadores
+    public int nextPlayer {get; set;} // como es el orden de los jugadores
+    public int distributeTokens {get; set;} // como distribuir las fichas entre los jugadores
 }

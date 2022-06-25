@@ -9,7 +9,7 @@ using Server.Data.Interfaces;
         foreach(Player itemP in players){
 
             List< Token > aux = new List<Token>();
-            for ( int j = 0; j < 10; j++) {
+            for ( int j = 0; j < countTokens; j++) {
                 int r = random.Next(0,tokens.Count);
                 aux.Add(tokens[r]);
                 tokens.RemoveAt(r);

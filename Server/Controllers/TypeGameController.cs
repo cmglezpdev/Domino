@@ -16,16 +16,19 @@ public class TypeGameController : ControllerBase
     {
         // ejecutar el juego
         var data = new Data(); // Cargar tipos de juego
+        
+        string[] namesPlayers = new string[]{ "Roberto", "Juan", "Carlos", "Daniel", "Jose", "Abel", "Mario", "Omar", "Felipe", "Agustin", "Fernando"};
+        
         // Crear jugadores
         List<Player> players = new List<Player>();
-        players.Add( data.Players[ options.player ].Clone() ); players[0].IDPlayer = (0, "Marcos");
-        players.Add( data.Players[ options.player ].Clone() ); players[1].IDPlayer = (1, "Juanito");
-        players.Add( data.Players[ options.player ].Clone() ); players[2].IDPlayer = (2, "Pedrito");
-        players.Add( data.Players[ options.player ].Clone() ); players[3].IDPlayer = (3, "Lucas");
+        for(int i = 0; i < options.countPlayer; i ++) {
+            players.Add( data.Players[ options.player ].Clone() ); 
+            players.Last().IDPlayer = (i, namesPlayers[i]);
+
+        }
 
         // Iniciar el estado del manager y empezar el juego
         Game.manager = new Manager( 
-                4,
                 players,
                 data.Boards[ options.board ], 
                 data.DistributeTokens[ options.distributeTokens ],
@@ -35,7 +38,7 @@ public class TypeGameController : ControllerBase
         );
         
         // Lista de players con las fichas asignadas
-        IEnumerable<Player> ply = Game.manager.StartGame( 9, 10 );
+        IEnumerable<Player> ply = Game.manager.StartGame( options.maxIdTokens, options.countTokensByPlayer );
         List<ResPlayer> result = Game.PlayersForJson( players );
 
         return Ok( result );

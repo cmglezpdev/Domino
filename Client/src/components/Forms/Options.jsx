@@ -10,28 +10,46 @@ export const Options = () => {
 
     const [settings, setSettings] = useState([]);
     const context = useContext(SettingsContext);
+    const [optionsNumbers, setOptionsNumbers] = useState({
+        maxIdTokens: 4,
+        countPlayer: 2,
+        countTokensByPlayer: 2
+    });
 
     useEffect(() => {
         fetch( `${BASE_URL}/loader` )
             .then( response => response.json())
             .then( data => {
-                setSettings(data.options); 
+                setSettings(
+                    data.options
+                ); 
             });
     }, []);
     
     const handleStartGame = () => {
-        const len = Object.keys( context.settings ).length - 1;
+        // Comprobar si se llenaron todos los campos
+        const len = Object.keys( context.settings ).length - 1; // le resto las 3 de los numeros
         if( len !== settings.length ) {
             toast.error("Por favor, seleccione todos los campos");
+            return;
         } 
-        else {
-            context.setSettings({
-                ...context.settings,
-                done: true
-            })
-            console.log(context.settings);
+        
+        // Comprobar si la seleccion de la cant fichas, judaores y id esta bien
+        const cantTokens = context.settings.maxIdTokens * (context.settings.maxIdTokens + 1) / 2;
+        const maxCountTokensbyPlayers = Math.floor( cantTokens / context.settings.countPlayer );
+       
+        if( maxCountTokensbyPlayers < context.settings.countTokensByPlayer ) {
+            toast.error("Seleccione menos jugadores o reparta menos fichas!!");
+            return;
         }
+
+        context.setSettings({
+            ...context.settings,
+            ...optionsNumbers,
+            done: true
+        });
     }
+        
 
     return (
         <div className='container'>
@@ -52,27 +70,45 @@ export const Options = () => {
             
             <div className='data-numbers'>
                 <Input 
-                label="Id max Fichas"
+                    label="Id max Fichas"
                     type='number'
-                    value={4}
-                    min={5}
+                    value={optionsNumbers.maxIdTokens}
+                    min={4}
                     max={9}
+                    onChange={
+                        (e) => setOptionsNumbers({
+                                    ...optionsNumbers,
+                                    maxIdTokens: parseInt(e.target.value) 
+                                })
+                        }
                 />
 
                 <Input 
-                label="Cantidad de jugadores"
+                    label="Cantidad de jugadores"
                     type='number'
-                    value={2}
+                    value={optionsNumbers.countPlayer}
                     min={2}
-                    max={10}
+                    // max={10}
+                    onChange={
+                        (e) => setOptionsNumbers({
+                                    ...optionsNumbers,
+                                    countPlayer: parseInt(e.target.value) 
+                                })
+                        }
                 />
 
                 <Input 
-                label="Fichas por jugador"
+                    label="Fichas por jugador"
                     type='number'
-                    value={2}
+                    value={optionsNumbers.countTokensByPlayer}
                     min={2}
-                    max={10}
+                    // max={10}
+                    onChange={
+                        (e) => setOptionsNumbers({
+                                    ...optionsNumbers,
+                                    countTokensByPlayer: parseInt(e.target.value) 
+                                })
+                        }
                 />
             </div>
 
