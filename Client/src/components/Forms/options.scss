@@ -47,8 +47,13 @@
     }
 
     .data-numbers {
+        display: flex;
+        gap: 3px;
         .ui.input {
-            margin-right: 2px;
+            
+            input {
+                width: 70px;
+            }
         }
         margin-bottom: 30px;
     }

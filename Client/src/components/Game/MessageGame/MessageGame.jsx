@@ -12,7 +12,7 @@ export const MessageGame = ({ currentPlay }) => {
                 <span className='alert'>Lista de Ganadores:</span>
                 {
                     currentPlay?.winners.map((player) => {
-                    return (<span className='player'>{ `Jugador #${player.id}: ${player.points} puntos.` }</span>)
+                    return (<span className='player'>{ `${ namesPlayers[player.id] }: ${player.points} puntos.` }</span>)
                     })
                 }
             </div>)
