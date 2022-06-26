@@ -5,7 +5,7 @@ using Server.Data.Interfaces;
 public class UnidimensionalBoard : IBoard {
     List<Token> board = new List<Token>();
     int maxIdOfToken;
-    List<int> PlayerByToken = new List<int>();
+    List<Tuple<Token, int>> PlayerByToken = new List<Tuple<Token, int>>();
     public List<Token> BuildTokens( int MaxIdOfToken ) {
         this.maxIdOfToken = MaxIdOfToken;
         List<Token> tokens = new List<Token>();
@@ -20,19 +20,19 @@ public class UnidimensionalBoard : IBoard {
     public void PlaceToken( Token token, int IdPlayer ) {
         if( board.Count == 0 ) {
             board.Add(token);
-            PlayerByToken.Add(IdPlayer);
+            PlayerByToken.Add(new Tuple<Token, int>( token, IdPlayer ));
             return;
         } 
 
         if( ValidPlay(token, board[0]) ) {
             Play(token, 0);
-            PlayerByToken.Insert(0, IdPlayer);
+            PlayerByToken.Insert(0, new Tuple<Token, int>( token, IdPlayer ));
             return;
         }
 
         if( ValidPlay(token, board[ board.Count - 1 ]) ) {
             Play(token, board.Count - 1);
-            PlayerByToken.Add(IdPlayer);
+            PlayerByToken.Add(new Tuple<Token, int>( token, IdPlayer ));
             return;
         }    
     }
@@ -105,18 +105,19 @@ public class UnidimensionalBoard : IBoard {
 
         return false;
     }
-    public Token[][] TokensInBoard {
+    public Token[,] TokensInBoard {
         get{ 
-            Token[][] tokens = new Token[1][];
-            tokens[0] = this.board.ToArray();
+            Token[,] tokens = new Token[1, this.board.Count];
+            for(int i = 0; i < this.board.Count; i ++) {
+                tokens[0, i] = this.board[i];
+            }
             
             return tokens; 
         }
     }
-    public int[] PlayerByTokens {
+    public Tuple<Token, int>[] PlayerByTokens {
         get{ return this.PlayerByToken.ToArray(); }
     }
-
     public int MaxIdOfToken {
         get{ return this.maxIdOfToken; }
     }

@@ -5,13 +5,23 @@ using Server.Data.Interfaces;
 
 public class MultidimensionalBorad : IBoard
 {
+
+    private class Info {
+        public Token? token{get; set;}
+        public List<Token>? UpToken{get; set;}
+        public List<Token>? DownToken{get; set;}
+    }
+
+
+
+
     private int maxIdOfToken;
-    private Token[,] board = new Token[100,100]; 
-    private int[] movx = {-1, 1, 0, 0};
-    private int[] movy = {0, 0, -1, 1};
-    int marginLeft = 0;
-    int marignTop = 0;
-    int middle = 50;
+
+    // private List< Info > board = new List<Info>();
+    Dictionary< Token, int > TokenByPlayer = new Dictionary<Token, int>();
+    private Token[,] board = new Token[100,100];
+    List< Tuple<int, int> > aviablePositions = new List<Tuple<int, int>>();
+    private int middle = 50;
 
     public List<Token> BuildTokens(int MaxIdOfToken)
     {
@@ -27,24 +37,271 @@ public class MultidimensionalBorad : IBoard
     }
     public void PlaceToken(Token token, int IdPlayer)
     {
-        if( marginLeft == 0 && marignTop == 0 ) {
-            board[0,0] = token;
-            marginLeft ++;
+
+        if( TokenByPlayer.Count == 0 ) {
+            TokenByPlayer[ token ] = IdPlayer;
+            this.board[ middle, middle ] = token;
             return;
         }
 
-        Queue<Tuple<int, int>> q = new Queue<Tuple<int, int>>(); 
+        bool ok = false;
+        // pasar por las posiciones validas para jugar
+        for(int i = 0; i < aviablePositions.Count && !ok; i ++) {
+            int x = aviablePositions[i].Item1;
+            int y = aviablePositions[i].Item2;
+    
+            if( !ValidPlay(token, this.board[x, y]) ) continue;
 
+            // Revisar por que costado jugarla
+            var item = this.board[x, y];
+  
+            //* Si tiene fichas por la izquierda
+            if( board[x, y - 1] != null ) {
+                // Si la ficha no es un doble, entonces solo se puede colocar a la derecha de esta
+                if( board[x, y + 1] == null ) {
+                    // si se puede jugar la ficha
+                    if( item.right.Item1 == token.left.Item1 ) {
+                        board[x, y + 1] = token;
+                        board[x, y + 1].Played(token.left.Item1);
+                        board[x, y].Played(token.left.Item1);
+                        ok = true;
+                    } else 
+                    if( item.right.Item1 == token.right.Item1 ) {
+                        board[x, y + 1] = token;
+                        board[x, y + 1].Played(token.right.Item1);
+                        board[x, y].Played(token.left.Item1);
+                        board[x, y + 1].SwapVertex();
+                        ok = true;
+                    }
+                }
+                // Si es un doble considerar arriba y abajo
+                if( item.left.Item1 == item.right.Item1 ) {
+                    ok = PlaceUpOrDownDobule(x, y, token);
+                }   
+            }
+            else
+            //* LSi tiene fichas por derecha
+            if( board[x, y + 1] != null ) {
+                // Si la ficha no es un doble, entonces solo se puede colocar a la izquierda de esta
+                if( board[x, y - 1] == null ) {
+                    // si se puede jugar la ficha
+                    if( token.left.Item1 == item.left.Item1 ) {
+                        board[x, y - 1] = token;
+                        board[x, y - 1].SwapVertex();
+                        board[x, y - 1].Played(token.left.Item1);
+                        board[x, y].Played(token.left.Item1);
+                        ok = true;
+                    } else 
+                    if( token.right.Item1 == item.left.Item1 ) {
+                        board[x, y - 1] = token;
+                        board[x, y - 1].Played(token.right.Item1);
+                        board[x, y].Played(token.left.Item1);
+                        ok = true;
+                    }
+                }
+                // Si es un doble considerar arriba y abajo
+                if( item.left.Item1 == item.right.Item1 ) {
+                    ok = PlaceUpOrDownDobule(x, y, token);
+                }   
+            }
+            else
+            //* Si tiene fichas por arriba
+            if( board[x - 1, y] != null ) {
+                // Si la ficha no es un doble, entonces solo se puede colocar abajo de esta
+                if( board[x + 1, y] == null ) {
+                    // si se puede jugar la ficha
+                    if( item.left.Item1 == token.left.Item1 ) {
+                        board[x + 1, y] = token;
+                        board[x + 1, y].SwapVertex();
+                        board[x + 1, y].Played(token.left.Item1);
+                        board[x, y].Played(token.left.Item1);
+                        ok = true;
+                    } else 
+                    if( item.left.Item1 == token.right.Item1 ) {
+                        board[x + 1, y] = token;
+                        board[x + 1, y].Played(token.right.Item1);
+                        board[x, y].Played(token.left.Item1);
+                        ok = true;
+                    }
+                }
+                // Si es un doble considerar a la derecha e izquierda
+                if( item.left.Item1 == item.right.Item1 ) {
+                    ok = PlaceLeftOrRightDobule(x, y, token);
+                }   
+            }
+            else
+            //* Si tiene fichas por abajo
+            if( board[x + 1, y] != null ) {
+                // Si la ficha no es un doble, entonces solo se puede colocar arriba de esta
+                if( board[x - 1, y] == null ) {
+                    // si se puede jugar la ficha
+                    if( item.right.Item1 == token.left.Item1 ) {
+                        board[x - 1, y] = token;
+                        board[x - 1, y].Played(token.left.Item1);
+                        board[x, y].Played(token.left.Item1);
+                        ok = true;
+                    } else 
+                    if( item.right.Item1 == token.right.Item1 ) {
+                        board[x - 1, y] = token;
+                        board[x - 1, y].SwapVertex();
+                        board[x - 1, y].Played(token.right.Item1);
+                        board[x, y].Played(token.left.Item1);
+                        ok = true;
+                    }
+                }
+                // Si es un doble considerar a la derecha e izquierda
+                if( item.left.Item1 == item.right.Item1 ) {
+                    ok = PlaceLeftOrRightDobule(x, y, token);
+                }   
+            }
+            
+        }
     }
+    private bool PlaceUpOrDownDobule(int x, int y, Token token) {
+        Token item = board[x, y];
 
+        // Arriba
+        if( board[x - 1, y] == null ) {
+            // si se puede jugar la ficha
+            if( token.left.Item1 == item.left.Item1 ) {
+                board[x - 1, y] = token;
+                board[x - 1, y].Played(token.left.Item1);
+                board[x, y].Played(token.left.Item1);
+                return true;
+            } else 
+            if( token.right.Item1 == item.left.Item1 ) {
+                board[x - 1, y] = token;
+                board[x - 1, y].Played(token.right.Item1);
+                board[x, y].Played(token.left.Item1);
+                board[x - 1, y].SwapVertex();
+                return true;
+            }
+        }
+        // Abaj0
+        if( board[x + 1, y] == null ) {
+            // si se puede jugar la ficha
+            if( token.left.Item1 == item.left.Item1 ) {
+                board[x + 1, y] = token;
+                board[x + 1, y].Played(token.left.Item1);
+                board[x, y].Played(token.left.Item1);
+                board[x + 1, y].SwapVertex();
+                return true;
+            } else 
+            if( token.right.Item1 == item.left.Item1 ) {
+                board[x + 1, y] = token;
+                board[x + 1, y].Played(token.right.Item1);
+                board[x, y].Played(token.left.Item1);
+                return true;
+            }
+        }
+        return false;
+    }
+    private bool PlaceLeftOrRightDobule(int x, int y, Token token) {
+        Token item = board[x, y];
+
+        // Izquierda
+        if( board[x, y - 1] == null ) {
+            // si se puede jugar la ficha
+            if( token.left.Item1 == item.left.Item1 ) {
+                board[x, y - 1] = token;
+                board[x, y - 1].SwapVertex();
+                board[x, y - 1].Played(token.left.Item1);
+                board[x, y].Played(token.left.Item1);
+                return true;
+            } else 
+            if( token.right.Item1 == item.left.Item1 ) {
+                board[x, y - 1] = token;
+                board[x, y - 1].Played(token.right.Item1);
+                board[x, y].Played(token.left.Item1);
+                return true;
+            }
+        }
+        // Derecha
+        if( board[x, y + 1] == null ) {
+            // si se puede jugar la ficha
+            if( token.left.Item1 == item.right.Item1 ) {
+                board[x, y + 1] = token;
+                board[x, y + 1].Played(token.left.Item1);
+                board[x, y + 1].SwapVertex();
+                return true;
+            } else 
+            if( token.right.Item1 == item.right.Item1 ) {
+                board[x, y + 1] = token;
+                board[x, y].Played(token.left.Item1);
+                board[x, y + 1].Played(token.right.Item1);
+                board[x, y].Played(token.left.Item1);
+                return true;
+            }
+        }
+        return false;
+    }
+    bool ValidPlay(Token token, Token item) {
+
+        if( item.left.Item2 ) {
+            int faceToken = item.left.Item1;
+            if( token.left.Item2 ) 
+                if( token.left.Item1 == faceToken ) return true;
+            if( token.right.Item2 )
+                if( token.right.Item1 == faceToken ) return true;
+        }
+        if( item.right.Item2 ) {
+            int faceToken = item.right.Item1;
+            if( token.left.Item2 ) 
+                if( token.left.Item1 == faceToken ) return true;
+            if( token.right.Item2 )
+                if( token.right.Item1 == faceToken ) return true;
+        }
+        
+        // Si la ficha del tablero es una doble
+        if( item.left.Item1 == item.right.Item1 ) {
+            int faceToken = item.left.Item1;
+            
+            if( ((TokenDouble)item).up.Item2 ) {
+                if( token.left.Item2 ) 
+                    if( token.left.Item1 == faceToken ) return true;
+                if( token.right.Item2 ) 
+                    if( token.right.Item1 == faceToken ) return true;
+            }
+
+            if( ((TokenDouble)item).down.Item2 ) {
+                if( token.left.Item2 ) 
+                    if( token.left.Item1 == faceToken ) return true;
+                if( token.right.Item2 ) 
+                    if( token.right.Item1 == faceToken ) return true;
+            }
+
+        }   
+
+        return false;
+    }
     public bool ValidPlay(Token token)
     {
-        throw new NotImplementedException();
+        foreach(var x in aviablePositions) {
+            if( ValidPlay(token, board[x.Item1, x.Item2]) )
+                return true;
+        }
+        return false;
     }
-   
-    public Token[][] TokensInBoard => throw new NotImplementedException();
+    public Token[,] TokensInBoard {
+        get {
+            return this.board;
+        }
+    }
 
-    public int[] PlayerByTokens => throw new NotImplementedException();
+    public Tuple<Token, int>[] PlayerByTokens {
+       get {
+            
+            List<Tuple<Token, int>> response = new List<Tuple<Token, int>>();
+            foreach( var x in this.TokenByPlayer ) {
+                response.Add(new Tuple<Token, int>(x.Key, x.Value));
+            }
+            return response.ToArray();
+       }
+    }
 
-    public int MaxIdOfToken => throw new NotImplementedException();
+    public int MaxIdOfToken {
+        get{
+            return this.maxIdOfToken;
+        }
+    }
 }

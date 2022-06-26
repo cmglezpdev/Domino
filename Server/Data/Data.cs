@@ -51,13 +51,13 @@ public static class Game {
         return result;
     }
 
-    public static List<List<VertexToken>> TokensInBoardJson ( IEnumerable<IEnumerable<Token>> Tokens ) {
+    public static List<List<VertexToken>> TokensInBoardJson ( Token[,] Tokens ) {
         List<List<VertexToken>> TokensJson = new List<List<VertexToken>>();
         
-        foreach( var l in Tokens ) {
+        for( int i = 0; i < Tokens.GetLength(0); i ++ ) {
             TokensJson.Add( new List<VertexToken>() );
-            foreach( var t in l ) {
-                TokensJson.Last().Add( new VertexToken(){ Left = t.left.Item1, Right = t.right.Item1 } );
+            for( int j = 0; j < Tokens.GetLength(1); j ++ ) {
+                TokensJson.Last().Add( new VertexToken(){ Left = Tokens[i, j].left.Item1, Right = Tokens[i, j].right.Item1 } );
             }
         }
 

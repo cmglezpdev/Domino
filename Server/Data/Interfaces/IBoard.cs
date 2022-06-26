@@ -7,10 +7,10 @@ public interface IBoard {
     //cambio posible
     bool ValidPlay(Token token);
 
-    public Token[][] TokensInBoard {
+    public Token[,] TokensInBoard {
         get;
     }
-    public int[] PlayerByTokens {
+    public Tuple<Token, int>[] PlayerByTokens {
         get;
     }
     public int MaxIdOfToken {

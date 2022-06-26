@@ -4,32 +4,32 @@ namespace Server.Data.Classes;
 public class Token {
 
     // id de la cara, true si esta disponible pa jugarla
-    int Right;
-    bool DisponibilityRight;
-    int Left;
-    bool DisponibilityLeft;
+    protected int Right;
+    protected bool DisponibilityRight;
+    protected int Left;
+    protected bool DisponibilityLeft;
 
     public Token(int left, int right){
         (this.Left, this.DisponibilityLeft) = (left, true);
         (this.Right, this.DisponibilityRight) = (right, true);
     }
-    public (int, bool) right {
+    public virtual (int, bool) right {
         get{
             return (this.Right, this.DisponibilityRight);
         }
     }
-    public (int, bool) left {
+    public virtual (int, bool) left {
         get{
             return (this.Left, this.DisponibilityLeft);
         }
     }
-    public int value {
+    public virtual int value {
         get {
             return this.Right + this.Left;
         }
     }
     // Marca como true la cara de la ficha que se jugo
-    public void Played (int ID) {
+    public virtual void Played (int ID) {
          if( ID == this.Left && this.DisponibilityLeft ) {
            this.DisponibilityLeft = false;
            return;
@@ -41,7 +41,7 @@ public class Token {
 
     }
 
-    public void SwapVertex () {
+    public virtual void SwapVertex () {
         int aux = this.Right;
         this.Right = this.Left;
         this.Left = aux;
@@ -51,7 +51,7 @@ public class Token {
         this.DisponibilityLeft = aux2;
     }
 
-    public Token Clone() {
+    public virtual Token Clone() {
         Token CloneT = new Token(this.Left, this.Right);
         if( !this.DisponibilityLeft ) CloneT.Played( this.Left );
         if( !this.DisponibilityRight ) CloneT.Played( this.Right );
