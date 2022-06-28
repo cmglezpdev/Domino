@@ -14,6 +14,7 @@ public class InterfaceOfOptions {
                     nameOptions = new string[] {
                         "Aleatorio",
                         "Bota Gorda",
+                        "Basado en heuristicas"
                     }
                 },
                 new ChangeOptions() {
