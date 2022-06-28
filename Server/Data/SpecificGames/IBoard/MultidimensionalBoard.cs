@@ -14,7 +14,6 @@ public class MultidimensionalBorad : IBoard
 
 
 
-
     private int maxIdOfToken;
 
     // private List< Info > board = new List<Info>();
@@ -23,7 +22,7 @@ public class MultidimensionalBorad : IBoard
     List< Tuple<int, int> > aviablePositions = new List<Tuple<int, int>>();
     private int middle = 8;
 
-    public List<Token> BuildTokens(int MaxIdOfToken)
+    public List<Token> BuildTokens(int MaxIdOfToken, TokenValue calcValue)
     {
         this.maxIdOfToken = MaxIdOfToken;
         List<Token> tokens = new List<Token>();
@@ -31,9 +30,9 @@ public class MultidimensionalBorad : IBoard
         for(int i = 0; i <= MaxIdOfToken; i++){
             for(int j = i; j <= MaxIdOfToken; j++){
                 if(i == j) 
-                    tokens.Add(new TokenDouble(i, j));
+                    tokens.Add(new TokenDouble(i, j, calcValue));
                 else
-                tokens.Add(new Token(i , j));
+                tokens.Add(new Token(i , j, calcValue));
             }
         }
         return tokens;
@@ -42,6 +41,7 @@ public class MultidimensionalBorad : IBoard
     {
 
         System.Console.WriteLine("Placing token: " + token.left.Item1 + " " + token.right.Item1);
+        // The board is clean
         if( TokenByPlayer.Count == 0 ) {
             TokenByPlayer[ token ] = IdPlayer;
             this.board[ middle, middle ] = token;
@@ -362,7 +362,6 @@ public class MultidimensionalBorad : IBoard
             return this.board;
         }
     }
-
     public Tuple<Token, int>[] OrderListOfTokensByPlayer {
        get {
             
@@ -373,7 +372,6 @@ public class MultidimensionalBorad : IBoard
             return response.ToArray();
        }
     }
-
     public int MaxIdOfToken {
         get{
             return this.maxIdOfToken;

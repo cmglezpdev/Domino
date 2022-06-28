@@ -8,8 +8,10 @@ public class Token {
     protected bool DisponibilityRight;
     protected int Left;
     protected bool DisponibilityLeft;
+    protected TokenValue CalculateValue;
 
-    public Token(int left, int right){
+    public Token(int left, int right, TokenValue calculateValue ){
+        this.CalculateValue = calculateValue;
         (this.Left, this.DisponibilityLeft) = (left, true);
         (this.Right, this.DisponibilityRight) = (right, true);
     }
@@ -25,7 +27,8 @@ public class Token {
     }
     public virtual int value {
         get {
-            return this.Right + this.Left;
+            // retornar el valor de la ficha
+            return this.CalculateValue.Value(this);
         }
     }
     // Marca como true la cara de la ficha que se jugo
@@ -52,7 +55,7 @@ public class Token {
     }
 
     public virtual Token Clone() {
-        Token CloneT = new Token(this.Left, this.Right);
+        Token CloneT = new Token(this.Left, this.Right, this.CalculateValue);
         if( !this.DisponibilityLeft ) CloneT.Played( this.Left );
         if( !this.DisponibilityRight ) CloneT.Played( this.Right );
 

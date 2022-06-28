@@ -4,7 +4,7 @@ public class TokenDouble : Token
 {   
     protected bool DisponibilityUp;
     protected bool DisponibilityDown;
-    public TokenDouble(int left, int right) : base(left, right)
+    public TokenDouble(int left, int right, TokenValue calculateValue) : base(left, right, calculateValue)
     {
         this.DisponibilityDown = true;
         this.DisponibilityUp = true;
@@ -46,7 +46,7 @@ public class TokenDouble : Token
 
     // Swap se mantiene
     public override Token Clone() {
-        Token CloneT = new TokenDouble(this.Left, this.Right){
+        Token CloneT = new TokenDouble(this.Left, this.Right, this.CalculateValue){
             DisponibilityUp = this.DisponibilityUp,
             DisponibilityRight = this.DisponibilityRight,
             DisponibilityDown = this.DisponibilityDown,
