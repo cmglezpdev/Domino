@@ -6,7 +6,7 @@ public class IntelligentPlayer : RandomPlayer {
     {
         
         Organize(board.MaxIdOfToken);
-        if(board.TokensInBoard.GetLength(0) == 0){
+        if(board.TokensInBoard.Length == 0){
             Token start = Start();
             board.PlaceToken(start, this.IDPlayer.Item1);
             return true;
@@ -15,7 +15,7 @@ public class IntelligentPlayer : RandomPlayer {
         if(!Can_Play(tokendisponible)) return false;
 
         Token aux= Select_Play(tokendisponible);
-        board.PlaceToken(aux, IDPlayer.Item1);
+        board.PlaceToken(aux, this.IDPlayer.Item1);
         return true;
     }
     public override Player Clone() {
@@ -108,7 +108,7 @@ public class IntelligentPlayer : RandomPlayer {
             }
         }
         auxtoken = hand[aux2.Item1];
-        hand.RemoveAt(aux.Item1);
+        hand.RemoveAt(aux2.Item1);
         return auxtoken;
     }
     private bool Can_Play(List<int> disponible){
