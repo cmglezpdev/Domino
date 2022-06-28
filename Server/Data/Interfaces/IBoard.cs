@@ -10,7 +10,7 @@ public interface IBoard {
     public Token[,] TokensInBoard {
         get;
     }
-    public Tuple<Token, int>[] PlayerByTokens {
+    public Tuple<Token, int>[] OrderListOfTokensByPlayer {
         get;
     }
     public int MaxIdOfToken {

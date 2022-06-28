@@ -25,8 +25,6 @@ export const Board = ({ currentPlay }) => {
       setGridSettings({
           width: width,
           height: height,
-          // gridTemplateRows: `repeat(${Math.max(height, standardHeight)}, 100px)`,
-          // gridTemplateColumns: `repeat(${width}, 100px)`,
       });
     }
   }, [currentPlay])

@@ -363,7 +363,7 @@ public class MultidimensionalBorad : IBoard
         }
     }
 
-    public Tuple<Token, int>[] PlayerByTokens {
+    public Tuple<Token, int>[] OrderListOfTokensByPlayer {
        get {
             
             List<Tuple<Token, int>> response = new List<Tuple<Token, int>>();
