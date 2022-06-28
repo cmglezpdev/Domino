@@ -15,65 +15,11 @@ export const Board = ({ currentPlay }) => {
       // count of rows and columns
       const height = tokens.length;
       const width = (height > 0) ? tokens[0].length : 0;
-      console.log(height, width);
       
       const standardHeight = 5;
-      let auxBoard = new Array( Math.max(standardHeight, height) );
-      
-      let h = 0;
-      if( height < standardHeight ) {
-        let dif = (standardHeight - height) / 2;
-        
-        for(h = 0; h < dif; h ++) {
-          auxBoard[h] = new Array(width);
-          for(let j = 0; j < width; j ++) {
-            auxBoard[h][j] = <div>Vacio</div>;
-          }
-        }
-      }
+      const board = BuildBoard(width, height, standardHeight, tokens);
 
-
-      for(let i = 0; i < height; i ++, h ++) {
-        auxBoard[h] = new Array(width);
-      
-        for(let j = 0; j < width; j ++) {  
-          if( tokens[i][j] !== null ) {
-
-              let direction = "";
-              if( tokens[i][j - 1] !== null || tokens[i][j + 1] !== null ) {
-                if( tokens[i][j].left === tokens[i][j].right ) direction = "vertical";
-                else direction = "horizontal";
-              } else {
-                direction = "horizontal";
-              }
-
-            auxBoard[h][j] = <Token 
-                left={tokens[i][j].left} 
-                right={tokens[i][j].right} 
-                key={ generateId() } 
-                id={ generateId() } 
-                direction={ direction }
-                visible="true"
-                style={{
-                  marginLeft: `${j === 0 ? "20px" : "0"}`
-                }}
-              />
-          } else {
-            auxBoard[h][j] = <div style={{
-              marginLeft: `${j === 0 ? "200px" : "0"}`
-            }}>Vacio</div>
-          }
-        }
-      }
-      
-      for( ; h < Math.max(standardHeight, height); h ++) {
-        auxBoard[h] = new Array(width);
-        for(let j = 0; j < width; j ++) {
-          auxBoard[h][j] = <div>Vacio</div>;
-        }
-      }
-
-      setBoard(auxBoard);
+      setBoard(board);
       
       setGridSettings({
           gridTemplateRows: `repeat(${Math.max(height, standardHeight)}, 100px)`,
@@ -82,10 +28,65 @@ export const Board = ({ currentPlay }) => {
     }
   }, [currentPlay])
   
+  const BuildBoard = ( width, height, standardHeight, tokens ) => {
+     let board = [];
+    
+      const voidCell = <div style={{
+        backgroundColor: "green",
+      }}>Vacio</div>;
+      
+
+      for(let i = 0; i < height; i ++) {
+        let row = [];
+        for(let j = 0; j < width; j ++) {
+
+          if( tokens[i][j] == null ) {
+            row.push(voidCell);
+            continue;
+          }
+
+          // Decidir direccion del token
+          let direction = "";
+          if( tokens[i][j - 1] !== null || tokens[i][j + 1] !== null ) {
+            if( tokens[i][j].left === tokens[i][j].right ) direction = "vertical";
+            else direction = "horizontal";
+          } else {
+            direction = "horizontal";
+          }
+          console.log(generateId());
+          row.push(<Token
+            left={tokens[i][j].left}
+            right={tokens[i][j].right}
+            key={ generateId() }
+            id={ generateId() }
+            direction={ direction }
+            visible="true"
+            />);             
+        }
+        board.push(row);
+      }
+
+      if( height < standardHeight ) {
+        let extra = (standardHeight - height) / 2;
+        // Fill the front cell in board
+        for(let i = 0; i < extra; i ++) {
+          board.unshift(new Array(width).fill(voidCell));
+        }
+
+        for(let i = 0; i < extra; i ++) {
+          board.push(new Array(width).fill(voidCell));
+        }
+
+      }
+
+      return board;
+  }
+
   
     return (
     <div className="container-game__board" >
       <div className='board__matrix' style={gridSettings}>
+      
         {            
           board  
         }
