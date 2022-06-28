@@ -59,4 +59,7 @@ public class Token {
         return CloneT;
     }
 
+    public virtual bool CanPlayForToken() {
+        return (this.DisponibilityLeft || this.DisponibilityRight);
+    }
 }

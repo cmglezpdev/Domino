@@ -21,6 +21,7 @@ public class InterfaceOfOptions {
                     id = "board",
                     nameOptions = new string[] {
                         "Clasico, colocar fichas solo a las esquinas",
+                        "Para jugar la longana"
                     }
                 },
                 new ChangeOptions() {
@@ -45,7 +46,8 @@ public class InterfaceOfOptions {
                     nameOptions = new string[] {
                         "En orden, uno de tras del otro",
                         "Orden aleatorio",
-                        "Orden consecutivo, y si alguien se pasa se invierte el orden"
+                        "Orden consecutivo, y si alguien se pasa se invierte el orden",
+                        "Jugar todas las fichas hasta que no lleves"
                     }
                 },
                 new ChangeOptions() {

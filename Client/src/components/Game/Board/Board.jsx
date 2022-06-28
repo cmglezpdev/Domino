@@ -17,7 +17,7 @@ export const Board = ({ currentPlay }) => {
       const width = (height > 0) ? tokens[0].length : 0;
       console.log(height, width);
       
-      const standardHeight = 10;
+      const standardHeight = 5;
       let auxBoard = new Array( Math.max(standardHeight, height) );
       
       let h = 0;
@@ -54,9 +54,14 @@ export const Board = ({ currentPlay }) => {
                 id={ generateId() } 
                 direction={ direction }
                 visible="true"
+                style={{
+                  marginLeft: `${j === 0 ? "20px" : "0"}`
+                }}
               />
           } else {
-            auxBoard[h][j] = <div>Vacio</div>
+            auxBoard[h][j] = <div style={{
+              marginLeft: `${j === 0 ? "200px" : "0"}`
+            }}>Vacio</div>
           }
         }
       }
@@ -74,17 +79,17 @@ export const Board = ({ currentPlay }) => {
           gridTemplateRows: `repeat(${Math.max(height, standardHeight)}, 100px)`,
           gridTemplateColumns: `repeat(${width}, 100px)`,
       });
-
     }
   }, [currentPlay])
   
   
     return (
-    <div className="container-game__board" style={gridSettings}>
- 
-    {            
-      board  
-    }
+    <div className="container-game__board" >
+      <div className='board__matrix' style={gridSettings}>
+        {            
+          board  
+        }
+      </div>
    </div> 
 
 

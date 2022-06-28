@@ -55,4 +55,8 @@ public class TokenDouble : Token
 
         return CloneT;
     }
+
+    public override bool CanPlayForToken() {
+        return (base.CanPlayForToken() || this.DisponibilityUp || this.DisponibilityDown);
+    }
 }

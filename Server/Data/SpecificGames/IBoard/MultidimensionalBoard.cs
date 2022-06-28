@@ -19,9 +19,9 @@ public class MultidimensionalBorad : IBoard
 
     // private List< Info > board = new List<Info>();
     Dictionary< Token, int > TokenByPlayer = new Dictionary<Token, int>();
-    private Token[,] board = new Token[100,100];
+    private Token[,] board = new Token[5,5];
     List< Tuple<int, int> > aviablePositions = new List<Tuple<int, int>>();
-    private int middle = 50;
+    private int middle = 3;
 
     public List<Token> BuildTokens(int MaxIdOfToken)
     {
@@ -41,6 +41,7 @@ public class MultidimensionalBorad : IBoard
         if( TokenByPlayer.Count == 0 ) {
             TokenByPlayer[ token ] = IdPlayer;
             this.board[ middle, middle ] = token;
+            this.aviablePositions.Add(new Tuple<int, int>(middle, middle));
             return;
         }
 
@@ -56,7 +57,7 @@ public class MultidimensionalBorad : IBoard
             var item = this.board[x, y];
   
             //* Si tiene fichas por la izquierda
-            if( board[x, y - 1] != null ) {
+            if( !ok &&  board[x, y - 1] != null ) {
                 // Si la ficha no es un doble, entonces solo se puede colocar a la derecha de esta
                 if( board[x, y + 1] == null ) {
                     // si se puede jugar la ficha
@@ -74,14 +75,24 @@ public class MultidimensionalBorad : IBoard
                         ok = true;
                     }
                 }
+
+                if( ok ) {
+                    // Anadir la ficha actual a la lista de aviabletokens 
+                    this.aviablePositions.Add(new Tuple<int, int>(x, y + 1));
+                    // Borrar por donde se jugo
+                    if( !item.CanPlayForToken() )
+                        aviablePositions.RemoveAt(i);
+                    break;
+                }
+                
                 // Si es un doble considerar arriba y abajo
                 if( item.left.Item1 == item.right.Item1 ) {
                     ok = PlaceUpOrDownDobule(x, y, token);
                 }   
             }
             else
-            //* LSi tiene fichas por derecha
-            if( board[x, y + 1] != null ) {
+            //* Si tiene fichas por derecha
+            if( !ok &&  board[x, y + 1] != null ) {
                 // Si la ficha no es un doble, entonces solo se puede colocar a la izquierda de esta
                 if( board[x, y - 1] == null ) {
                     // si se puede jugar la ficha
@@ -102,11 +113,20 @@ public class MultidimensionalBorad : IBoard
                 // Si es un doble considerar arriba y abajo
                 if( item.left.Item1 == item.right.Item1 ) {
                     ok = PlaceUpOrDownDobule(x, y, token);
-                }   
+                }
+
+                if( ok ) {
+                    // Anadir la ficha actual a la lista de aviabletokens 
+                    this.aviablePositions.Add(new Tuple<int, int>(x, y - 1));
+                    // Borrar por donde se jugo
+                    if( !item.CanPlayForToken() )
+                            aviablePositions.RemoveAt(i);
+                    break;
+                }
             }
             else
             //* Si tiene fichas por arriba
-            if( board[x - 1, y] != null ) {
+            if( !ok &&  board[x - 1, y] != null ) {
                 // Si la ficha no es un doble, entonces solo se puede colocar abajo de esta
                 if( board[x + 1, y] == null ) {
                     // si se puede jugar la ficha
@@ -127,11 +147,21 @@ public class MultidimensionalBorad : IBoard
                 // Si es un doble considerar a la derecha e izquierda
                 if( item.left.Item1 == item.right.Item1 ) {
                     ok = PlaceLeftOrRightDobule(x, y, token);
-                }   
+                }
+
+                if( ok ) {
+                    // Anadir la ficha actual a la lista de aviabletokens 
+                    this.aviablePositions.Add(new Tuple<int, int>(x + 1, y));
+                    // Borrar por donde se jugo
+                    if( !item.CanPlayForToken() )
+                            aviablePositions.RemoveAt(i);
+                    break;
+                }
+
             }
             else
             //* Si tiene fichas por abajo
-            if( board[x + 1, y] != null ) {
+            if( !ok && board[x + 1, y] != null ) {
                 // Si la ficha no es un doble, entonces solo se puede colocar arriba de esta
                 if( board[x - 1, y] == null ) {
                     // si se puede jugar la ficha
@@ -153,6 +183,15 @@ public class MultidimensionalBorad : IBoard
                 if( item.left.Item1 == item.right.Item1 ) {
                     ok = PlaceLeftOrRightDobule(x, y, token);
                 }   
+                
+                if( ok ) {
+                    // Anadir la ficha actual a la lista de aviabletokens 
+                    this.aviablePositions.Add(new Tuple<int, int>(x - 1, y));
+                    // Borrar por donde se jugo
+                    if( !item.CanPlayForToken() )
+                            aviablePositions.RemoveAt(i);
+                    break;
+                }
             }
             
         }
@@ -167,6 +206,8 @@ public class MultidimensionalBorad : IBoard
                 board[x - 1, y] = token;
                 board[x - 1, y].Played(token.left.Item1);
                 board[x, y].Played(token.left.Item1);
+                
+                this.aviablePositions.Add(new Tuple<int, int>(x - 1, y));
                 return true;
             } else 
             if( token.right.Item1 == item.left.Item1 ) {
@@ -174,6 +215,8 @@ public class MultidimensionalBorad : IBoard
                 board[x - 1, y].Played(token.right.Item1);
                 board[x, y].Played(token.left.Item1);
                 board[x - 1, y].SwapVertex();
+
+                  this.aviablePositions.Add(new Tuple<int, int>(x - 1, y));
                 return true;
             }
         }
@@ -185,12 +228,16 @@ public class MultidimensionalBorad : IBoard
                 board[x + 1, y].Played(token.left.Item1);
                 board[x, y].Played(token.left.Item1);
                 board[x + 1, y].SwapVertex();
+
+                this.aviablePositions.Add(new Tuple<int, int>(x + 1, y));
                 return true;
             } else 
             if( token.right.Item1 == item.left.Item1 ) {
                 board[x + 1, y] = token;
                 board[x + 1, y].Played(token.right.Item1);
                 board[x, y].Played(token.left.Item1);
+
+                this.aviablePositions.Add(new Tuple<int, int>(x + 1, y));
                 return true;
             }
         }
@@ -207,12 +254,14 @@ public class MultidimensionalBorad : IBoard
                 board[x, y - 1].SwapVertex();
                 board[x, y - 1].Played(token.left.Item1);
                 board[x, y].Played(token.left.Item1);
+                 this.aviablePositions.Add(new Tuple<int, int>(x, y - 1));
                 return true;
             } else 
             if( token.right.Item1 == item.left.Item1 ) {
                 board[x, y - 1] = token;
                 board[x, y - 1].Played(token.right.Item1);
                 board[x, y].Played(token.left.Item1);
+                this.aviablePositions.Add(new Tuple<int, int>(x, y - 1));
                 return true;
             }
         }
@@ -222,6 +271,7 @@ public class MultidimensionalBorad : IBoard
             if( token.left.Item1 == item.right.Item1 ) {
                 board[x, y + 1] = token;
                 board[x, y + 1].Played(token.left.Item1);
+                this.aviablePositions.Add(new Tuple<int, int>(x, y + 1));
                 board[x, y + 1].SwapVertex();
                 return true;
             } else 
@@ -230,6 +280,7 @@ public class MultidimensionalBorad : IBoard
                 board[x, y].Played(token.left.Item1);
                 board[x, y + 1].Played(token.right.Item1);
                 board[x, y].Played(token.left.Item1);
+                this.aviablePositions.Add(new Tuple<int, int>(x, y + 1));
                 return true;
             }
         }
@@ -276,6 +327,8 @@ public class MultidimensionalBorad : IBoard
     }
     public bool ValidPlay(Token token)
     {
+        if( TokenByPlayer.Count == 0 ) return true;
+
         foreach(var x in aviablePositions) {
             if( ValidPlay(token, board[x.Item1, x.Item2]) )
                 return true;
@@ -284,6 +337,22 @@ public class MultidimensionalBorad : IBoard
     }
     public Token[,] TokensInBoard {
         get {
+
+            for( int i = 0; i < board.GetLength(0); i++ ) {
+                for( int j = 0; j < board.GetLength(1); j++ ) {
+                    if( board[i, j] == null )
+                        Console.Write("(-,-)");
+                    else
+                        Console.Write(board[i, j].ToString() + " ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+
+
+
             return this.board;
         }
     }

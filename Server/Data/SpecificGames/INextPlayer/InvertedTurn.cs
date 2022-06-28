@@ -6,7 +6,7 @@ public class InvertedTurn : INextPlayer {
     int cursor = -1;
     int mov = 1;
     List<int>? CountTokensPlayer; 
-    public int NextPlayer( IEnumerable< Player > players ) {
+    public int NextPlayer( Player[] players ) {
         if( CountTokensPlayer == null ) {
             CountTokensPlayer = new List<int>();
             foreach( var ply in players ) {

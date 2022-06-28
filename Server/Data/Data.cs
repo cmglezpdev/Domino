@@ -8,6 +8,7 @@ public class Data {
     };
     public IBoard[] Boards = new IBoard[] {
         new UnidimensionalBoard(),
+        new MultidimensionalBorad(),
     };
     public IDistributeTokens[] DistributeTokens = new IDistributeTokens[] {
         new RandomDistribution(),
@@ -24,7 +25,8 @@ public class Data {
     public INextPlayer[] NextPlayers = new INextPlayer[] {
         new OrderTurn(),
         new RandomTurn(),
-        new InvertedTurn()
+        new InvertedTurn(),
+        new NextPlayerLongana(),
     };
 }
 
@@ -52,16 +54,19 @@ public static class Game {
     }
 
     public static List<List<VertexToken>> TokensInBoardJson ( Token[,] Tokens ) {
-        List<List<VertexToken>> TokensJson = new List<List<VertexToken>>();
+        List<List<VertexToken?>> TokensJson = new List<List<VertexToken>>()!;
         
         for( int i = 0; i < Tokens.GetLength(0); i ++ ) {
-            TokensJson.Add( new List<VertexToken>() );
+            TokensJson.Add( new List<VertexToken>()! );
             for( int j = 0; j < Tokens.GetLength(1); j ++ ) {
-                TokensJson.Last().Add( new VertexToken(){ Left = Tokens[i, j].left.Item1, Right = Tokens[i, j].right.Item1 } );
+                if( Tokens[i, j] == null )
+                    TokensJson.Last().Add(null);
+                else
+                TokensJson[ TokensJson.Count - 1 ].Add( new VertexToken(){ Left = Tokens[i, j].left.Item1, Right = Tokens[i, j].right.Item1 } );
             }
         }
 
-        return TokensJson;
+        return TokensJson!;
     }
 }
 
