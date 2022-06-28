@@ -26,6 +26,14 @@ public class InterfaceOfOptions {
                     }
                 },
                 new ChangeOptions() {
+                    titleOption = "Valor de una ficha",
+                    id = "tokenValue",
+                    nameOptions = new string[] {
+                        "Suma de sus caras",
+                        "Valor absoluto de la resta de sus caras"
+                    }
+                },
+                new ChangeOptions() {
                     titleOption = "Cuando terminara el juego?",
                     id = "finishGame",
                     nameOptions = new string[] {

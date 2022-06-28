@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { Grid } from 'semantic-ui-react'
 import generateId from '../../../helpers/generateIds';
 import { Token } from '../Token/Token';
 import './board.scss';
@@ -22,8 +23,8 @@ export const Board = ({ currentPlay }) => {
       setBoard(board);
       
       setGridSettings({
-          gridTemplateRows: `repeat(${Math.max(height, standardHeight)}, 100px)`,
-          gridTemplateColumns: `repeat(${width}, 100px)`,
+          width: width,
+          height: height,
       });
     }
   }, [currentPlay])
@@ -51,7 +52,7 @@ export const Board = ({ currentPlay }) => {
             if( tokens[i][j].left === tokens[i][j].right ) direction = "vertical";
             else direction = "horizontal";
           } else {
-            direction = "horizontal";
+            direction = "vertical";
           }
           console.log(generateId());
           row.push(<Token
@@ -84,15 +85,33 @@ export const Board = ({ currentPlay }) => {
 
   
     return (
-    <div className="container-game__board" >
-      <div className='board__matrix' style={gridSettings}>
-      
-        {            
-          board  
-        }
-      </div>
-   </div> 
-
-
+      <div className="container-game__board" >
+        <Grid rows={gridSettings.width} relaxed stackable={false}>
+          {
+            board.map((row, i) => {
+              return (
+                <Grid.Row key={i}>
+                  {
+                    row.map((cell, j) => {
+                      return (
+                        <Grid.Column 
+                          key={j}
+                          style={{
+                            width: "100px",
+                            height: "100px",
+                          }}
+                          >
+                          {cell}
+                        </Grid.Column>
+                      )
+                    }
+                    )
+                  }
+                </Grid.Row>
+              )
+            })
+          }
+        </Grid>
+    </div> 
   )
 }

@@ -6,13 +6,13 @@ public class UnidimensionalBoard : IBoard {
     List<Token> board = new List<Token>();
     int maxIdOfToken;
     List<Tuple<Token, int>> PlayerByToken = new List<Tuple<Token, int>>();
-    public List<Token> BuildTokens( int MaxIdOfToken ) {
+    public List<Token> BuildTokens( int MaxIdOfToken, TokenValue calcValue ) {
         this.maxIdOfToken = MaxIdOfToken;
         List<Token> tokens = new List<Token>();
 
         for(int i = 0; i <= MaxIdOfToken; i++){
             for(int j = i; j <= MaxIdOfToken; j++){
-                tokens.Add(new Token(i , j));
+                tokens.Add(new Token(i , j, calcValue));
             }
         }
         return tokens;
@@ -26,7 +26,7 @@ public class UnidimensionalBoard : IBoard {
 
         if( ValidPlay(token, board[0]) ) {
             Play(token, 0);
-            PlayerByToken.Insert(0, new Tuple<Token, int>( token, IdPlayer ));
+            PlayerByToken.Add(new Tuple<Token, int>( token, IdPlayer ));
             return;
         }
 
@@ -115,7 +115,7 @@ public class UnidimensionalBoard : IBoard {
             return tokens; 
         }
     }
-    public Tuple<Token, int>[] PlayerByTokens {
+    public Tuple<Token, int>[] OrderListOfTokensByPlayer {
         get{ return this.PlayerByToken.ToArray(); }
     }
     public int MaxIdOfToken {

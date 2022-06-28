@@ -7,6 +7,7 @@ public class TypeGame {
     public int board {get; set;} // tipo de tablero
     public int finishGame {get; set;} // tipo de finalizacion del juego
     public int winGame {get; set;} // de que forma se selecciona los ganadores
+    public int tokenValue {get; set;} // tipo de valor de las fichas
     public int nextPlayer {get; set;} // como es el orden de los jugadores
     public int distributeTokens {get; set;} // como distribuir las fichas entre los jugadores
 }

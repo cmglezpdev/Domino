@@ -11,6 +11,11 @@ public class Data {
         new UnidimensionalBoard(),
         new MultidimensionalBorad(),
     };
+    public TokenValue[] TokensValue = new TokenValue[] {
+        new SumOfFaces(),
+        new SubOfFaces(),
+    };
+    
     public IDistributeTokens[] DistributeTokens = new IDistributeTokens[] {
         new RandomDistribution(),
         new AllforOneDistribution(),

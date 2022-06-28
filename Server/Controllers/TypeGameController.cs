@@ -38,7 +38,7 @@ public class TypeGameController : ControllerBase
         );
         
         // Lista de players con las fichas asignadas
-        IEnumerable<Player> ply = Game.manager.StartGame( options.maxIdTokens, options.countTokensByPlayer );
+        IEnumerable<Player> ply = Game.manager.StartGame( options.maxIdTokens, options.countTokensByPlayer, data.TokensValue[options.tokenValue] );
         List<ResPlayer> result = Game.PlayersForJson( players );
 
         return Ok( result );
