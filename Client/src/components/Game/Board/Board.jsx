@@ -54,7 +54,7 @@ export const Board = ({ currentPlay }) => {
             if( tokens[i][j].left === tokens[i][j].right ) direction = "vertical";
             else direction = "horizontal";
           } else {
-            direction = "horizontal";
+            direction = "vertical";
           }
           console.log(generateId());
           row.push(<Token

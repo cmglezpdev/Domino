@@ -19,9 +19,9 @@ public class MultidimensionalBorad : IBoard
 
     // private List< Info > board = new List<Info>();
     Dictionary< Token, int > TokenByPlayer = new Dictionary<Token, int>();
-    private Token[,] board = new Token[5,5];
+    private Token[,] board = new Token[15,15];
     List< Tuple<int, int> > aviablePositions = new List<Tuple<int, int>>();
-    private int middle = 3;
+    private int middle = 8;
 
     public List<Token> BuildTokens(int MaxIdOfToken)
     {
@@ -30,6 +30,9 @@ public class MultidimensionalBorad : IBoard
 
         for(int i = 0; i <= MaxIdOfToken; i++){
             for(int j = i; j <= MaxIdOfToken; j++){
+                if(i == j) 
+                    tokens.Add(new TokenDouble(i, j));
+                else
                 tokens.Add(new Token(i , j));
             }
         }
@@ -38,6 +41,7 @@ public class MultidimensionalBorad : IBoard
     public void PlaceToken(Token token, int IdPlayer)
     {
 
+        System.Console.WriteLine("Placing token: " + token.left.Item1 + " " + token.right.Item1);
         if( TokenByPlayer.Count == 0 ) {
             TokenByPlayer[ token ] = IdPlayer;
             this.board[ middle, middle ] = token;
@@ -55,14 +59,16 @@ public class MultidimensionalBorad : IBoard
 
             // Revisar por que costado jugarla
             var item = this.board[x, y];
+            System.Console.WriteLine(item.left.Item1 + " " + item.right.Item1);
   
             //* Si tiene fichas por la izquierda
-            if( !ok &&  board[x, y - 1] != null ) {
+            // if( !ok &&  board[x, y - 1] != null ) {
                 // Si la ficha no es un doble, entonces solo se puede colocar a la derecha de esta
                 if( board[x, y + 1] == null ) {
                     // si se puede jugar la ficha
                     if( item.right.Item1 == token.left.Item1 ) {
                         board[x, y + 1] = token;
+                        // System.Console.WriteLine(board[x, y + 1]);
                         board[x, y + 1].Played(token.left.Item1);
                         board[x, y].Played(token.left.Item1);
                         ok = true;
@@ -89,10 +95,10 @@ public class MultidimensionalBorad : IBoard
                 if( item.left.Item1 == item.right.Item1 ) {
                     ok = PlaceUpOrDownDobule(x, y, token);
                 }   
-            }
-            else
+            // }
+            // else
             //* Si tiene fichas por derecha
-            if( !ok &&  board[x, y + 1] != null ) {
+            // if( !ok &&  board[x, y + 1] != null ) {
                 // Si la ficha no es un doble, entonces solo se puede colocar a la izquierda de esta
                 if( board[x, y - 1] == null ) {
                     // si se puede jugar la ficha
@@ -123,10 +129,10 @@ public class MultidimensionalBorad : IBoard
                             aviablePositions.RemoveAt(i);
                     break;
                 }
-            }
-            else
+            // }
+            // else
             //* Si tiene fichas por arriba
-            if( !ok &&  board[x - 1, y] != null ) {
+            // if( !ok &&  board[x - 1, y] != null ) {
                 // Si la ficha no es un doble, entonces solo se puede colocar abajo de esta
                 if( board[x + 1, y] == null ) {
                     // si se puede jugar la ficha
@@ -158,10 +164,10 @@ public class MultidimensionalBorad : IBoard
                     break;
                 }
 
-            }
-            else
+            // }
+            // else
             //* Si tiene fichas por abajo
-            if( !ok && board[x + 1, y] != null ) {
+            // if( !ok && board[x + 1, y] != null ) {
                 // Si la ficha no es un doble, entonces solo se puede colocar arriba de esta
                 if( board[x - 1, y] == null ) {
                     // si se puede jugar la ficha
@@ -192,7 +198,7 @@ public class MultidimensionalBorad : IBoard
                             aviablePositions.RemoveAt(i);
                     break;
                 }
-            }
+            // }
             
         }
     }
@@ -343,7 +349,7 @@ public class MultidimensionalBorad : IBoard
                     if( board[i, j] == null )
                         Console.Write("(-,-)");
                     else
-                        Console.Write(board[i, j].ToString() + " ");
+                        Console.Write("({0},{1})", board[i, j].left.Item1, board[i, j].right.Item1);
                 }
                 Console.WriteLine();
             }
