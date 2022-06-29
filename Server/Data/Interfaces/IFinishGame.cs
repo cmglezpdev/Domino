@@ -5,5 +5,4 @@ using Server.Data.Classes;
 
 public interface IFinishGame {
     bool FinishGame( IBoard board, IEnumerable<Player> players );
-    void Pass(bool passed);
 }
