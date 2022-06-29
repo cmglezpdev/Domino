@@ -4,21 +4,21 @@
 
 Este proyecto esta divido en dos secciones una Client, la cual es la encargada de la parte visual, y una Server, encargada de la logica del proyecto.
 
-### **Server
+### Server
 
 Dentro de Server el proyecto se divide en Controllers (encargado de controlar el ritmo de la partida), models(para la seleccion del modo de juego) y Data (la logica interna del proyecto).
 
-**Data**
+Data
 
 Data esta divida en Classes, Interfaces y SpecificGames (Implementaciones de cada interface, para modos de juego concreto)
 
-**Abtracciones**
+Abtracciones
 
 Interfaces:
 
 - IBoard: Esta abtraccion viene generada por la necesidad de cambiar el tablero, dado que consideramos implementaciones donde se puede jugar por mas de un camino, como en el domino habitual (ejemplo la longana). Ademas ofrece funcionalidades utiles para el desarrollo del juego.
 
-~~~
+```c#
     public List<Token> BuildTokens( int MaxIdOfToken, TokenValue CalculateValue );
 
     void PlaceToken( Token token, int IdPlayer );
@@ -34,31 +34,31 @@ Interfaces:
     public int MaxIdOfToken {
         get;
     } 
-~~~
+```
 
 - IDistributeToken: Depende de como se quiera repartir las fichas a cada jugador. Solo debe devolver las fichas de cada jugador, la forma que las reparte es cosa del metodo elegido.
 
-~~~
+```C#
     Player[] DistributeTokens( List<Token> tokens, Player[] players, int countTokens );  
-~~~
+```
 
 - IFinishGame: La condicion de finalizar el juego, la cual es una regla variable. Solo debe devolver si el juego se acabo.
 
-~~~
+```C#
     bool FinishGame( IBoard board, IEnumerable<Player> players );
-~~~
+```
 
 - IWinGame: Debe devolver el orden en que acabo cada jugador, seleccionandolo segun su criterio de victoria.
 
-~~~
+```C#
     IEnumerable<Player> GetWinnersGame( IBoard board, IEnumerable<Player> players );
-~~~
+```
 
 - INextPlayer: Debe devolver un entero que represente el siguiente jugador.
 
-~~~
+```C#
     int NextPlayer( Player[] players );
-~~~
+```
 
 Clases:
 
