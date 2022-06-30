@@ -32,7 +32,7 @@ public class RandomPlayer : Player {
             int total = 0;
             // string s = "";
             for( int i = 0; i < hand.Count; i++ ) {
-                total += hand[i].value;
+                total += hand[i].Value;
                 // s += $"[{hand[i].left.Item1}:{hand[i].right.Item1}]";
             }
             // System.Console.WriteLine(s);

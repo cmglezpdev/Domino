@@ -5,6 +5,7 @@ using Server.Data.Interfaces;
 public class UnidimensionalBoard : IBoard {
     List<Token> board = new List<Token>();
     int maxIdOfToken;
+    IMatch matcher;
     List<Tuple<Token, int>> PlayerByToken = new List<Tuple<Token, int>>();
     public List<Token> BuildTokens( int MaxIdOfToken, TokenValue calcValue ) {
         this.maxIdOfToken = MaxIdOfToken;
@@ -24,85 +25,70 @@ public class UnidimensionalBoard : IBoard {
             return;
         } 
 
-        if( ValidPlay(token, board[0]) ) {
+        if( matcher.ValidateMatch(token, board[0]) ) {
             Play(token, 0);
             PlayerByToken.Add(new Tuple<Token, int>( token, IdPlayer ));
             return;
         }
 
-        if( ValidPlay(token, board[ board.Count - 1 ]) ) {
+        if( matcher.ValidateMatch(token, board[ board.Count - 1 ]) ) {
             Play(token, board.Count - 1);
             PlayerByToken.Add(new Tuple<Token, int>( token, IdPlayer ));
             return;
         }    
     }
-     private void Play(Token token, int pos) {
+    public void SetMatcher( IMatch matcher ) {
+        this.matcher = matcher;
+    }
+    private void Play(Token token, int pos) {
+        Token item = board[pos];
+        // Solo se puede jugar por la derecha de la ficha
         if( pos == 0 ) {
-            // Solo se juega por la parte izquierda de la ficha del tablero
-            int faceToken = board[0].left.Item1;
-            if( token.left.Item2 && token.left.Item1 == faceToken ) {
-                board[0].Played(token.left.Item1);
-                board.Insert(0, token);
-                board[0].Played(token.left.Item1);
-                board[0].SwapVertex();
+            // La ficha cabe esactamente como esta puesta
+            if( this.matcher.ValidateMatch(token, 0, item, 0) ) {
+                System.Console.WriteLine(token[0].Value + ' ' + item[0].Value);
+                board[0].Played(0);
+                board.Insert(0, token.Clone());
+                board[0].Played( 0 );
+                board[0].SwapFaces();
                 return;
             }
-            
-            if( token.right.Item2 && token.right.Item1 == faceToken ) {
-                board[0].Played(token.right.Item1);
-                board.Insert(0, token);
-                board[0].Played(token.right.Item1);
+            // Se rota la ficha
+            if( this.matcher.ValidateMatch(token, 1, item, 0)) {
+                System.Console.WriteLine(token[1].Value + ' ' + item[0].Value);
+                board[0].Played(0);
+                board.Insert(0, token.Clone());
+                board[0].Played(1);
                 return;
             }
         }
-        
-        if( pos == this.board.Count - 1 ) {
-            // Solo se juega con la parte derecha de la ficha del tablero
-            int faceToken = board[pos].right.Item1;
-            if( token.left.Item2 && token.left.Item1 == faceToken ) {
-                board[pos].Played(token.left.Item1);
-                board.Add(token);
-                board[ ++pos ].Played(token.left.Item1);
+    
+        if( pos == board.Count - 1 ) {
+          
+            if( this.matcher.ValidateMatch(token, 0, item, 1) ) {
+                System.Console.WriteLine(token[0].Value + ' ' + item[1].Value);
+                board[pos].Played(1);
+                board.Add(token.Clone());
+                board[board.Count - 1].Played(0);
                 return;
             }
-            
-            if( token.right.Item2 )
-                if( token.right.Item1 == faceToken ) {
-                    board[pos].Played(token.right.Item1);
-                    board.Add(token);
-                    board[ ++ pos].Played(token.right.Item1);
-                    board[ pos ].SwapVertex();
-                    return;
-                }
+          
+            if(this.matcher.ValidateMatch(token, 1, item, 1)) {
+                System.Console.WriteLine(token[1].Value + ' ' + item[1].Value);
+                board[pos].Played(1);
+                board.Add(token.Clone());
+                board[board.Count - 1].Played( 1 );
+                board[board.Count - 1].SwapFaces();
+                return;
+            }
         }
-        
     }
     public bool ValidPlay(Token token) {
         // Puede jugar cualquier ficha
         if( board.Count == 0 ) return true;
         
-        if( ValidPlay(token, board[0]) || ValidPlay(token, board[ board.Count - 1 ]) ) return true;   
+        if( this.matcher.ValidateMatch(token, board[0]) || this.matcher.ValidateMatch(token, board[ board.Count - 1 ]) ) return true;   
         
-        return false;
-    }
-    public bool ValidPlay(Token token, Token item) {
-
-        if( item.left.Item2 ) {
-            int faceToken = item.left.Item1;
-            if( token.left.Item2 ) 
-                if( token.left.Item1 == faceToken ) return true;
-            if( token.right.Item2 )
-                if( token.right.Item1 == faceToken ) return true;
-        }
-        if( item.right.Item2 ) {
-            int faceToken = item.right.Item1;
-            if( token.left.Item2 ) 
-                if( token.left.Item1 == faceToken ) return true;
-            if( token.right.Item2 )
-                if( token.right.Item1 == faceToken ) return true;
-        }
-        
-
         return false;
     }
     public Token[,] TokensInBoard {
@@ -115,10 +101,6 @@ public class UnidimensionalBoard : IBoard {
             return tokens; 
         }
     }
-    public Tuple<Token, int>[] OrderListOfTokensByPlayer {
-        get{ return this.PlayerByToken.ToArray(); }
-    }
-    public int MaxIdOfToken {
-        get{ return this.maxIdOfToken; }
-    }
+    public Tuple<Token, int>[] OrderListOfTokensByPlayer => this.PlayerByToken.ToArray();
+    public int MaxIdOfToken => this.maxIdOfToken;
 }

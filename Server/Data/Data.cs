@@ -9,13 +9,15 @@ public class Data {
     };
     public IBoard[] Boards = new IBoard[] {
         new UnidimensionalBoard(),
-        new MultidimensionalBorad(),
+        // new MultidimensionalBorad(),
     };
     public TokenValue[] TokensValue = new TokenValue[] {
         new SumOfFaces(),
         new SubOfFaces(),
     };
-    
+    public IMatch[] Matches = new IMatch[] {
+        new EqualFace(),
+    };
     public IDistributeTokens[] DistributeTokens = new IDistributeTokens[] {
         new RandomDistribution(),
         new AllforOneDistribution(),
@@ -41,7 +43,7 @@ public static class Game {
     public static List<VertexToken> TokenForJson( IEnumerable<Token> tokens ) {
         List<VertexToken> TokensJson = new List<VertexToken>();
         foreach( var t in tokens ) {
-            TokensJson.Add( new VertexToken(){ Left = t.left.Item1, Right = t.right.Item1 } );
+            TokensJson.Add( new VertexToken(){ Left = t[0].Value, Right = t[1].Value } );
         }
         return TokensJson;
     }
@@ -68,7 +70,7 @@ public static class Game {
                 if( Tokens[i, j] == null )
                     TokensJson.Last().Add(null);
                 else
-                TokensJson[ TokensJson.Count - 1 ].Add( new VertexToken(){ Left = Tokens[i, j].left.Item1, Right = Tokens[i, j].right.Item1 } );
+                TokensJson[ TokensJson.Count - 1 ].Add( new VertexToken(){ Left = Tokens[i, j][0].Value, Right = Tokens[i, j][1].Value } );
             }
         }
 

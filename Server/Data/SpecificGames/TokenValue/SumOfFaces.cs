@@ -2,6 +2,8 @@ namespace Server.Data.Classes;
 
 public class SumOfFaces : TokenValue {
     public override int Value( Token token ) {
-        return token.left.Item1 + token.right.Item1;
+        int value = (int)(token.Left.Value + token.Right.Value)!;
+            if( value < 0 ) value *= -1;
+            return value;        
     }
 }

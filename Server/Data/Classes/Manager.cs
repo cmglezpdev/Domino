@@ -27,8 +27,9 @@ public class Manager {
         this.players = ply.ToArray();
     }
 
-    public IEnumerable<Player> StartGame( int MaxIdOfToken, int countTokens, TokenValue CalculateValue ) {
+    public IEnumerable<Player> StartGame( int MaxIdOfToken, int countTokens, TokenValue CalculateValue, IMatch matcher ) {
         List<Token> bTokens = this.board.BuildTokens( MaxIdOfToken, CalculateValue );
+        this.board.SetMatcher(matcher);
         this.players = this.distributeTokens.DistributeTokens(bTokens, this.players.ToArray(), countTokens);
         return this.players;
     }

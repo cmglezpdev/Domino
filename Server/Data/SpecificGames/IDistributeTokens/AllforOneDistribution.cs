@@ -13,9 +13,9 @@ public class AllforOneDistribution : IDistributeTokens {
         bool[] mask = new bool[countTokens];
 
         int IntMax = 0;
-        int mark = tokens[0].right.Item1;
+        int mark = tokens[0][1].Value;
         for(int i = 1; i < tokens.Count; i++){
-            if(tokens[i].right.Item1 == mark || tokens[i].left.Item1 == mark){
+            if(tokens[i][1].Value == mark || tokens[i][0].Value == mark){
                 IntMax++;
             }
         }
@@ -29,7 +29,7 @@ public class AllforOneDistribution : IDistributeTokens {
             }
             mask[auxI] = true;
             for(int j = 0; j < tokens.Count; j++){
-                if(tokens[j].right.Item1 == auxI || tokens[j].left.Item1 == auxI){
+                if(tokens[j][1].Value == auxI || tokens[j][0].Value == auxI){
                     aux.Add(tokens[j]);
                     tokens.RemoveAt(j);
                     j--;

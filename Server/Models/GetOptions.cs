@@ -34,6 +34,13 @@ public class InterfaceOfOptions {
                     }
                 },
                 new ChangeOptions() {
+                    titleOption = "Dos fichas se pueden jugar si?",
+                    id = "matcher",
+                    nameOptions = new string[] {
+                        "Tienen una misma cara",
+                    }
+                },
+                new ChangeOptions() {
                     titleOption = "Cuando terminara el juego?",
                     id = "finishGame",
                     nameOptions = new string[] {

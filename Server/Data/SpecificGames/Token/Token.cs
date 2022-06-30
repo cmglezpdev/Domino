@@ -4,65 +4,96 @@ namespace Server.Data.Classes;
 public class Token {
 
     // id de la cara, true si esta disponible pa jugarla
-    protected int Right;
-    protected bool DisponibilityRight;
-    protected int Left;
-    protected bool DisponibilityLeft;
+    public InfoFace Left;
+    public InfoFace Right;
     protected TokenValue CalculateValue;
 
     public Token(int left, int right, TokenValue calculateValue ){
         this.CalculateValue = calculateValue;
-        (this.Left, this.DisponibilityLeft) = (left, true);
-        (this.Right, this.DisponibilityRight) = (right, true);
+        this.Left = new InfoFace(){
+            IdFace = 0,
+            Face = "left",
+            Played = false,
+            Value = left
+        };
+
+        this.Right = new InfoFace(){
+            IdFace = 0,
+            Face = "right",
+            Played = false,
+            Value = right
+        };
     }
-    public virtual (int, bool) right {
+    public virtual InfoFace this[int index]{
         get{
-            return (this.Right, this.DisponibilityRight);
+            if( index > 1 ) throw new System.Exception("Indice fuera de rango");
+            return index == 0 ? this.Left : this.Right;
         }
-    }
-    public virtual (int, bool) left {
-        get{
-            return (this.Left, this.DisponibilityLeft);
-        }
-    }
-    public virtual int value {
-        get {
-            // retornar el valor de la ficha
-            return this.CalculateValue.Value(this);
-        }
-    }
-    // Marca como true la cara de la ficha que se jugo
-    public virtual void Played (int ID) {
-         if( ID == this.Left && this.DisponibilityLeft ) {
-           this.DisponibilityLeft = false;
-           return;
-        }
-        if( ID == this.Right && this.DisponibilityRight ) {
-           this.DisponibilityRight = false;
-           return;
-        }
-
     }
 
-    public virtual void SwapVertex () {
-        int aux = this.Right;
-        this.Right = this.Left;
-        this.Left = aux;
 
-        bool aux2 = this.DisponibilityRight;
-        this.DisponibilityRight = this.DisponibilityLeft;
-        this.DisponibilityLeft = aux2;
+    public int Value => this.CalculateValue.Value(this);
+    public virtual void Played (int face, int valueFace) {
+        if(face == 0 && this.Left.Value == valueFace && !this.Left.Played){
+            this.Left.Played = true;
+        }
+        else if(face == 1 && this.Right.Value == valueFace && !this.Right.Played){
+            this.Right.Played = true;
+        } else {
+            throw new System.Exception("Error: No se puede jugar la cara");
+        }
     }
+
+    public virtual void Played(int face) {
+        if(face == 0 && !this.Left.Played){
+            this.Left.Played = true;
+        }
+        else if(face == 1 && !this.Right.Played){
+            this.Right.Played = true;
+        } else {
+            throw new System.Exception("Error: No se puede jugar la cara");
+        }
+    }
+
+    public virtual void SwapFaces() {
+        InfoFace aux =  new InfoFace(){
+            IdFace = 1,
+            Face = "right",
+            Played = this.Left.Played,
+            Value = this.Left.Value
+        };
+
+        this.Left =  new InfoFace(){
+            IdFace = 0,
+            Face = "left",
+            Played = this.Right.Played,
+            Value = this.Right.Value
+        };
+
+        this.Right = aux.Clone();
+    }
+
 
     public virtual Token Clone() {
-        Token CloneT = new Token(this.Left, this.Right, this.CalculateValue);
-        if( !this.DisponibilityLeft ) CloneT.Played( this.Left );
-        if( !this.DisponibilityRight ) CloneT.Played( this.Right );
-
+        Token CloneT = new Token(this.Left.Value, this.Right.Value, this.CalculateValue);
+        CloneT.Left = this.Left.Clone();
+        CloneT.Right = this.Right.Clone();
         return CloneT;
     }
+}
 
-    public virtual bool CanPlayForToken() {
-        return (this.DisponibilityLeft || this.DisponibilityRight);
+public class InfoFace {
+    public int Value {get; set;}
+    public bool Played {get; set;}
+    public string? Face {get;set;}
+    public int IdFace {get;set;}
+
+    public InfoFace Clone() {
+        return new InfoFace(){
+            IdFace = this.IdFace,
+            Face = this.Face,
+            Played = this.Played,
+            Value = this.Value
+        };
     }
 }

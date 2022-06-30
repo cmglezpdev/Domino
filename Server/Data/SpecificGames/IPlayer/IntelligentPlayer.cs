@@ -34,11 +34,11 @@ public class IntelligentPlayer : RandomPlayer {
             }
             (int,int) auxindex = (0,0);
             for(int i = 0; i < hand.Count; i++) {
-                if(hand[i].right.Item1 == maxtokenindex && InHand[hand[i].left.Item1] > auxindex.Item2 ) {
-                    auxindex = (i,InHand[hand[i].left.Item1]);
+                if(hand[i][1].Value == maxtokenindex && InHand[hand[i][0].Value] > auxindex.Item2 ) {
+                    auxindex = (i,InHand[hand[i][0].Value]);
                 }
-                else if(hand[i].left.Item1 == maxtokenindex && InHand[hand[i].right.Item1] > auxindex.Item2) {
-                    auxindex = (i,InHand[hand[i].right.Item1]);
+                else if(hand[i][0].Value == maxtokenindex && InHand[hand[i][1].Value] > auxindex.Item2) {
+                    auxindex = (i,InHand[hand[i][1].Value]);
                 }
             }
             Token auxtoken = hand[auxindex.Item1];
@@ -47,20 +47,20 @@ public class IntelligentPlayer : RandomPlayer {
         }
         (Token,int) aux = doubles[0];
         for(int i = 0; i < doubles.Count; i++) {
-            int aux1 = doubles[i].Item1.right.Item1;
-            int aux2 = aux.Item1.right.Item1;
+            int aux1 = doubles[i].Item1[1].Value;
+            int aux2 = aux.Item1[1].Value;
             if((InHand[aux1] > InHand[aux2]) || (InHand[aux1] == InHand[aux2] && aux2 > aux1))
                 aux = doubles[i];
         }
         hand.RemoveAt(aux.Item2);
-        InHand[aux.Item1.right.Item1]--;
+        InHand[aux.Item1[1].Value]--;
         return aux.Item1;
     }
     private void Organize(int maxidtoken) {
         int cant = 0;
         for(int i = 0; i < maxidtoken; i++) {
             for(int j = 0; j < hand.Count; j++) {
-                if(i == hand[j].right.Item1 || i == hand[j].left.Item1) {
+                if(i == hand[j][1].Value || i == hand[j][0].Value) {
                     cant++;
                 }
             }
@@ -71,7 +71,7 @@ public class IntelligentPlayer : RandomPlayer {
     private List<(Token,int)> Double() {
         List<(Token,int)> aux = new List<(Token,int)>();
         for(int i = 0; i < hand.Count; i++) {
-            if(hand[i].right.Item1 == hand[i].left.Item1)
+            if(hand[i][1].Value == hand[i][0].Value)
                 aux.Add((hand[i],i));
         }
         return aux;
@@ -80,11 +80,11 @@ public class IntelligentPlayer : RandomPlayer {
         List<int> disponible = new List<int>();
         for(int i = 0; i < tokens.GetLength(0); i++){
             for(int j = 0; j < tokens.GetLength(1); j++){
-                if(tokens[i,j].right.Item2 ){
-                    disponible.Add(tokens[i,j].right.Item1);
+                if(!tokens[i,j][1].Played ){
+                    disponible.Add(tokens[i,j][1].Value);
                 }
-                if(tokens[i,j].left.Item2 ){
-                    disponible.Add(tokens[i,j].left.Item1);
+                if(!tokens[i,j][0].Played ){
+                    disponible.Add(tokens[i,j][0].Value);
                 } 
             }
         }
@@ -100,11 +100,11 @@ public class IntelligentPlayer : RandomPlayer {
         Token auxtoken;
         (int,int) aux2 = (0,0);
         for(int i = 0; i < hand.Count; i++){
-            if(hand[i].right.Item1 == aux.Item1 && hand[i].left.Item1 > aux2.Item2){
-                aux2 = (i,hand[i].left.Item1);
+            if(hand[i][1].Value == aux.Item1 && hand[i][0].Value > aux2.Item2){
+                aux2 = (i,hand[i][0].Value);
             }
-            else if(hand[i].left.Item1 == aux.Item1 && hand[i].right.Item1 > aux2.Item2){
-                aux2 = (i,hand[i].right.Item1);
+            else if(hand[i][0].Value == aux.Item1 && hand[i][1].Value > aux2.Item2){
+                aux2 = (i,hand[i][1].Value);
             }
         }
         auxtoken = hand[aux2.Item1];

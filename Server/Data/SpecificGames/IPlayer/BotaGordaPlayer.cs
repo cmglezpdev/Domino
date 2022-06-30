@@ -8,9 +8,9 @@ public class BotaGordaPlayer : RandomPlayer {
         int auxindex = -1;
         for(int i = 0; i < hand.Count; i++){
             if(board.ValidPlay(hand[i])) 
-                if(hand[i].value > aux) {
+                if(hand[i].Value > aux) {
                     auxindex = i;
-                    aux = hand[i].value;
+                    aux = hand[i].Value;
             }
         }
         if(auxindex != -1) {
