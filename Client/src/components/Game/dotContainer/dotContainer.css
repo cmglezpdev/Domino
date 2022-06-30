@@ -77,12 +77,12 @@
 }
 
 /* --7-- */
-.token[direction="vertical"] .dot-container[dots-number="7"] .dot[dot-index="6"],
-.token[direction="vertical"] .dot-container[dots-number="7"] .dot[dot-index="7"],
-.token[direction="vertical"] .dot-container[dots-number="7"] .dot[dot-index="8"],
 .token[direction="vertical"] .dot-container[dots-number="7"] .dot[dot-index="0"],
-.token[direction="vertical"] .dot-container[dots-number="7"] .dot[dot-index="1"],
+.token[direction="vertical"] .dot-container[dots-number="7"] .dot[dot-index="3"],
+.token[direction="vertical"] .dot-container[dots-number="7"] .dot[dot-index="6"],
 .token[direction="vertical"] .dot-container[dots-number="7"] .dot[dot-index="2"],
+.token[direction="vertical"] .dot-container[dots-number="7"] .dot[dot-index="5"],
+.token[direction="vertical"] .dot-container[dots-number="7"] .dot[dot-index="8"],
 .token[direction="vertical"] .dot-container[dots-number="7"] .dot[dot-index="4"] {
     background-color: black;
 }

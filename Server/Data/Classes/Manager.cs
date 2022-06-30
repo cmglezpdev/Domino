@@ -35,12 +35,12 @@ public class Manager {
     }
     // Realiza una jugada y devuelve informacion de la jugada
     public PlayInfo GamePlay() { 
-        
         int idxCurrentPlayer = this.nextPlayer.NextPlayer( this.players );
+        System.Console.WriteLine(idxCurrentPlayer);
         bool ToPlay = this.players[idxCurrentPlayer].PlayToken( this.board );
         
-        if( ToPlay ) finishGame.Pass( false );
-        else finishGame.Pass( true );
+        // if( ToPlay ) finishGame.Pass( false );
+        // else finishGame.Pass( true );
         
         PlayInfo CurrInfo = new PlayInfo() {
             Players = Game.PlayersForJson(this.players),

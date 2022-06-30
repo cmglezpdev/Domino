@@ -14,14 +14,14 @@ public class NextPlayerLongana : INextPlayer
             foreach( var ply in players ) {
                 CountTokensPlayer.Add( ply.Count );
             }
-            return (++this.cursor);
+            return (this.cursor = (this.cursor + 1)%players.Length);
         }
 
-        if( players[cursor].Count != this.CountTokensPlayer[this.cursor] ) {
+        if( players[this.cursor].Count != this.CountTokensPlayer[this.cursor] ) {
             this.CountTokensPlayer[this.cursor] = players[this.cursor].Count;
             return this.cursor;
         }
-        else return (++this.cursor);
-
+        
+        return (this.cursor = (this.cursor + 1)%players.Length);
     }
 }
