@@ -15,69 +15,47 @@ export const Board = ({ currentPlay }) => {
       
       // count of rows and columns
       const height = tokens.length;
-      const width = (height > 0) ? tokens[0].length : 0;
+      const width = ( height == 0 ) ? 0 : tokens[0].length;
+      console.log(height,width);
       
-      const standardHeight = 5;
-      const board = BuildBoard(width, height, standardHeight, tokens);
+      setGridSettings({
+        width: width,
+        height: height,
+      });
+
+      const board = BuildBoard(width, height, tokens);
 
       setBoard(board);
       
-      setGridSettings({
-          width: width,
-          height: height,
-      });
     }
   }, [currentPlay])
   
-  const BuildBoard = ( width, height, standardHeight, tokens ) => {
+  const BuildBoard = ( width, height, tokens ) => {
      let board = [];
     
-      const voidCell = <div style={{
-        backgroundColor: "green",
-      }}>Vacio</div>;
-      
-
-      for(let i = 0; i < height; i ++) {
-        let row = [];
+      for(let i = 0; i < height; i++) {
         for(let j = 0; j < width; j ++) {
+          const token = tokens[i][j];
+          if( token == null ) continue;
+          
+          let direction = "horizontal";
+          if( token.left == token.right ) direction = "vertical";
 
-          if( tokens[i][j] == null ) {
-            row.push(voidCell);
-            continue;
-          }
 
-          // Decidir direccion del token
-          let direction = "";
-          if( tokens[i][j - 1] !== null || tokens[i][j + 1] !== null ) {
-            if( tokens[i][j].left === tokens[i][j].right ) direction = "vertical";
-            else direction = "horizontal";
-          } else {
-            direction = "vertical";
-          }
-          console.log(generateId());
-          row.push(<Token
-            left={tokens[i][j].left}
-            right={tokens[i][j].right}
-            key={ generateId() }
-            id={ generateId() }
-            direction={ direction }
-            visible="true"
-            />);             
+          board.push(
+              <Token
+                left={token.left}
+                right={token.right}
+                key={ generateId() }
+                id={ generateId() }
+                direction={ direction }
+                visible="true"
+                positionGrid = {{
+                  gridColumn: `${j+1}/${j+2}`,
+                  gridRow: `${i+1}/${i+2}`,
+                }}
+              />);
         }
-        board.push(row);
-      }
-
-      if( height < standardHeight ) {
-        let extra = (standardHeight - height) / 2;
-        // Fill the front cell in board
-        for(let i = 0; i < extra; i ++) {
-          board.unshift(new Array(width).fill(voidCell));
-        }
-
-        for(let i = 0; i < extra; i ++) {
-          board.push(new Array(width).fill(voidCell));
-        }
-
       }
 
       return board;
@@ -86,32 +64,17 @@ export const Board = ({ currentPlay }) => {
   
     return (
       <div className="container-game__board" >
-        <Grid rows={gridSettings.width} relaxed stackable={false}>
-          {
-            board.map((row, i) => {
-              return (
-                <Grid.Row key={i}>
-                  {
-                    row.map((cell, j) => {
-                      return (
-                        <Grid.Column 
-                          key={j}
-                          style={{
-                            width: "100px",
-                            height: "100px",
-                          }}
-                          >
-                          {cell}
-                        </Grid.Column>
-                      )
-                    }
-                    )
-                  }
-                </Grid.Row>
-              )
-            })
-          }
-        </Grid>
-    </div> 
-  )
+        <div 
+          style={{
+            display: 'grid',
+            gridTemplateColumns: `repeat(${gridSettings.width}, 100px)`,
+            gridTemplateRows: `repeat(${gridSettings.height}, 100px)`,
+          }}
+          className="board__tokens"
+        >
+          {board}
+        </div>
+      </div>
+    )
 }
+ 
