@@ -2,6 +2,9 @@
 
 Proyecto de Programacion II
 
+![Domino](./screenshot.png)
+
+
 [Orientacion del proyecto](https://github.com/matcom/domino)
 
 [Lista de tareas](https://github.com/cmglezpdev/Domino/projects/1)
