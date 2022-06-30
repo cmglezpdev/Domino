@@ -12,7 +12,4 @@ public class AllPassFinish : IFinishGame {
         }
         return false;
     }
-    public void Pass( bool passed ) {
-        this.pass = ( passed ) ? this.pass + 1 : 0;
-    }
 }
