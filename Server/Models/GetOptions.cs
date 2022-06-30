@@ -38,6 +38,7 @@ public class InterfaceOfOptions {
                     id = "matcher",
                     nameOptions = new string[] {
                         "Tienen una misma cara",
+                        "Cumplen algunas propiedades matematicas"
                     }
                 },
                 new ChangeOptions() {

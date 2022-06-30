@@ -15,14 +15,8 @@ public class EqualFace : IMatch
     {    
         List<int> aviableFaces1 = new List<int>();
 
-        if( ( token1.Left.Value == token2.Left.Value && !token1.Left.Played && !token2.Left.Played ) || 
-            ( token1.Left.Value == token2.Right.Value && !token1.Left.Played && !token2.Right.Played ) ) {
-            aviableFaces1.Add(token1.Left.Value);
-        }
-        if( ( token1.Right.Value == token2.Left.Value && !token1.Right.Played && !token2.Left.Played ) || 
-            ( token1.Right.Value == token2.Right.Value && !token1.Right.Played && !token2.Right.Played ) ) {
-            aviableFaces1.Add(token1.Right.Value);
-        }
+        if( ValidateMatch(token1, 0, token2, 0) || ValidateMatch(token1, 0, token2, 1) ) aviableFaces1.Add(0);
+        if( ValidateMatch(token1, 1, token2, 0) || ValidateMatch(token1, 1, token2, 1) ) aviableFaces1.Add(1);
             
         return aviableFaces1.ToArray();
     }

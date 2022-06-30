@@ -17,6 +17,7 @@ public class Data {
     };
     public IMatch[] Matches = new IMatch[] {
         new EqualFace(),
+        new RareEquivalence(),
     };
     public IDistributeTokens[] DistributeTokens = new IDistributeTokens[] {
         new RandomDistribution(),
