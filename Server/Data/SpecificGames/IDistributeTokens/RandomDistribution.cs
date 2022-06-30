@@ -15,9 +15,6 @@ using Server.Data.Interfaces;
                 tokens.RemoveAt(r);
             }
             itemP.MakeTokens(aux);
-            // foreach(var x in aux) 
-            //     System.Console.WriteLine($"[{x.left.Item1}:{x.right.Item1}]");
-            // System.Console.WriteLine();
         }
         return players;
     }

@@ -37,6 +37,8 @@ public class TypeGameController : ControllerBase
                 data.NextPlayers[ options.nextPlayer ]
         );
         
+        System.Console.WriteLine(options.countTokensByPlayer);
+        System.Console.WriteLine(options.maxIdTokens);
         // Lista de players con las fichas asignadas
         IEnumerable<Player> ply = Game.manager.StartGame( options.maxIdTokens, options.countTokensByPlayer, data.TokensValue[options.tokenValue], data.Matches[ options.matcher ] );
         List<ResPlayer> result = Game.PlayersForJson( players );
