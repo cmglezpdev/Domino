@@ -57,8 +57,9 @@ public class IntelligentPlayer : RandomPlayer {
         return aux.Item1;
     }
     private void Organize(int maxidtoken) {
+        InHand.Clear();
         int cant = 0;
-        for(int i = 0; i < maxidtoken; i++) {
+        for(int i = 0; i < maxidtoken + 1; i++) {
             for(int j = 0; j < hand.Count; j++) {
                 if(i == hand[j][1].Value || i == hand[j][0].Value) {
                     cant++;
@@ -112,7 +113,7 @@ public class IntelligentPlayer : RandomPlayer {
         return auxtoken;
     }
     private bool Can_Play(List<int> disponible){
-        for(int i = 0; i < InHand.Count; i++){
+        for(int i = 0; i < disponible.Count; i++){
             if(InHand[disponible[i]] != 0) return true;
         }
         return false;
