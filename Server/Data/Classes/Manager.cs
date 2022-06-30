@@ -3,8 +3,10 @@ using Server.Data.Interfaces;
 using System.Diagnostics;
 
 public class Manager {
-
-    public int MaxIdOfToken;
+    static public int MaxIdOfToken;
+    static public int[] PassedOfPlayers;
+    static public int[] CountTokenByPlayers;
+    
     Player[] players;
     IBoard board;
     IDistributeTokens distributeTokens;
@@ -25,23 +27,38 @@ public class Manager {
         List<Player> ply = new List<Player>();
         foreach( var pl in players ) ply.Add(pl);
         this.players = ply.ToArray();
+
+        // Actualizar el tamanno de las propiedades staticas
+        Manager.PassedOfPlayers = new int[this.players.Length]; 
+        Manager.CountTokenByPlayers = new int[this.players.Length];
+        for(int i = 0; i < this.players.Length; i ++)
+            Manager.CountTokenByPlayers[i] = this.players[i].Count;
+    
+
     }
 
     public IEnumerable<Player> StartGame( int MaxIdOfToken, int countTokens, TokenValue CalculateValue, IMatch matcher ) {
-        List<Token> bTokens = this.board.BuildTokens( MaxIdOfToken, CalculateValue );
+        Manager.MaxIdOfToken = MaxIdOfToken;
         this.board.SetMatcher(matcher);
+        List<Token> bTokens = this.board.BuildTokens( MaxIdOfToken, CalculateValue );
         this.players = this.distributeTokens.DistributeTokens(bTokens, this.players.ToArray(), countTokens);
         return this.players;
     }
+    
     // Realiza una jugada y devuelve informacion de la jugada
     public PlayInfo GamePlay() { 
+
         int idxCurrentPlayer = this.nextPlayer.NextPlayer( this.players );
         System.Console.WriteLine(idxCurrentPlayer);
         bool ToPlay = this.players[idxCurrentPlayer].PlayToken( this.board );
         
-        // if( ToPlay ) finishGame.Pass( false );
-        // else finishGame.Pass( true );
+        // Actualizar las propiedades staticas
+        Manager.CountTokenByPlayers[ idxCurrentPlayer ] -= ( ToPlay ? 1 : 0 );
+        Manager.CountTokenByPlayers[ idxCurrentPlayer ] = Math.Max(0, Manager.CountTokenByPlayers[ idxCurrentPlayer ] );
         
+        Manager.PassedOfPlayers[ idxCurrentPlayer ] += ( ToPlay ? 0 : 1 );
+
+
         PlayInfo CurrInfo = new PlayInfo() {
             Players = Game.PlayersForJson(this.players),
             CurrentPlayer = idxCurrentPlayer,
