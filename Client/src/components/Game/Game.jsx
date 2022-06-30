@@ -69,7 +69,6 @@ export const Game = () => {
         background: `url(${background})`
       }}
     >
-
       <button 
         className="change-background"
         onClick={() => {
