@@ -1,10 +1,9 @@
 .container-game__board {
     height: 80%;
     width: 100%;
-    display: flex;
     overflow: auto;
     padding: 20px;
 
-    display: flex;
-    // justify-content: center;
+    position: relative;
+
 }

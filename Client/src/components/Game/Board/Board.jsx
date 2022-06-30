@@ -69,6 +69,11 @@ export const Board = ({ currentPlay }) => {
             display: 'grid',
             gridTemplateColumns: `repeat(${gridSettings.width}, 100px)`,
             gridTemplateRows: `repeat(${gridSettings.height}, 100px)`,
+            position: "absolute",
+            inset: '0', 
+            width: `calc(${gridSettings.width * 100}px)`,
+            height: `calc(${gridSettings.height * 100}px)`,
+            margin: 'auto',
           }}
           className="board__tokens"
         >

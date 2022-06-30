@@ -12,13 +12,17 @@
 //         public List<Token>? DownToken{get; set;}
 //     }
 
+//     private class Coord {
+//         public int x{get; set;}
+//         public int y{get; set;}
+//     }
 
 
 //     private int maxIdOfToken;
 
 //     // private List< Info > board = new List<Info>();
 //     Dictionary< Token, int > TokenByPlayer = new Dictionary<Token, int>();
-//     private Token[,] board = new Token[15,15];
+//     private Dicctionary< Coord > board = new Dictionary<Coord, Info>();
 //     List< Tuple<int, int> > aviablePositions = new List<Tuple<int, int>>();
 //     private int middle = 8;
 
