@@ -89,8 +89,6 @@ public class IntelligentPlayer : RandomPlayer {
                 } 
             }
         }
-        for(int i = 0; i < disponible.Count; i++)
-        System.Console.WriteLine("Hello {0}, {1}" , disponible.Count, disponible[i]);
         return disponible;
     }
     private Token Select_Play(List<int> disponible){
@@ -115,12 +113,7 @@ public class IntelligentPlayer : RandomPlayer {
         return auxtoken;
     }
     private bool Can_Play(List<int> disponible){
-        for(int i = 0; i < InHand.Count; i++){
-            System.Console.WriteLine("Inhand {1} {0}", i, InHand[i]);
-        }
-        
         for(int i = 0; i < disponible.Count; i++){
-            System.Console.WriteLine("Hello {0}", disponible[i]);
             if(InHand[disponible[i]] != 0) return true;
         }
         return false;
