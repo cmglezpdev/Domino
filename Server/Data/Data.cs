@@ -9,7 +9,7 @@ public class Data {
     };
     public IBoard[] Boards = new IBoard[] {
         new UnidimensionalBoard(),
-        // new MultidimensionalBorad(),
+        new MultidimensionalBorad(),
     };
     public TokenValue[] TokensValue = new TokenValue[] {
         new SumOfFaces(),

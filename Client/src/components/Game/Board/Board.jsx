@@ -38,9 +38,7 @@ export const Board = ({ currentPlay }) => {
           const token = tokens[i][j];
           if( token == null ) continue;
           
-          let direction = "horizontal";
-          if( token.left == token.right ) direction = "vertical";
-
+          const direction = getDirection(board, i, j);
 
           board.push(
               <Token
@@ -61,7 +59,12 @@ export const Board = ({ currentPlay }) => {
       return board;
   }
 
-  
+  const getDirection = (board, x, y) => {
+
+
+  }
+
+
     return (
       <div className="container-game__board" >
         <div 
