@@ -14,6 +14,7 @@ public class Data {
     public TokenValue[] TokensValue = new TokenValue[] {
         new SumOfFaces(),
         new SubOfFaces(),
+        new RareProperties(),
     };
     public IMatch[] Matches = new IMatch[] {
         new EqualFace(),

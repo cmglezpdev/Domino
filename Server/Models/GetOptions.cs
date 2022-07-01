@@ -30,7 +30,8 @@ public class InterfaceOfOptions {
                     id = "tokenValue",
                     nameOptions = new string[] {
                         "Suma de sus caras",
-                        "Valor absoluto de la resta de sus caras"
+                        "Valor absoluto de la resta de sus caras",
+                        "Valor un poco raro, pon a prueba tu suerte"
                     }
                 },
                 new ChangeOptions() {
