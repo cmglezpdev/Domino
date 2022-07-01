@@ -1,6 +1,6 @@
 namespace Server.Data.Classes;
 using Server.Data.Interfaces;
-public class IntelligentPlayer : RandomPlayer {
+public class HeuristicPlayer : RandomPlayer {
     List<int> InHand = new List<int>();
     public override bool PlayToken(IBoard board)
     {
@@ -11,15 +11,24 @@ public class IntelligentPlayer : RandomPlayer {
             board.PlaceToken(start, this.IDPlayer.Item1);
             return true;
         }
-        List<int> tokendisponible = Token_Disponible(board.TokensInBoard);
-        if(!Can_Play(tokendisponible)) return false;
 
-        Token aux= Select_Play(tokendisponible);
-        board.PlaceToken(aux, this.IDPlayer.Item1);
-        return true;
+        (int,int) aux = (0,0);
+        for(int i = 0; i < hand.Count; i++) {
+            int a = InHand[hand[i][0].Value] + InHand[hand[i][1].Value];
+            if(board.ValidPlay(hand[i]) && a > aux.Item2){
+                aux = (i, a);
+            }
+        }
+        if(aux.Item2 != 0){
+            Token auxtoken = hand[aux.Item1];
+            hand.RemoveAt(aux.Item1);
+            board.PlaceToken(auxtoken, this.IDPlayer.Item1);
+            return true;
+        }
+        return false;
     }
     public override Player Clone() {
-        IntelligentPlayer clone = new IntelligentPlayer();
+        HeuristicPlayer clone = new HeuristicPlayer();
         clone.MakeTokens( this.hand );
 
         return clone;
@@ -76,46 +85,5 @@ public class IntelligentPlayer : RandomPlayer {
                 aux.Add((hand[i],i));
         }
         return aux;
-    }
-    private List<int> Token_Disponible(Token[,] tokens){
-        List<int> disponible = new List<int>();
-        for(int i = 0; i < tokens.GetLength(0); i++){
-            for(int j = 0; j < tokens.GetLength(1); j++){
-                if(!tokens[i,j][1].Played ){
-                    disponible.Add(tokens[i,j][1].Value);
-                }
-                if(!tokens[i,j][0].Played ){
-                    disponible.Add(tokens[i,j][0].Value);
-                } 
-            }
-        }
-        return disponible;
-    }
-    private Token Select_Play(List<int> disponible){
-        (int,int) aux = (0,0);
-        for(int i = 0; i < disponible.Count; i++) {
-            if(InHand[disponible[i]] > aux.Item2){
-                aux = (disponible[i], InHand[disponible[i]]);
-            }
-        }
-        Token auxtoken;
-        (int,int) aux2 = (0,0);
-        for(int i = 0; i < hand.Count; i++){
-            if(hand[i][1].Value == aux.Item1 && hand[i][0].Value > aux2.Item2){
-                aux2 = (i,hand[i][0].Value);
-            }
-            else if(hand[i][0].Value == aux.Item1 && hand[i][1].Value > aux2.Item2){
-                aux2 = (i,hand[i][1].Value);
-            }
-        }
-        auxtoken = hand[aux2.Item1];
-        hand.RemoveAt(aux2.Item1);
-        return auxtoken;
-    }
-    private bool Can_Play(List<int> disponible){
-        for(int i = 0; i < disponible.Count; i++){
-            if(InHand[disponible[i]] != 0) return true;
-        }
-        return false;
     }
 }

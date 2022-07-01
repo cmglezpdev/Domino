@@ -5,7 +5,7 @@ public class Data {
     public Player[] Players = new Player[] {
         new RandomPlayer(),
         new BotaGordaPlayer(),
-        new IntelligentPlayer(),
+        new HeuristicPlayer(),
     };
     public IBoard[] Boards = new IBoard[] {
         new UnidimensionalBoard(),
