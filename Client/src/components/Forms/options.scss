@@ -12,6 +12,17 @@
         color: $primary-color;
     }
 
+
+    .buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 5px;
+    }
+
+
+
+
+
     &__selected-option {
         margin-bottom: 30px;
     
@@ -62,3 +73,7 @@
 
 
 
+.hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}

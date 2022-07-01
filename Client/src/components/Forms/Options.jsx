@@ -2,15 +2,20 @@ import React, { useContext, useEffect, useState } from 'react';
 import { BASE_URL } from '../../helpers/api.js';
 import { DataOptions } from './DataOptions.jsx';
 import './options.scss';
-import { Button, Input } from 'semantic-ui-react';
+import { Button, Input, Progress } from 'semantic-ui-react';
 import { SettingsContext } from '../../helpers/SettingsContext.js';
 import { toast } from 'react-toastify';
 
 export const Options = () => {
 
+    const [progress, setProgress] = useState({
+        percent: 0,
+        option: 0
+    });
+    
     const [settings, setSettings] = useState([]);
     const context = useContext(SettingsContext);
-    const [optionsNumbers, setOptionsNumbers] = useState({
+    const [optionsNumbers] = useState({
         maxIdTokens: 4,
         countPlayer: 2,
         countTokensByPlayer: 2
@@ -20,6 +25,7 @@ export const Options = () => {
         fetch( `${BASE_URL}/loader` )
             .then( response => response.json())
             .then( data => {
+                console.log(data.options);
                 setSettings(
                     data.options
                 ); 
@@ -51,10 +57,68 @@ export const Options = () => {
     }
         
 
+    const handleEvaluate = ( e ) => {
+        
+        const text = e.target.innerText; 
+
+        if(text == "Anterior") {
+            setProgress({
+                percent : 100 / settings.length * (progress.option + 1),
+                option: progress.option - 1
+            })
+            // return;
+        }
+        else
+        if(text == "Siguiente" ) {
+            // if( context[settings.id] !== null ) {
+                setProgress({
+                    percent : 100 / settings.length * (progress.option + 1),
+                    option: progress.option + 1
+                })
+            // }
+            // return;
+        }
+
+        console.log(progress);
+    }
+
+
     return (
         <div className='container'>
-            <h1>Seleccionar el tipo de juego</h1>
             
+            
+            <h1>Seleccionar el tipo de juego</h1>
+            <Progress percent={progress.percent} precision />
+            
+            {
+                settings.length !== 0 && 
+                (<DataOptions 
+                    titleOption={settings[progress.option].titleOption}
+                    nameOptions={settings[progress.option].nameOptions}
+                    id={settings[progress.option].id}
+                />)
+            }
+
+            <div className='buttons'>
+                <Button
+                    onClick={handleEvaluate}
+                    color={'green'}
+                    className={`btn-prev ${progress.option === 0 ? 'hidden' : ''}`}
+                >
+                    Anterior
+                </Button>
+                
+                <Button
+                    onClick={handleEvaluate}
+                    color={'green'}
+                    className={`btn-next ${progress.option === settings.length ? 'hidden' : ''}`}
+                >
+                    Siguiente
+                </Button>
+            </div>
+
+
+{/* 
             {
                 settings.map(({ titleOption, id, nameOptions }) => {
                     return (
@@ -68,6 +132,8 @@ export const Options = () => {
                 })
             }
             
+
+
             <div className='data-numbers'>
                 <Input 
                     label="Id max Fichas"
@@ -110,14 +176,16 @@ export const Options = () => {
                                 })
                         }
                 />
-            </div>
+            </div> */}
 
-            <Button
+
+
+            {/* <Button
                 className='container__button-game'
                 onClick={handleStartGame}
             >
                 Jugar
-            </Button>
+            </Button> */}
         </div>
     )
 
