@@ -38,7 +38,7 @@ export const Board = ({ currentPlay }) => {
           const token = tokens[i][j];
           if( token == null ) continue;
           
-          const direction = getDirection(board, i, j);
+          const direction = getDirection(tokens, i, j);
 
           board.push(
               <Token
@@ -59,9 +59,20 @@ export const Board = ({ currentPlay }) => {
       return board;
   }
 
-  const getDirection = (board, x, y) => {
+  const getDirection = (tokens, i, j) => {
+      const token = tokens[i][j];
+      const height = tokens.length;
+      const width = tokens[0].length;
 
+      let direction = (token.left == token.right) ? "vertical" : "horizontal";
+            
+      if( ( i - 1 >= 0 && tokens[i - 1][j] != null) || (i + 1 < height && tokens[i + 1][j] != null) )
+        direction  = ( token.left != token.right ) ? "vertical" : "horizontal";
+      
+      if( (j - 1 >= 0 && tokens[i][j - 1] != null) || (j + 1 < width && tokens[i][j + 1] != null) )
+        direction  = ( token.left != token.right ) ? "horizontal" : "vertical";
 
+    return direction;
   }
 
 
