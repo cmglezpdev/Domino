@@ -29,9 +29,20 @@ public class RareEquivalence : IMatch
         return false;
     }
 
-    public int[] WhichFacePlay(Token token1, Token token2)
+    public int[] WhichFacePlay(Token token1, Token? token2)
     {
         List<int> aviableFaces1 = new List<int>();
+        
+        if( token2 == null ) {
+            for(int i = 0; i < token1.Faces.Length; i++) {
+                if( !token1.Faces[i].Played ) {
+                    aviableFaces1.Add(i);
+                }
+            }
+
+            return aviableFaces1.ToArray();
+        }
+     
         if( ValidateMatch(token1, 0, token2, 0) || ValidateMatch(token1, 0, token2, 1) ) aviableFaces1.Add(0);
         if( ValidateMatch(token1, 1, token2, 0) || ValidateMatch(token1, 1, token2, 1) ) aviableFaces1.Add(1);
     

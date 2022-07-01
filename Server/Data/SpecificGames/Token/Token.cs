@@ -31,6 +31,14 @@ public class Token {
         }
     }
 
+    public virtual InfoFace[] Faces{
+        get{
+            return new InfoFace[]{
+                this.Left,
+                this.Right
+            };
+        }
+    }
 
     public int Value => this.CalculateValue.Value(this);
     public virtual void Played (int face, int valueFace) {
@@ -72,8 +80,6 @@ public class Token {
 
         this.Right = aux.Clone();
     }
-
-
     public virtual Token Clone() {
         Token CloneT = new Token(this.Left.Value, this.Right.Value, this.CalculateValue);
         CloneT.Left = this.Left.Clone();
