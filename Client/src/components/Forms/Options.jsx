@@ -12,11 +12,6 @@ export const Options = () => {
     
     const [settings, setSettings] = useState([]);
     const context = useContext(SettingsContext);
-    const [optionsNumbers] = useState({
-        maxIdTokens: 4,
-        countPlayer: 2,
-        countTokensByPlayer: 2
-    });
 
     useEffect(() => {
         fetch( `${BASE_URL}/loader` )
@@ -48,7 +43,9 @@ export const Options = () => {
 
         context.setSettings({
             ...context.settings,
-            ...optionsNumbers,
+            maxIdTokens: 4,
+            countPlayer: 2,
+            countTokensByPlayer: 2,
             done: true
         });
     }
@@ -111,6 +108,7 @@ export const Options = () => {
                     {progress === settings.length - 1 ? 'Jugar' : 'Siguiente'}
                 </Button>
             </div>
+
             {
                 JSON.stringify(progress, null, 3)
             }
