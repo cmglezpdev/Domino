@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Dropdown } from 'semantic-ui-react';
 import { SettingsContext } from '../../helpers/SettingsContext';
 
-export const DataOptions = ({ titleOption, nameOptions, id }) => {
+export const DataOptions = ({ titleOption, nameOptions, id, value }) => {
 
     const { settings, setSettings } = useContext( SettingsContext );
     const TypeOptions = GetTypeOptions(nameOptions);
@@ -24,6 +24,7 @@ export const DataOptions = ({ titleOption, nameOptions, id }) => {
                 selection
                 options={ TypeOptions }
                 onChange={handleChange}
+                value={value}
             />
         </div>
     )

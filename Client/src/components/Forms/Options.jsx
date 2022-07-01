@@ -8,10 +8,7 @@ import { toast } from 'react-toastify';
 
 export const Options = () => {
 
-    const [progress, setProgress] = useState({
-        percent: 0,
-        option: 0
-    });
+    const [progress, setProgress] = useState(0);
     
     const [settings, setSettings] = useState([]);
     const context = useContext(SettingsContext);
@@ -62,24 +59,19 @@ export const Options = () => {
         const text = e.target.innerText; 
 
         if(text == "Anterior") {
-            setProgress({
-                percent : 100 / settings.length * (progress.option + 1),
-                option: progress.option - 1
-            })
+            setProgress(progress - 1)
             // return;
         }
         else
         if(text == "Siguiente" ) {
-            // if( context[settings.id] !== null ) {
-                setProgress({
-                    percent : 100 / settings.length * (progress.option + 1),
-                    option: progress.option + 1
-                })
+            // console.log(context.settings[settings[progress].id])
+            // if( context.settings[settings[progress].id] !== undefined ) {
+                setProgress(progress + 1)
             // }
-            // return;
+            return;
         }
 
-        console.log(progress);
+        // console.log(progress);
     }
 
 
@@ -88,14 +80,16 @@ export const Options = () => {
             
             
             <h1>Seleccionar el tipo de juego</h1>
-            <Progress percent={progress.percent} precision />
+            <Progress percent={100 / (settings.length - 1) * progress} precision />
             
             {
                 settings.length !== 0 && 
                 (<DataOptions 
-                    titleOption={settings[progress.option].titleOption}
-                    nameOptions={settings[progress.option].nameOptions}
-                    id={settings[progress.option].id}
+                    key={settings[progress].id}
+                    titleOption={settings[progress].titleOption}
+                    nameOptions={settings[progress].nameOptions}
+                    id={settings[progress].id}
+                    value={ context.settings[ settings[progress]?.id ] }
                 />)
             }
 
@@ -103,7 +97,7 @@ export const Options = () => {
                 <Button
                     onClick={handleEvaluate}
                     color={'green'}
-                    className={`btn-prev ${progress.option === 0 ? 'hidden' : ''}`}
+                    className={`btn-prev ${progress === 0 ? 'hidden' : ''}`}
                 >
                     Anterior
                 </Button>
@@ -111,12 +105,15 @@ export const Options = () => {
                 <Button
                     onClick={handleEvaluate}
                     color={'green'}
-                    className={`btn-next ${progress.option === settings.length ? 'hidden' : ''}`}
+                    className={`btn-next`}
+                    disabled={ context.settings[ settings[progress]?.id ] === undefined }
                 >
-                    Siguiente
+                    {progress === settings.length - 1 ? 'Jugar' : 'Siguiente'}
                 </Button>
             </div>
-
+            {
+                JSON.stringify(progress, null, 3)
+            }
 
 {/* 
             {
