@@ -9,6 +9,58 @@ public class InterfaceOfOptions {
         this.options = new GeneralOptions() {
             Options = new ChangeOptions[]{
                 new ChangeOptions() {
+                    titleOption = "Cuandos jugadores son",
+                    id = "countPlayers",
+                    nameOptions = new string[]{
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        "6",
+                        "7",
+                        "8",
+                        "9",
+                        "10"
+                    }
+                },
+                new ChangeOptions() {
+                    titleOption = "Maximo Id de la fichas",
+                    id = "maxIdTokens",
+                    nameOptions = new string[]{
+                        "3",
+                        "4",
+                        "5",
+                        "6",
+                        "7",
+                        "8",
+                        "9",
+                    }
+                },
+                new ChangeOptions() {
+                    titleOption = "Cantidad de Fichas por jugador",
+                    id = "countTokens",
+                    nameOptions = new string[]{
+                        "3",
+                        "4",
+                        "5",
+                        "6",
+                        "7",
+                        "8",
+                        "9",
+                        "10",
+                        "11",
+                        "12",
+                        "13",
+                        "14",
+                        "15",
+                        "16",
+                        "17",
+                        "18",
+                        "19",
+                        "20",
+                    }
+                },
+                new ChangeOptions() {
                     titleOption = "Selecciona el tipo de Jugador",
                     id = "player",
                     nameOptions = new string[] {

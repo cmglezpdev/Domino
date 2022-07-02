@@ -2,6 +2,47 @@ namespace Server.Data;
 using Server.Data.Interfaces;
 using Server.Data.Classes;
 public class Data {
+
+    public int[] countPlayers = new int[] {
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+    };
+    public int[] maxIdTokens = new int[] {
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+    };
+    public int[] countTokens = new int[] {
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+    };
     public Player[] Players = new Player[] {
         new RandomPlayer(),
         new BotaGordaPlayer(),

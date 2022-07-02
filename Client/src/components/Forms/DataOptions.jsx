@@ -2,113 +2,70 @@ import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, Input } from 'semantic-ui-react';
 import { SettingsContext } from '../../helpers/SettingsContext';
+import generateId from '../../helpers/generateIds';
 
-export const DataOptions = ({ titleOption, nameOptions, id, value }) => {
+export const DataOptions = ({ titleOption, nameOptions, id, value, GetOptions }) => {
 
     const { settings, setSettings } = useContext( SettingsContext );
     const TypeOptions = GetTypeOptions(nameOptions);
-    const [optionsNumbers, setOptionsNumbers] = useState({
-        maxIdTokens: 4,
-        countPlayer: 2,
-        countTokensByPlayer: 2
-    });
-
-
-
+    
     const handleChange = (e, result) => {
+
         setSettings({
             ...settings,
-            [id]: result.value
+            [id]: result.value,
         });
     }
 
     useEffect(() => {
-   
-    })
+        console.log(settings);
+    }, [])
 
+    // devuelve un array de 0, 1, .... , length
+    const getArrayPlayers = (length) => Array.from({length : length}, (v, i) => i);
 
     return (
         
         <div className='container__selected-option'>
             <h3>{ titleOption }</h3>
-
             {
-            id == 'player' ? (
-                <>
-                    <div className='data-numbers'>
-                        <Input 
-                            label="Id max Fichas"
-                            type='number'
-                            value={optionsNumbers.maxIdTokens}
-                            min={4}
-                            max={9}
-                            onChange={
-                                (e) => setOptionsNumbers({
-                                            ...optionsNumbers,
-                                            maxIdTokens: parseInt(e.target.value) 
-                                        })
-                                }
-                        />
+            // Si son las opciones de los jugadores, mostrar las opciones por jugador
+                id === "player" ? 
+                // Mostrar los diferentes jugadores
+                    getArrayPlayers( parseInt(GetOptions("countPlayers")[settings.countPlayers]) ).map(player => {
+                        return (
+                            <>
+                                <h4>Jugador {player}</h4>
+                                <Dropdown
+                                    placeholder='Seleccionar'
+                                    fluid
+                                    selection
+                                    options={TypeOptions}
+                                    onChange={handleChange}
+                                    key={generateId()}
+                                    // value={ settings[player] }
+                                />
+                            </>
+                        )
+                    })
+                :
+                (<Dropdown
+                    placeholder='Selecciona una opcion'
+                    fluid
+                    selection
+                    options={ TypeOptions }
+                    onChange={handleChange}
+                    value={value}
+                />)
 
-                        <Input 
-                            label="Cantidad de jugadores"
-                            type='number'
-                            value={optionsNumbers.countPlayer}
-                            min={2}
-                            // max={10}
-                            onChange={
-                                (e) => setOptionsNumbers({
-                                            ...optionsNumbers,
-                                            countPlayer: parseInt(e.target.value) 
-                                        })
-                                }
-                        />
-
-                        <Input 
-                            label="Fichas por jugador"
-                            type='number'
-                            value={optionsNumbers.countTokensByPlayer}
-                            min={2}
-                            // max={10}
-                            onChange={
-                                (e) => setOptionsNumbers({
-                                            ...optionsNumbers,
-                                            countTokensByPlayer: parseInt(e.target.value) 
-                                        })
-                                }
-                        /> 
-                    </div>
-
-                    {
-                        optionsNumbers.countPlayer.map(indexPlayer => {
-                           return  <Dropdown
-                                placeholder={`Tipo de jugador ${indexPlayer}`}
-                                fluid
-                                selection
-                                options={ TypeOptions }
-                                onChange={handleChange}
-                                value={value}
-                            />
-                        })
-                    }
-                </>
-
-
-
-
-            ) : (<Dropdown
-                placeholder='Selecciona una opcion'
-                fluid
-                selection
-                options={ TypeOptions }
-                onChange={handleChange}
-                value={value}
-            />)
             }
-        </div>
 
+        </div>
     )
 }
+
+
+
 
 DataOptions.prototype = {
     titleOption: PropTypes.string.isRequired,

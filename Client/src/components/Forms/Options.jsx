@@ -5,15 +5,16 @@ import './options.scss';
 import { Button, Input, Progress } from 'semantic-ui-react';
 import { SettingsContext } from '../../helpers/SettingsContext.js';
 import { toast } from 'react-toastify';
+import generateId from '../../helpers/generateIds.js';
 
 export const Options = () => {
 
     const [progress, setProgress] = useState(0);
-    
     const [settings, setSettings] = useState([]);
     const context = useContext(SettingsContext);
 
     useEffect(() => {
+        // Se realiza la peticion al servidor de los tipos de juego que quiere mostrar
         fetch( `${BASE_URL}/loader` )
             .then( response => response.json())
             .then( data => {
@@ -24,6 +25,7 @@ export const Options = () => {
             });
     }, []);
     
+    // Metodo que se ejecuta al dar play al juego
     const handleStartGame = () => {
         // Comprobar si se llenaron todos los campos
         const len = Object.keys( context.settings ).length - 1; // le resto las 3 de los numeros
@@ -50,7 +52,7 @@ export const Options = () => {
         });
     }
         
-
+    // Antes de pasar a seleccionar otra opcion se verifica que se selecciono alguna opcion en la actual
     const handleEvaluate = ( e ) => {
         
         const text = e.target.innerText; 
@@ -71,30 +73,47 @@ export const Options = () => {
         // console.log(progress);
     }
 
+    // Devolver las opciones de un id especifico
+    const GetOptions = (id) => {
+        const opt = settings.filter(option => option.id === id);
+        console.log(opt);
+        return opt[0].nameOptions || [];
+    }
 
     return (
         <div className='container'>
-            
-            
+                    
             <h1>Seleccionar el tipo de juego</h1>
             <Progress percent={100 / (settings.length - 1) * progress} precision />
             
             {
-                settings.length !== 0 && 
-                (<DataOptions 
-                    key={settings[progress].id}
-                    titleOption={settings[progress].titleOption}
-                    nameOptions={settings[progress].nameOptions}
-                    id={settings[progress].id}
-                    value={ context.settings[ settings[progress]?.id ] }
-                />)
+                // Si ya se cargaron las opciones del juego
+                settings.length !== 0 && (
+                   <DataOptions 
+                        key={generateId()}
+                        titleOption={settings[progress].titleOption}
+                        nameOptions={settings[progress].nameOptions}
+                        id={settings[progress].id}
+                        GetOptions={GetOptions}
+                        value={ context.settings[ settings[progress]?.id ] }
+                    />
+                )
             }
 
+
+
+
+
+
+
+
+
+            {/* Botones para avanzar o retroceder en las opciones */}
             <div className='buttons'>
                 <Button
                     onClick={handleEvaluate}
                     color={'green'}
-                    className={`btn-prev ${progress === 0 ? 'hidden' : ''}`}
+                    className={`btn-prev ${progress === 0 ? 'hidden' : ''}`} // oCultarlo cuando sea la primera opcion
                 >
                     Anterior
                 </Button>
@@ -103,84 +122,21 @@ export const Options = () => {
                     onClick={handleEvaluate}
                     color={'green'}
                     className={`btn-next`}
-                    disabled={ context.settings[ settings[progress]?.id ] === undefined }
+                    disabled={ context.settings[ settings[progress]?.id ] === undefined } // Deshabilitar el boton cuando no se selecciono nada
                 >
-                    {progress === settings.length - 1 ? 'Jugar' : 'Siguiente'}
+                    {progress === settings.length - 1 ? 'Jugar' : 'Siguiente'} 
                 </Button>
             </div>
+
+
+
+
+
 
             {
                 JSON.stringify(progress, null, 3)
             }
 
-{/* 
-            {
-                settings.map(({ titleOption, id, nameOptions }) => {
-                    return (
-                        <DataOptions 
-                            key={id}
-                            titleOption={titleOption} 
-                            nameOptions={nameOptions}
-                            id={id}
-                        />
-                    )
-                })
-            }
-            
-
-
-            <div className='data-numbers'>
-                <Input 
-                    label="Id max Fichas"
-                    type='number'
-                    value={optionsNumbers.maxIdTokens}
-                    min={4}
-                    max={9}
-                    onChange={
-                        (e) => setOptionsNumbers({
-                                    ...optionsNumbers,
-                                    maxIdTokens: parseInt(e.target.value) 
-                                })
-                        }
-                />
-
-                <Input 
-                    label="Cantidad de jugadores"
-                    type='number'
-                    value={optionsNumbers.countPlayer}
-                    min={2}
-                    // max={10}
-                    onChange={
-                        (e) => setOptionsNumbers({
-                                    ...optionsNumbers,
-                                    countPlayer: parseInt(e.target.value) 
-                                })
-                        }
-                />
-
-                <Input 
-                    label="Fichas por jugador"
-                    type='number'
-                    value={optionsNumbers.countTokensByPlayer}
-                    min={2}
-                    // max={10}
-                    onChange={
-                        (e) => setOptionsNumbers({
-                                    ...optionsNumbers,
-                                    countTokensByPlayer: parseInt(e.target.value) 
-                                })
-                        }
-                />
-            </div> */}
-
-
-
-            {/* <Button
-                className='container__button-game'
-                onClick={handleStartGame}
-            >
-                Jugar
-            </Button> */}
         </div>
     )
 
