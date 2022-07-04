@@ -18,7 +18,7 @@ export const Options = () => {
         fetch( `${BASE_URL}/loader` )
             .then( response => response.json())
             .then( data => {
-                console.log(data.options);
+                // console.log(data.options);
                 setSettings(
                     data.options
                 ); 
@@ -70,7 +70,6 @@ export const Options = () => {
             return;
         }
 
-        // console.log(progress);
     }
 
     // Devolver las opciones de un id especifico
@@ -79,6 +78,15 @@ export const Options = () => {
         console.log(opt);
         return opt[0].nameOptions || [];
     }
+
+    const selectedAllPlayers = () => {
+        for(let i = 0; i < context.settings.countPlayers; i ++) {
+            console.log(context.settings);
+            if( context.settings[`player_${i}`] == undefined ) return false;
+        }
+        return true;
+    }
+
 
     return (
         <div className='container'>
@@ -100,20 +108,12 @@ export const Options = () => {
                 )
             }
 
-
-
-
-
-
-
-
-
             {/* Botones para avanzar o retroceder en las opciones */}
             <div className='buttons'>
                 <Button
                     onClick={handleEvaluate}
                     color={'green'}
-                    className={`btn-prev ${progress === 0 ? 'hidden' : ''}`} // oCultarlo cuando sea la primera opcion
+                    className={`btn-prev ${progress === 0 ? 'hidden' : ''}`} // ocultarlo cuando sea la primera opcion
                 >
                     Anterior
                 </Button>
@@ -122,20 +122,20 @@ export const Options = () => {
                     onClick={handleEvaluate}
                     color={'green'}
                     className={`btn-next`}
-                    disabled={ context.settings[ settings[progress]?.id ] === undefined } // Deshabilitar el boton cuando no se selecciono nada
+                    disabled={ 
+                        ( settings[progress]?.id ) ? 
+                            context.settings[ settings[progress]?.id ] === undefined :
+                            !selectedAllPlayers() 
+                    } // Deshabilitar el boton cuando no se selecciono nada
                 >
                     {progress === settings.length - 1 ? 'Jugar' : 'Siguiente'} 
                 </Button>
             </div>
 
-
-
-
-
-
             {
-                JSON.stringify(progress, null, 3)
+                JSON.stringify(context.settings, null, 6)
             }
+
 
         </div>
     )
