@@ -9,21 +9,6 @@ public class InterfaceOfOptions {
         this.options = new GeneralOptions() {
             Options = new ChangeOptions[]{
                 new ChangeOptions() {
-                    titleOption = "Cuandos jugadores son",
-                    id = "countPlayers",
-                    nameOptions = new string[]{
-                        "2",
-                        "3",
-                        "4",
-                        "5",
-                        "6",
-                        "7",
-                        "8",
-                        "9",
-                        "10"
-                    }
-                },
-                new ChangeOptions() {
                     titleOption = "Maximo Id de la fichas",
                     id = "maxIdTokens",
                     nameOptions = new string[]{
@@ -58,6 +43,21 @@ public class InterfaceOfOptions {
                         "18",
                         "19",
                         "20",
+                    }
+                },
+                new ChangeOptions() {
+                    titleOption = "Cuandos jugadores son",
+                    id = "countPlayers",
+                    nameOptions = new string[]{
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        "6",
+                        "7",
+                        "8",
+                        "9",
+                        "10"
                     }
                 },
                 new ChangeOptions() {
