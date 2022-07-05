@@ -44,7 +44,7 @@ export const Information = ({ open, setOpen }) => {
         onClose={() => setOpen(false)}
         // onOpen={() => setOpen(true)}
       >
-        <Modal.Header>Profile Picture</Modal.Header>
+        <Modal.Header>Game Information</Modal.Header>
         <Modal.Content scrolling className='information-game'>
             {
                 Object.keys(settings).map( (option, index) => {
@@ -78,7 +78,7 @@ export const Information = ({ open, setOpen }) => {
         </Modal.Content>
         <Modal.Actions>
           <Button onClick={() => setOpen(false)} primary>
-            Ok
+            OK
           </Button>
         </Modal.Actions>
       </Modal>
