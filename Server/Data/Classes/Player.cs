@@ -5,6 +5,7 @@ using Server.Data.Interfaces;
 public abstract class Player {
     protected (int, string) ID; // id number, player name
     int count = 0; 
+    protected int points = 0;
 
     public (int, string) IDPlayer {
         get{return this.ID;}
@@ -25,6 +26,6 @@ public abstract class Player {
     // }
 
     public abstract Player Clone();
-    //public abstract int points {get;}
+    public abstract int Points {get; set;}
     public abstract bool PlayToken( IBoard board, Token[] hand);
 }

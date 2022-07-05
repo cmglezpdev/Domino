@@ -24,6 +24,13 @@ public class Refery {
         }
         return aux;
     }
+    public void count(){
+
+        for(int i = 0; i < players.Length; i++){
+            players[i].Count = hands[i].Count;
+            players[i].Points = points(players[i].IDPlayer.Item1);
+        }
+    }
     public int points(int indexplayer) {
         int total = 0;
         for( int i = 0; i < players.Length; i++ ) {

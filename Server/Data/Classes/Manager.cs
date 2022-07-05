@@ -54,6 +54,7 @@ public class Manager {
         int idxCurrentPlayer = this.nextPlayer.NextPlayer( this.players );
         System.Console.WriteLine(idxCurrentPlayer);
         bool ToPlay = this.refery.Play(this.players[idxCurrentPlayer]);
+        refery.count();
         
         // Actualizar las propiedades staticas
         Manager.CountTokenByPlayers[ idxCurrentPlayer ] -= ( ToPlay ? 1 : 0 );

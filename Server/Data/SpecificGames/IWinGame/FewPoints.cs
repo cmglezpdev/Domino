@@ -5,7 +5,7 @@ public class FewPoints : IWinGame {
         List< Player > winners = new List<Player>();
         foreach( var ply in players ) winners.Add(ply);
 
-        winners.Sort((a, b) => ( a.points < b.points ) ? -1 : (a.points > b.points) ? 1 : 0 );
+        winners.Sort((a, b) => ( a.Points < b.Points ) ? -1 : (a.Points > b.Points) ? 1 : 0 );
 
         return winners;
     }
