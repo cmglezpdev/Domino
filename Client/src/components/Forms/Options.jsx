@@ -6,6 +6,7 @@ import { Button, Input, Progress } from 'semantic-ui-react';
 import { SettingsContext } from '../../helpers/SettingsContext.js';
 import { toast } from 'react-toastify';
 import generateId from '../../helpers/generateIds.js';
+import { Selected } from './Selected.jsx';
 
 export const Options = () => {
 
@@ -18,7 +19,6 @@ export const Options = () => {
         fetch( `${BASE_URL}/loader` )
             .then( response => response.json())
             .then( data => {
-                // console.log(data.options);
                 setSettings(
                     data.options
                 ); 
@@ -121,9 +121,11 @@ export const Options = () => {
                 </Button>
             </div>
 
-            {
+            <Selected InfoOptions={settings} />
+            
+            {/* {
                 JSON.stringify(context.settings, null, 6)
-            }
+            } */}
 
 
         </div>
