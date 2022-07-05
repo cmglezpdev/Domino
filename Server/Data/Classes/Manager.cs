@@ -13,6 +13,7 @@ public class Manager {
     IFinishGame finishGame;
     IWinGame winnersGame;
     INextPlayer nextPlayer;
+    Refery refery;
 
     public Manager( IEnumerable<Player> players, IBoard board, 
                     IDistributeTokens distributeTokens, IFinishGame finishGame, 
@@ -23,6 +24,7 @@ public class Manager {
         this.finishGame = finishGame;
         this.winnersGame = winnersGame;
         this.nextPlayer = nextPlayer;
+        this.refery = new Refery(board);
         
         List<Player> ply = new List<Player>();
         foreach( var pl in players ) ply.Add(pl);
@@ -41,7 +43,8 @@ public class Manager {
         Manager.MaxIdOfToken = MaxIdOfToken;
         this.board.SetMatcher(matcher);
         List<Token> bTokens = this.board.BuildTokens( MaxIdOfToken, CalculateValue );
-        this.players = this.distributeTokens.DistributeTokens(bTokens, this.players.ToArray(), countTokens);
+        List<Token>[] htokens = this.distributeTokens.DistributeTokens(bTokens,this.players.Length, countTokens);
+        this.refery.MakeTokens(htokens, this.players);
         return this.players;
     }
     
@@ -50,7 +53,7 @@ public class Manager {
 
         int idxCurrentPlayer = this.nextPlayer.NextPlayer( this.players );
         System.Console.WriteLine(idxCurrentPlayer);
-        bool ToPlay = this.players[idxCurrentPlayer].PlayToken( this.board );
+        bool ToPlay = this.refery.Play(this.players[idxCurrentPlayer]);
         
         // Actualizar las propiedades staticas
         Manager.CountTokenByPlayers[ idxCurrentPlayer ] -= ( ToPlay ? 1 : 0 );
@@ -62,7 +65,7 @@ public class Manager {
         PlayInfo CurrInfo = new PlayInfo() {
             Players = Game.PlayersForJson(this.players),
             CurrentPlayer = idxCurrentPlayer,
-            points = this.players[ idxCurrentPlayer ].points,
+            points = this.refery.points(idxCurrentPlayer),
             Passed = !ToPlay,
             TokensInBoard = Game.TokensInBoardJson( this.board.TokensInBoard ),
             FinishGame = this.finishGame.FinishGame( this.board, this.players ),

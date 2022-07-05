@@ -2,10 +2,10 @@ namespace Server.Data.Classes;
 using Server.Data.Interfaces;
 
 public class AllforOneDistribution : IDistributeTokens {
-    public Player[] DistributeTokens( List<Token> tokens, Player[] players, int countTokens ) {
+    public List<Token>[] DistributeTokens( List<Token> tokens,int playerofnumber, int countTokens ) {
         Random r = new Random();
         
-        int[] playerindex = new int[players.Length];
+        int[] playerindex = new int[playerofnumber];
         for(int i = 0; i < playerindex.Length; i++){
             playerindex[i] = i;
         }
@@ -21,7 +21,7 @@ public class AllforOneDistribution : IDistributeTokens {
         bool[] mask = new bool[IntMax];
         List<List<Token>> hands = new List<List<Token>>();
         
-        for(int i = 0; i < players.Length; i++){
+        for(int i = 0; i < playerofnumber; i++){
             List<Token> aux = new List<Token>();
             int auxI = r.Next(0,IntMax);
             while(mask[auxI]){
@@ -43,8 +43,7 @@ public class AllforOneDistribution : IDistributeTokens {
                 hands[i].Add(tokens[aux2]);
                 tokens.RemoveAt(aux2);   
                 }
-            players[playerindex[i]].MakeTokens(hands[i]);
         } 
-        return players;
+        return hands.ToArray();
     }
 }

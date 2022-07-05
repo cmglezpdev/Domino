@@ -3,27 +3,28 @@ using Server.Data.Interfaces;
 
 // *Jugador que realiza jugadas de forma random
 public abstract class Player {
-    protected List< Token > hand = new List<Token>();
     protected (int, string) ID; // id number, player name
+    int count = 0; 
 
     public (int, string) IDPlayer {
         get{return this.ID;}
         set{this.ID = value;}
     }
-    public virtual void MakeTokens( IEnumerable< Token > tokens ) {
-        foreach(Token item in tokens){
-            hand.Add(item);
-        }
-    }    
+    // public virtual void MakeTokens( IEnumerable< Token > tokens ) {
+    //     foreach(Token item in tokens){
+    //         hand.Add(item);
+    //     }
+    // }    
     public virtual int Count {
-        get { return hand.Count; }
+        get { return count; }
+        set { count = value; }
     }
 
-    public virtual IEnumerable<Token> Hand {
-        get{ return this.hand; }
-    }
+    // public virtual IEnumerable<Token> Hand {
+    //     get{ return this.hand; }
+    // }
 
     public abstract Player Clone();
-    public abstract int points {get;}
-    public abstract bool PlayToken( IBoard board );
+    //public abstract int points {get;}
+    public abstract bool PlayToken( IBoard board, Token[] hand);
 }
