@@ -54,6 +54,7 @@ export const Game = () => {
   }
 
   useEffect(() => {
+    console.log(settings);
     handleStartGame();
   }, [] );
 

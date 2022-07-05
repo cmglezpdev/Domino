@@ -12,10 +12,25 @@
         color: $primary-color;
     }
 
+
+    .buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 5px;
+    }
+
+
+
+
+
     &__selected-option {
         margin-bottom: 30px;
-    
+        
         h3 {
+            text-align: center;
+        }
+
+        h4 {
             text-align: center;
         }
 
@@ -62,3 +77,7 @@
 
 
 
+.hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
