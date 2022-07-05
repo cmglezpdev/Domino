@@ -9,6 +9,7 @@ import { BASE_URL } from '../../helpers/api.js';
 import getBackground from '../../helpers/backgroundBoard';
 
 import './game.scss';
+import { Information } from '../Information';
 
 export const Game = () => {
   
@@ -93,6 +94,8 @@ export const Game = () => {
           handleStartGame();
         } }
       />
+
+        <Information />
 
 
       {/* Muestra las fuchas del tablero */}
