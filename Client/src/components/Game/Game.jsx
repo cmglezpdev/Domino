@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Confirm } from 'semantic-ui-react'
+import { Confirm, Icon } from 'semantic-ui-react'
 import { Board } from './Board/Board';
 import { MessageGame } from './MessageGame/MessageGame';
 import { PlayerTokens } from './PlayerTokens/PlayerTokens';
@@ -70,15 +70,21 @@ export const Game = () => {
         background: `url(${background})`
       }}
     >
-      <button 
-        className="change-background"
-        onClick={() => {
-          setBackground( getBackground() );
-        }}
-      > 
-        background
-      </button>
-
+      <div className="controls">
+        <button 
+          className="change-background"
+          onClick={() => {
+            setBackground( getBackground() );
+          }}
+        > 
+          background
+        </button>
+          {/* <Icon
+            name='info circle'
+            className='info-icon'
+        /> */}
+      </div>
+  
       <Confirm
         open={open}
         onCancel={ () => setOpen(false) }

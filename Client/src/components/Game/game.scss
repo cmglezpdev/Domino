@@ -4,23 +4,36 @@
     // border: 1px solid red;
     background-image: cover;
 
-    .change-background {
+    .controls {
         position: fixed;
         right: 20px;
-        border-radius: 10px;
-        border-color: rgb(29, 127, 151);
-        padding: 5px;
-        background-color: rgb(29, 127, 151);
-        color: #bbb;
-        font-weight: bold;
-        text-transform: uppercase;
-        margin: 5px;
         z-index: 100;
+        
+        .change-background {
+            border-radius: 10px;
+            padding: 5px;
+            border-color: rgb(29, 127, 151);
+            background-color: rgb(29, 127, 151);
+            color: #bbb;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin: 5px 10px ;
+    
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+    
+        .info.circle.icon.info-icon {
+            color: white;
+            font-size: 20px;
 
-        &:hover {
-            transform: scale(1.1);
+            &:hover {
+                transform: scale(1.3);
+            }
         }
     }
+
 
 }
 
