@@ -27,13 +27,7 @@ export const Options = () => {
     
     // Metodo que se ejecuta al dar play al juego
     const handleStartGame = () => {
-        // Comprobar si se llenaron todos los campos
-        const len = Object.keys( context.settings ).length - 1; // le resto las 3 de los numeros
-        if( len !== settings.length ) {
-            toast.error("Por favor, seleccione todos los campos");
-            return;
-        } 
-        
+  
         // Comprobar si la seleccion de la cant fichas, judaores y id esta bien
         const cantTokens = context.settings.maxIdTokens * (context.settings.maxIdTokens + 1) / 2;
         const maxCountTokensbyPlayers = Math.floor( cantTokens / context.settings.countPlayer );
@@ -45,9 +39,6 @@ export const Options = () => {
 
         context.setSettings({
             ...context.settings,
-            maxIdTokens: 4,
-            countPlayer: 2,
-            countTokensByPlayer: 2,
             done: true
         });
     }
@@ -59,23 +50,21 @@ export const Options = () => {
 
         if(text == "Anterior") {
             setProgress(progress - 1)
-            // return;
-        }
-        else
-        if(text == "Siguiente" ) {
-            // console.log(context.settings[settings[progress].id])
-            // if( context.settings[settings[progress].id] !== undefined ) {
-                setProgress(progress + 1)
-            // }
             return;
         }
 
+        if(text == "Siguiente" ) {
+            setProgress(progress + 1)
+            return;
+        }
+
+        // Play
+        handleStartGame();
     }
 
     // Devolver las opciones de un id especifico
     const GetOptions = (id) => {
         const opt = settings.filter(option => option.id === id);
-        console.log(opt);
         return opt[0].nameOptions || [];
     }
 

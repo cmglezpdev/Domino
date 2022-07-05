@@ -4,6 +4,7 @@ import { Dropdown, Input } from 'semantic-ui-react';
 import { SettingsContext } from '../../helpers/SettingsContext';
 import generateId from '../../helpers/generateIds';
 import { namesPlayers } from '../../helpers/dataPlayers';
+import { toast } from 'react-toastify';
 
 export const DataOptions = ({ titleOption, nameOptions, id, value, GetOptions }) => {
 
@@ -11,14 +12,32 @@ export const DataOptions = ({ titleOption, nameOptions, id, value, GetOptions })
     const TypeOptions = GetTypeOptions(nameOptions);
     
     const handleChange = (e, result) => {
+        
         let aux = settings.player;
-        if( id == "countPlayers" ) aux = new Array(parseInt(GetOptions("countPlayers")[result.value])).fill(0);
+        if( id == "countPlayers" ) {
+            
+            // Si ya se seleccionarion las fichas y los jugadores comprobar si sale una cantidad correnta
+            const maxIdTokens =  parseInt(GetOptions("maxIdTokens")[settings.maxIdTokens]);          
+            const countPlayer = parseInt(GetOptions("countPlayers")[result.value]);
+            const countTokens = parseInt(GetOptions("countTokens")[settings.countTokens]);
 
+            const cantTokens = maxIdTokens * (maxIdTokens + 1) / 2;
+            const maxCountTokensbyPlayers = Math.floor( cantTokens / countPlayer );
+            
+            if( maxCountTokensbyPlayers < countTokens ) {
+                toast.error("Seleccione menos jugadores o reparta menos fichas!!");
+                return;
+            }
+            
+            aux = new Array(parseInt(GetOptions("countPlayers")[result.value])).fill(0);
+        }
+        
         setSettings({
             ...settings,
             [id]: result.value,
             player: aux
         });
+
     }
 
 
