@@ -17,6 +17,7 @@ export const Game = () => {
   const [currentPlay, setCurrentPlay] = useState(undefined);
   const [background, setBackground] = useState(getBackground());
   const [open, setOpen] = useState(false);
+  const [openInformation, setOpenInformation] = useState(false);
          
   const handleNextTurn = (e) => {
     const btnText = e.target.innerText;
@@ -80,10 +81,11 @@ export const Game = () => {
         > 
           background
         </button>
-          {/* <Icon
+          <Icon
             name='info circle'
             className='info-icon'
-        /> */}
+            onClick={() => setOpenInformation(true)}
+        />
       </div>
   
       <Confirm
@@ -95,7 +97,7 @@ export const Game = () => {
         } }
       />
 
-        <Information />
+        <Information open={openInformation} setOpen={setOpenInformation} />
 
 
       {/* Muestra las fuchas del tablero */}
