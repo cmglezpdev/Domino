@@ -7,7 +7,7 @@ public class NextPlayerLongana : INextPlayer
 {
     int cursor = -1;
     List<int>? CountTokensPlayer; 
-    public int NextPlayer( Player[] players ) {
+    public int NextPlayer( PlayerInfo[] players ) {
         
         if( CountTokensPlayer == null ) {
             CountTokensPlayer = new List<int>();

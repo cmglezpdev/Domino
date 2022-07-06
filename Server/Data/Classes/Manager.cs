@@ -33,8 +33,8 @@ public class Manager {
         // Actualizar el tamanno de las propiedades staticas
         Manager.PassedOfPlayers = new int[this.players.Length]; 
         Manager.CountTokenByPlayers = new int[this.players.Length];
-        for(int i = 0; i < this.players.Length; i ++)
-            Manager.CountTokenByPlayers[i] = this.players[i].Count;
+        // for(int i = 0; i < this.players.Length; i ++)
+        //     Manager.CountTokenByPlayers[i] = this.players[i].Count;
     
 
     }
@@ -51,10 +51,9 @@ public class Manager {
     // Realiza una jugada y devuelve informacion de la jugada
     public PlayInfo GamePlay() { 
 
-        int idxCurrentPlayer = this.nextPlayer.NextPlayer( this.players );
+        int idxCurrentPlayer = this.nextPlayer.NextPlayer( this.refery);
         System.Console.WriteLine(idxCurrentPlayer);
-        bool ToPlay = this.refery.Play(this.players[idxCurrentPlayer]);
-        refery.count();
+        bool ToPlay = this.refery.Play(this.players[idxCurrentPlayer].IDPlayer.Item1);
         
         // Actualizar las propiedades staticas
         Manager.CountTokenByPlayers[ idxCurrentPlayer ] -= ( ToPlay ? 1 : 0 );
@@ -85,4 +84,15 @@ public class PlayInfo {
     public IEnumerable< IEnumerable<VertexToken> >? TokensInBoard {get; set;} // Las fichas que estan en el tablero despues de la jugada
     public bool? FinishGame {get; set;} // True si se termino el juego
     public IEnumerable<ResPlayer>? Winners{get; set;} // Lista de ganadores en la ronda actual
+}
+public class PlayerInfo {
+    public int Count {get;}
+    public int Points {get; }
+    public int ID {get; }
+    public PlayerInfo(int count, int points, int id){
+        Count = count;
+        Points = points;
+        ID = id;
+    }
+
 }

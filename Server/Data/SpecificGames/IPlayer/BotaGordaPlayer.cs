@@ -3,7 +3,7 @@ using Server.Data.Interfaces;
 
 //jugador que juega la ficha de mas valor
 public class BotaGordaPlayer : RandomPlayer {
-    public override bool PlayToken( IBoard board, Token[] hand) {
+    public override int PlayToken( IBoard board, Token[] hand) {
         int index = -1;
 
         for(int i = 0; i < hand.Length; i++){
@@ -13,10 +13,9 @@ public class BotaGordaPlayer : RandomPlayer {
             }
         }
         if(index != -1){
-            board.PlaceToken(hand[index].Clone(), this.IDPlayer.Item1);
-            return true;
+            return index;
         }
-        return false;
+        return -1;
     }  
 
     public override Player Clone() {

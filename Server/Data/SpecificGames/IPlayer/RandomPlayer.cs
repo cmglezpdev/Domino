@@ -3,7 +3,7 @@ using Server.Data.Interfaces;
 
 // *Jugador que realiza jugadas de forma random
 public class RandomPlayer : Player {
-    public override bool PlayToken( IBoard board, Token[] hand) {
+    public override int PlayToken( IBoard board, Token[] hand) {
 
         Random random = new Random();
         int aux = -1;
@@ -14,8 +14,7 @@ public class RandomPlayer : Player {
             aux = random.Next(0, hand.Length);
 
             if(board.ValidPlay(hand[aux])) {
-                board.PlaceToken( hand[aux].Clone(), this.IDPlayer.Item1 );
-                return true;
+                return aux;
             }
 
             if(!mask[aux]) {
@@ -23,17 +22,9 @@ public class RandomPlayer : Player {
                 count--;
             }
         }
-        return false;
+        return -1;
     }
- 
-    public override int Points {
-        get {
-            return points;
-        }
-        set {
-            this.points = value;
-        }
-    }
+
 
     public override Player Clone() {
         RandomPlayer clone = new RandomPlayer();

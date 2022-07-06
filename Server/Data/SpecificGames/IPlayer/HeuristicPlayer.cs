@@ -2,14 +2,13 @@ namespace Server.Data.Classes;
 using Server.Data.Interfaces;
 public class HeuristicPlayer : RandomPlayer {
     List<int> InHand = new List<int>();
-    public override bool PlayToken(IBoard board, Token[] hand)
+    public override int PlayToken(IBoard board, Token[] hand)
     {
         
         Organize(board.MaxIdOfToken, hand);
         if(board.TokensInBoard.Length == 0){
-            Token start = Start(hand);
-            board.PlaceToken(start, this.IDPlayer.Item1);
-            return true;
+            int start = Start(hand);
+            return start;
         }
 
         (int,int) aux = (0,0);
@@ -20,19 +19,16 @@ public class HeuristicPlayer : RandomPlayer {
             }
         }
         if(aux.Item2 != 0){
-            Token auxtoken = hand[aux.Item1];
-            //hand.RemoveAt(aux.Item1);
-            board.PlaceToken(auxtoken, this.IDPlayer.Item1);
-            return true;
+            return aux.Item1;
         }
-        return false;
+        return -1;
     }
     public override Player Clone() {
         HeuristicPlayer clone = new HeuristicPlayer();
 
         return clone;
     }
-    private Token Start(Token[] hand) {
+    private int Start(Token[] hand) {
         List<(Token,int)> doubles = Double(hand);
         if(doubles.Count == 0) { 
             int maxtokenindex = 0; 
@@ -49,7 +45,7 @@ public class HeuristicPlayer : RandomPlayer {
                     auxindex = (i,InHand[hand[i][1].Value]);
                 }
             }
-            return hand[auxindex.Item1];
+            return auxindex.Item1;
         }
         (Token,int) aux = doubles[0];
         for(int i = 0; i < doubles.Count; i++) {
@@ -58,8 +54,7 @@ public class HeuristicPlayer : RandomPlayer {
             if((InHand[aux1] > InHand[aux2]) || (InHand[aux1] == InHand[aux2] && aux2 > aux1))
                 aux = doubles[i];
         }
-        InHand[aux.Item1[1].Value]--;
-        return aux.Item1;
+        return aux.Item2;
     }
     private void Organize(int maxidtoken, Token[] hand) {
         InHand.Clear();

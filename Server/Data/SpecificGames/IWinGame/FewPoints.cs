@@ -1,7 +1,7 @@
 namespace Server.Data.Classes;
 using Server.Data.Interfaces;
 public class FewPoints : IWinGame {
-    public IEnumerable<Player> GetWinnersGame( IBoard board, IEnumerable<Player> players ) {
+    public IEnumerable<Player> GetWinnersGame( IBoard board, IEnumerable<PlayerInfo> players ) {
         List< Player > winners = new List<Player>();
         foreach( var ply in players ) winners.Add(ply);
 

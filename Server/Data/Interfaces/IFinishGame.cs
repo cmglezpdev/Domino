@@ -4,5 +4,5 @@ namespace Server.Data.Interfaces;
 using Server.Data.Classes;
 
 public interface IFinishGame {
-    bool FinishGame( IBoard board, IEnumerable<Player> players );
+    bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players );
 }

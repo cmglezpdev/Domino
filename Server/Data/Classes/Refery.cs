@@ -15,30 +15,26 @@ public class Refery {
         this.hands = hand;
         this.players = ply;
     }
-    public bool Play(Player ply) {
-        bool aux = false;
-        for(int i = 0; i < players.Length; i++){
-            if(players[i].IDPlayer.Item1 == ply.IDPlayer.Item1){
-                aux = players[i].PlayToken(board, hands[i].ToArray());
-            }
-        }
-        return aux;
-    }
-    public void count(){
+    public bool Play(int ID) {
+        int aux = -1;
+        
+        aux = players[ID].PlayToken(board, hands[ID].ToArray());
 
-        for(int i = 0; i < players.Length; i++){
-            players[i].Count = hands[i].Count;
-            players[i].Points = points(players[i].IDPlayer.Item1);
-        }
+        if(aux < 0 || aux > hands[ID].Count) return false;
+        if(!board.ValidPlay(hands[ID][aux])) return false;
+
+        board.PlaceToken(hands[ID][aux], players[ID].IDPlayer.Item1);
+        hands[ID].RemoveAt(aux);
+        return true;
     }
-    public int points(int indexplayer) {
+    public int count(int ID){
+
+        return hands[ID].Count;
+    }
+    public int points(int ID) {
         int total = 0;
-        for( int i = 0; i < players.Length; i++ ) {
-            if(players[i].IDPlayer.Item1 == indexplayer){
-                foreach(var item in hands[i]) {
-                    total += item.Value;
-                }
-            }
+        foreach(var item in hands[ID]) {
+            total += item.Value;
         }
         return total;
     }
