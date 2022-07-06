@@ -4,8 +4,8 @@ using System.Diagnostics;
 
 public class Manager {
     static public int MaxIdOfToken;
-    static public int[] PassedOfPlayers;
-    static public int[] CountTokenByPlayers;
+    static public int[] PassedOfPlayers = new int[0];
+    static public int[] CountTokenByPlayers = new int[0];
     
     Player[] players;
     IBoard board;
@@ -33,10 +33,6 @@ public class Manager {
         // Actualizar el tamanno de las propiedades staticas
         Manager.PassedOfPlayers = new int[this.players.Length]; 
         Manager.CountTokenByPlayers = new int[this.players.Length];
-        // for(int i = 0; i < this.players.Length; i ++)
-        //     Manager.CountTokenByPlayers[i] = this.players[i].Count;
-    
-
     }
 
     public IEnumerable<Player> StartGame( int MaxIdOfToken, int countTokens, TokenValue CalculateValue, IMatch matcher ) {
@@ -51,25 +47,24 @@ public class Manager {
     // Realiza una jugada y devuelve informacion de la jugada
     public PlayInfo GamePlay() { 
 
-        int idxCurrentPlayer = this.nextPlayer.NextPlayer( this.refery);
-        System.Console.WriteLine(idxCurrentPlayer);
-        bool ToPlay = this.refery.Play(this.players[idxCurrentPlayer].IDPlayer.Item1);
+        // TODO: EN vez de devolver el indice, devolver el ID
+        int idxCurrentPlayer = this.nextPlayer.NextPlayer( this.refery.PlayerInformation );
+        bool played = this.refery.Play(this.players[idxCurrentPlayer].IDPlayer.Item1);
         
         // Actualizar las propiedades staticas
-        Manager.CountTokenByPlayers[ idxCurrentPlayer ] -= ( ToPlay ? 1 : 0 );
+        Manager.CountTokenByPlayers[ idxCurrentPlayer ] -= ( played ? 1 : 0 );
         Manager.CountTokenByPlayers[ idxCurrentPlayer ] = Math.Max(0, Manager.CountTokenByPlayers[ idxCurrentPlayer ] );
         
-        Manager.PassedOfPlayers[ idxCurrentPlayer ] += ( ToPlay ? 0 : 1 );
-
+        Manager.PassedOfPlayers[ idxCurrentPlayer ] += ( played ? 0 : 1 );
 
         PlayInfo CurrInfo = new PlayInfo() {
-            Players = Game.PlayersForJson(this.players),
+            Players = Game.PlayersForJson( this.refery.PlayerInformation, this.refery ),
             CurrentPlayer = idxCurrentPlayer,
-            points = this.refery.points(idxCurrentPlayer),
-            Passed = !ToPlay,
+            points = this.refery.Points(idxCurrentPlayer),
+            Passed = !played,
             TokensInBoard = Game.TokensInBoardJson( this.board.TokensInBoard ),
-            FinishGame = this.finishGame.FinishGame( this.board, this.players ),
-            Winners = Game.PlayersForJson( this.winnersGame.GetWinnersGame(this.board, this.players) )
+            FinishGame = this.finishGame.FinishGame( this.board, this.refery.PlayerInformation ),
+            Winners = Game.PlayersForJson( this.winnersGame.GetWinnersGame(this.board, this.refery.PlayerInformation).ToArray<PlayerInfo>(), this.refery ),
         };
 
         return CurrInfo;
@@ -86,13 +81,13 @@ public class PlayInfo {
     public IEnumerable<ResPlayer>? Winners{get; set;} // Lista de ganadores en la ronda actual
 }
 public class PlayerInfo {
-    public int Count {get;}
-    public int Points {get; }
-    public int ID {get; }
-    public PlayerInfo(int count, int points, int id){
-        Count = count;
-        Points = points;
-        ID = id;
-    }
+    public int? Count {get; private set;}
+    public int? Points {get; private set;}
+    public (int, string) IDPlayer {get; private set;}
 
+    public PlayerInfo(int countTokens, int Points, int ID, string name) {
+        this.Count = countTokens;
+        this.Points = Points;
+        this.IDPlayer = (ID, name);
+    }
 }

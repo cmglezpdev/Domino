@@ -4,10 +4,10 @@ using Server.Data.Interfaces;
 // * El juego finaliza solo cuando todos los jugadores se pasan
 public class AllPassFinish : IFinishGame {
     int pass = 0;
-    public bool FinishGame( IBoard board, IEnumerable<Player> players ) {
+    public bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players ) {
         if(this.pass == players.Count()) return true;
 
-        foreach( Player item in players) {
+        foreach( var item in players) {
             if( item.Count == 0) return true;
         }
         return false;
