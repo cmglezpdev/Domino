@@ -26,7 +26,7 @@ public class TypeGameController : ControllerBase
             players.Last().IDPlayer = (i, namesPlayers[i]);
 
         }
-
+        Refery  refery = new Refery( data.Boards[ options.board ] );
         // Iniciar el estado del manager y empezar el juego
         Game.manager = new Manager( 
                 players,
@@ -34,14 +34,12 @@ public class TypeGameController : ControllerBase
                 data.DistributeTokens[ options.distributeTokens ],
                 data.FinishGames[ options.finishGame ],
                 data.WinGames[ options.winGame ],
-                data.NextPlayers[ options.nextPlayer ]
+                data.NextPlayers[ options.nextPlayer ],
+                refery
         );
-        
-        System.Console.WriteLine(options.countTokensByPlayer);
-        System.Console.WriteLine(options.maxIdTokens);
-        // Lista de players con las fichas asignadas
-        IEnumerable<Player> ply = Game.manager.StartGame( options.maxIdTokens, options.countTokensByPlayer, data.TokensValue[options.tokenValue], data.Matches[ options.matcher ] );
-        List<ResPlayer> result = Game.PlayersForJson( players );
+
+        Game.manager.StartGame( options.maxIdTokens, options.countTokensByPlayer, data.TokensValue[options.tokenValue], data.Matches[ options.matcher ] );
+        List<ResPlayer> result = Game.PlayersForJson( refery.PlayerInformation, refery );
 
         return Ok( result );
     }

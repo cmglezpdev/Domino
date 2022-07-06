@@ -17,14 +17,14 @@ public class Manager {
 
     public Manager( IEnumerable<Player> players, IBoard board, 
                     IDistributeTokens distributeTokens, IFinishGame finishGame, 
-                    IWinGame winnersGame, INextPlayer nextPlayer ) {
+                    IWinGame winnersGame, INextPlayer nextPlayer, Refery refery ) {
 
         this.board = board;
         this.distributeTokens = distributeTokens;
         this.finishGame = finishGame;
         this.winnersGame = winnersGame;
         this.nextPlayer = nextPlayer;
-        this.refery = new Refery(board);
+        this.refery = refery;
         
         List<Player> ply = new List<Player>();
         foreach( var pl in players ) ply.Add(pl);
@@ -35,13 +35,14 @@ public class Manager {
         Manager.CountTokenByPlayers = new int[this.players.Length];
     }
 
-    public IEnumerable<Player> StartGame( int MaxIdOfToken, int countTokens, TokenValue CalculateValue, IMatch matcher ) {
+    // public IEnumerable<Player> StartGame( int MaxIdOfToken, int countTokens, TokenValue CalculateValue, IMatch matcher ) {
+    public void StartGame( int MaxIdOfToken, int countTokens, TokenValue CalculateValue, IMatch matcher ) {
         Manager.MaxIdOfToken = MaxIdOfToken;
         this.board.SetMatcher(matcher);
         List<Token> bTokens = this.board.BuildTokens( MaxIdOfToken, CalculateValue );
         List<Token>[] htokens = this.distributeTokens.DistributeTokens(bTokens,this.players.Length, countTokens);
         this.refery.MakeTokens(htokens, this.players);
-        return this.players;
+        // return this.players;
     }
     
     // Realiza una jugada y devuelve informacion de la jugada
@@ -81,8 +82,8 @@ public class PlayInfo {
     public IEnumerable<ResPlayer>? Winners{get; set;} // Lista de ganadores en la ronda actual
 }
 public class PlayerInfo {
-    public int? Count {get; private set;}
-    public int? Points {get; private set;}
+    public int Count {get; private set;}
+    public int Points {get; private set;}
     public (int, string) IDPlayer {get; private set;}
 
     public PlayerInfo(int countTokens, int Points, int ID, string name) {

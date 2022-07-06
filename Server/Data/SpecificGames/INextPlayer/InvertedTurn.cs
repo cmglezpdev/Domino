@@ -5,7 +5,7 @@ using Server.Data.Interfaces;
 public class InvertedTurn : INextPlayer {
     int cursor = -1;
     int mov = 1;
-    List<int>? CountTokensPlayer; 
+    List<int> CountTokensPlayer = new List<int>(); 
     public int NextPlayer( PlayerInfo[] players ) {
         if( CountTokensPlayer == null ) {
             CountTokensPlayer = new List<int>();
