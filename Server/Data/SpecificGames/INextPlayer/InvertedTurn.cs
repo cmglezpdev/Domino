@@ -7,8 +7,8 @@ public class InvertedTurn : INextPlayer {
     int mov = 1;
     List<int> CountTokensPlayer = new List<int>(); 
     public int NextPlayer( PlayerInfo[] players ) {
-        if( CountTokensPlayer == null ) {
-            CountTokensPlayer = new List<int>();
+        
+        if( CountTokensPlayer.Count == 0 ) {
             foreach( var ply in players ) {
                 CountTokensPlayer.Add( ply.Count );
             }
