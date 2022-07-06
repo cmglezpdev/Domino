@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Confirm } from 'semantic-ui-react'
+import { Confirm, Icon } from 'semantic-ui-react'
 import { Board } from './Board/Board';
 import { MessageGame } from './MessageGame/MessageGame';
 import { PlayerTokens } from './PlayerTokens/PlayerTokens';
@@ -9,6 +9,7 @@ import { BASE_URL } from '../../helpers/api.js';
 import getBackground from '../../helpers/backgroundBoard';
 
 import './game.scss';
+import { Information } from '../Information';
 
 export const Game = () => {
   
@@ -16,6 +17,7 @@ export const Game = () => {
   const [currentPlay, setCurrentPlay] = useState(undefined);
   const [background, setBackground] = useState(getBackground());
   const [open, setOpen] = useState(false);
+  const [openInformation, setOpenInformation] = useState(false);
          
   const handleNextTurn = (e) => {
     const btnText = e.target.innerText;
@@ -54,6 +56,7 @@ export const Game = () => {
   }
 
   useEffect(() => {
+    console.log(settings);
     handleStartGame();
   }, [] );
 
@@ -69,15 +72,22 @@ export const Game = () => {
         background: `url(${background})`
       }}
     >
-      <button 
-        className="change-background"
-        onClick={() => {
-          setBackground( getBackground() );
-        }}
-      > 
-        background
-      </button>
-
+      <div className="controls">
+        <button 
+          className="change-background"
+          onClick={() => {
+            setBackground( getBackground() );
+          }}
+        > 
+          background
+        </button>
+          <Icon
+            name='info circle'
+            className='info-icon'
+            onClick={() => setOpenInformation(true)}
+        />
+      </div>
+  
       <Confirm
         open={open}
         onCancel={ () => setOpen(false) }
@@ -86,6 +96,8 @@ export const Game = () => {
           handleStartGame();
         } }
       />
+
+        <Information open={openInformation} setOpen={setOpenInformation} />
 
 
       {/* Muestra las fuchas del tablero */}

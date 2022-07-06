@@ -71,7 +71,24 @@ yarn electron-dev
 yarn start
 ```
 
+**Nota:** La aplicacion de escritorio actualmente tiene un pequeño error, por lo que recomiendo ejecutarlo como aplicacion web.
 
+
+### Posible error al ejecutar la aplicacion
+
+Si al ejecutar la aplicacion no te carga las opciones para seleccionar el tipo de juego es porque tu navegador esta bloqueando el acceso de la api a la url de la misma. Para eliminar este error, nos vamos a las herramientas de desarrollo del navegador( click derecho en cualquier lugar y despues en inspeccionar ).
+
+Luego vas a la pestaña de `Network` y veras un listado con la palabra `loader` en rojo. Esta es la primera peticion que hace la app al server y es rechazada
+
+![](./error-1.png)
+
+Si das doble click ahi aparecera al lado la informacion de la peticion y el link al cual se hizo. Le damos doble click al link y nos abrira una ventana con la cual estara bloqueada por el navegador.
+
+Lo unico que tenemos que hacer es darle click a `Mostrar configuracion avanzada` y despues a `Acceder a localhost(sitio no seguro)`. Esto eliminara la restriccion y podras acceder sin problema a la informacion devuelta por la api.
+
+![](./error-2.png)
+
+Ya solo queda recargar la paguina del juego y ver que salgan las opciones.
 
 ## Anadir nueva variacion de una caracteristicas
 

@@ -13,16 +13,16 @@
 }
 
 .passed {
-    top: 200px;
+    top: 80px;
     text-transform: uppercase;
-    background-color: rgb(233, 88, 88);
+    background-color: rgba(233, 88, 88, 0.8);
     padding: 20px;
     border-radius: 10px;
     font-weight: bold;
 }
 
 .finished {
-    background-color: rgb(117, 233, 88);
+    background-color: rgba(117, 233, 88, 0.8);
     top: 150px;
     z-index: 1;
     border-radius: 15px;

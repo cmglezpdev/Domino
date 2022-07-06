@@ -1,0 +1,33 @@
+
+.information-game {
+    background-color: rgb(85, 236, 216);
+    // z-index: 100;
+    // width: 500px;
+    // position: fixed;
+    display: grid;
+
+    // top: 50px;
+    // left: 50%;
+    // margin-left: -250px;
+    
+    .options-of-game {
+        margin-bottom: 5px;
+        padding: 10px;
+        background-color: rgb(46, 194, 174);
+        
+        .option_title { 
+            display: block;
+            font-weight: bold;
+            font-size: 17px;
+            margin-right: 10px;
+            text-align: center;
+        }
+        
+        .option_type {
+            display: block;
+            text-align: center;
+            font-size: 15px;
+        }
+    
+    }
+}

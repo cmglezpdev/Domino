@@ -2,21 +2,20 @@ import React, { useContext, useEffect, useState } from 'react';
 import { BASE_URL } from '../../helpers/api.js';
 import { DataOptions } from './DataOptions.jsx';
 import './options.scss';
-import { Button, Input } from 'semantic-ui-react';
+import { Button, Input, Progress } from 'semantic-ui-react';
 import { SettingsContext } from '../../helpers/SettingsContext.js';
 import { toast } from 'react-toastify';
+import generateId from '../../helpers/generateIds.js';
+import { Selected } from './Selected.jsx';
 
 export const Options = () => {
 
+    const [progress, setProgress] = useState(0);
     const [settings, setSettings] = useState([]);
     const context = useContext(SettingsContext);
-    const [optionsNumbers, setOptionsNumbers] = useState({
-        maxIdTokens: 4,
-        countPlayer: 2,
-        countTokensByPlayer: 2
-    });
 
     useEffect(() => {
+        // Se realiza la peticion al servidor de los tipos de juego que quiere mostrar
         fetch( `${BASE_URL}/loader` )
             .then( response => response.json())
             .then( data => {
@@ -26,14 +25,9 @@ export const Options = () => {
             });
     }, []);
     
+    // Metodo que se ejecuta al dar play al juego
     const handleStartGame = () => {
-        // Comprobar si se llenaron todos los campos
-        const len = Object.keys( context.settings ).length - 1; // le resto las 3 de los numeros
-        if( len !== settings.length ) {
-            toast.error("Por favor, seleccione todos los campos");
-            return;
-        } 
-        
+  
         // Comprobar si la seleccion de la cant fichas, judaores y id esta bien
         const cantTokens = context.settings.maxIdTokens * (context.settings.maxIdTokens + 1) / 2;
         const maxCountTokensbyPlayers = Math.floor( cantTokens / context.settings.countPlayer );
@@ -45,79 +39,95 @@ export const Options = () => {
 
         context.setSettings({
             ...context.settings,
-            ...optionsNumbers,
             done: true
         });
     }
         
+    // Antes de pasar a seleccionar otra opcion se verifica que se selecciono alguna opcion en la actual
+    const handleEvaluate = ( e ) => {
+        
+        const text = e.target.innerText; 
+
+        if(text == "Anterior") {
+            setProgress(progress - 1)
+            return;
+        }
+
+        if(text == "Siguiente" ) {
+            setProgress(progress + 1)
+            return;
+        }
+
+        // Play
+        handleStartGame();
+    }
+
+    // Devolver las opciones de un id especifico
+    const GetOptions = (id) => {
+        const opt = settings.filter(option => option.id === id);
+        return opt[0].nameOptions || [];
+    }
+
+    const selectedAllPlayers = () => {
+        for(let i = 0; i < context.settings.countPlayers; i ++) {
+            console.log(context.settings);
+            if( context.settings[`player_${i}`] == undefined ) return false;
+        }
+        return true;
+    }
+
 
     return (
         <div className='container'>
+                    
             <h1>Seleccionar el tipo de juego</h1>
+            <Progress percent={100 / (settings.length - 1) * progress} precision />
             
             {
-                settings.map(({ titleOption, id, nameOptions }) => {
-                    return (
-                        <DataOptions 
-                            key={id}
-                            titleOption={titleOption} 
-                            nameOptions={nameOptions}
-                            id={id}
-                        />
-                    )
-                })
+                // Si ya se cargaron las opciones del juego
+                settings.length !== 0 && (
+                   <DataOptions 
+                        key={generateId()}
+                        titleOption={settings[progress].titleOption}
+                        nameOptions={settings[progress].nameOptions}
+                        id={settings[progress].id}
+                        GetOptions={GetOptions}
+                        value={ context.settings[ settings[progress]?.id ] }
+                    />
+                )
             }
-            
-            <div className='data-numbers'>
-                <Input 
-                    label="Id max Fichas"
-                    type='number'
-                    value={optionsNumbers.maxIdTokens}
-                    min={4}
-                    max={9}
-                    onChange={
-                        (e) => setOptionsNumbers({
-                                    ...optionsNumbers,
-                                    maxIdTokens: parseInt(e.target.value) 
-                                })
-                        }
-                />
 
-                <Input 
-                    label="Cantidad de jugadores"
-                    type='number'
-                    value={optionsNumbers.countPlayer}
-                    min={2}
-                    // max={10}
-                    onChange={
-                        (e) => setOptionsNumbers({
-                                    ...optionsNumbers,
-                                    countPlayer: parseInt(e.target.value) 
-                                })
-                        }
-                />
-
-                <Input 
-                    label="Fichas por jugador"
-                    type='number'
-                    value={optionsNumbers.countTokensByPlayer}
-                    min={2}
-                    // max={10}
-                    onChange={
-                        (e) => setOptionsNumbers({
-                                    ...optionsNumbers,
-                                    countTokensByPlayer: parseInt(e.target.value) 
-                                })
-                        }
-                />
+            {/* Botones para avanzar o retroceder en las opciones */}
+            <div className='buttons'>
+                <Button
+                    onClick={handleEvaluate}
+                    color={'green'}
+                    className={`btn-prev ${progress === 0 ? 'hidden' : ''}`} // ocultarlo cuando sea la primera opcion
+                >
+                    Anterior
+                </Button>
+                
+                <Button
+                    onClick={handleEvaluate}
+                    color={'green'}
+                    className={`btn-next`}
+                    disabled={ 
+                        ( settings[progress]?.id ) ? 
+                            context.settings[ settings[progress]?.id ] === undefined :
+                            !selectedAllPlayers() 
+                    } // Deshabilitar el boton cuando no se selecciono nada
+                >
+                    {progress === settings.length - 1 ? 'Jugar' : 'Siguiente'} 
+                </Button>
             </div>
 
-            <Button
-                className='container__button-game'
-                onClick={handleStartGame}
-            >
-                Jugar
-            </Button>
+            <Selected InfoOptions={settings} />
+            
+            {/* {
+                JSON.stringify(context.settings, null, 6)
+            } */}
+
+
         </div>
     )
 
