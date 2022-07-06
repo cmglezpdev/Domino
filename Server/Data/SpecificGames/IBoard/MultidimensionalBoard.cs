@@ -7,8 +7,8 @@ using Server.Data.Interfaces;
 public class MultidimensionalBorad : IBoard
 {
     private class InfoToken {
-        public Token token {get;set;} // token
-        public string direction {get;set;} // direccion de los tokens anteriores a el
+        public Token token {get;set;} = null!; // token
+        public string direction {get;set;} = null!; // direccion de los tokens anteriores a el
     }
 
     private class Coord {
@@ -16,7 +16,7 @@ public class MultidimensionalBorad : IBoard
         public int y{get; set;}
     }
 
-    private IMatch matcher;
+    private IMatch matcher = null!;
     private int maxIdOfToken;
 
     // private List< Info > board = new List<Info>();

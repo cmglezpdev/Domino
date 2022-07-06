@@ -5,7 +5,7 @@ using Server.Data.Interfaces;
 public class UnidimensionalBoard : IBoard {
     List<Token> board = new List<Token>();
     int maxIdOfToken;
-    IMatch matcher;
+    IMatch matcher = null!;
     List<Tuple<Token, int>> PlayerByToken = new List<Tuple<Token, int>>();
     public List<Token> BuildTokens( int MaxIdOfToken, TokenValue calcValue ) {
         this.maxIdOfToken = MaxIdOfToken;
