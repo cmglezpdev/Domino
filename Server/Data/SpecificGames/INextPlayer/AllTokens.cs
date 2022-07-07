@@ -22,6 +22,8 @@ public class NextPlayerLongana : INextPlayer
             return this.cursor;
         }
         
-        return (this.cursor = (this.cursor + 1)%players.Length);
+        this.cursor = (this.cursor + 1)%players.Length;
+        
+        return players[this.cursor].IDPlayer.Item1;
     }
 }

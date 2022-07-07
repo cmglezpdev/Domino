@@ -6,6 +6,6 @@ public class OrderTurn : INextPlayer {
     int cursor = -1;
     public int NextPlayer( PlayerInfo[] players ) {
         this.cursor = ( this.cursor + 1 ) % players.Count();
-        return this.cursor;
+        return players[this.cursor].IDPlayer.Item1;
     }
 }

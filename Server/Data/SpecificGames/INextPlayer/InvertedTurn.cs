@@ -37,6 +37,6 @@ public class InvertedTurn : INextPlayer {
         if( this.cursor >= players.Count() ) this.cursor = 0;
         if( this.cursor < 0 ) this.cursor = players.Count() - 1; 
 
-        return this.cursor;
+        return players[this.cursor].IDPlayer.Item1;
     }
 }

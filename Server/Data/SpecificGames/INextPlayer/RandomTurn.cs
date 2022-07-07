@@ -5,6 +5,7 @@ using Server.Data.Interfaces;
 public class RandomTurn : INextPlayer {
     public int NextPlayer( PlayerInfo[] players ) {
         Random random = new Random();
-        return random.Next(0 , players.Count());
+        int index = random.Next(0 , players.Count());
+        return players[index].IDPlayer.Item1;
     }
 }
