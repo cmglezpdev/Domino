@@ -3,6 +3,7 @@ using Server.Data.Interfaces;
 
 // * El juego finaliza cuando alguien se pegue o cuando todos la mayoria de ellos se pasen al menos dos veces
 public class APassFinish : IFinishGame {
+    public IFinishGame Clone() => new APassFinish();
 
     public bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players ) {
        

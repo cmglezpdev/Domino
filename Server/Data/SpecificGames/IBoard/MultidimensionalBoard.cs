@@ -9,11 +9,21 @@ public class MultidimensionalBorad : IBoard
     private class InfoToken {
         public Token token {get;set;} = null!; // token
         public string direction {get;set;} = null!; // direccion de los tokens anteriores a el
+        public InfoToken Clone() => new InfoToken() {
+            token = token.Clone(),
+            direction = direction
+        };
+        
     }
 
     private class Coord {
         public int x{get; set;}
         public int y{get; set;}
+
+        public Coord Clone() => new Coord() {
+            x = x,
+            y = y
+        };
     }
 
     private IMatch matcher = null!;
@@ -224,4 +234,16 @@ public class MultidimensionalBorad : IBoard
         this.board = newBorad;
     }
 
+    public IBoard Clone() {
+        MultidimensionalBorad board = new MultidimensionalBorad();
+        
+        board.board = new Dictionary<Coord, InfoToken>();
+        foreach( var x in this.board ) board.board.Add( x.Key.Clone(), x.Value.Clone() );
+
+        board.TokenByPlayer = new Dictionary<Token, int>();
+        foreach( var x in this.board ) board.board.Add( x.Key.Clone(), x.Value );
+
+        board.maxIdOfToken = this.maxIdOfToken;
+        return board;
+    }
 }

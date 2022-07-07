@@ -87,6 +87,22 @@ public class UnidimensionalBoard : IBoard {
         
         return false;
     }
+
+    public IBoard Clone() {
+        UnidimensionalBoard clone = new UnidimensionalBoard();
+        clone.board = new List<Token>();
+        
+        foreach( var item in board ) clone.board.Add( item.Clone() );
+        clone.maxIdOfToken = maxIdOfToken;
+        clone.matcher = matcher.Clone();
+        
+        clone.PlayerByToken = new List<Tuple<Token, int>>();
+        foreach( var item in PlayerByToken )
+            clone.PlayerByToken.Add( new Tuple<Token, int>( item.Item1.Clone(), item.Item2 ) );
+        
+        return clone;
+    }
+
     public Token[,] TokensInBoard {
         get{ 
             Token[,] tokens = new Token[1, this.board.Count];

@@ -39,7 +39,7 @@ public class Manager {
         Manager.MaxIdOfToken = MaxIdOfToken;
         this.board.SetMatcher(matcher);
         List<Token> bTokens = this.board.BuildTokens( MaxIdOfToken, CalculateValue );
-        List<Token>[] htokens = this.distributeTokens.DistributeTokens(bTokens,this.players.Length, countTokens);
+        List<Token>[] htokens = this.distributeTokens.DistributeTokens(bTokens, this.players.Length, countTokens);
         this.refery.MakeTokens(htokens, this.players);
     }
     

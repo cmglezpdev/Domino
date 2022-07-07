@@ -3,6 +3,8 @@ using Server.Data.Interfaces;
 
 // * Distribuye las fichas de forma random entre todos los jugadores
  public class RandomDistribution : IDistributeTokens {
+    public IDistributeTokens Clone() => new RandomDistribution();
+
     public List<Token>[] DistributeTokens( List<Token> tokens, int playerofnumber, int countTokens) {
         Random random = new Random();
 

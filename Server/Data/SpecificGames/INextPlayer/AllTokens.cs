@@ -6,11 +6,22 @@ using Server.Data.Interfaces;
 public class NextPlayerLongana : INextPlayer
 {
     int cursor = -1;
-    List<int>? CountTokensPlayer; 
+    List<int> CountTokensPlayer = new List<int>();
+
+    public INextPlayer Clone() {
+        
+        NextPlayerLongana clone = new NextPlayerLongana();
+        clone.cursor = cursor;
+
+        foreach( int item in CountTokensPlayer )
+            clone.CountTokensPlayer.Add(item);
+
+        return clone;
+    }
+
     public int NextPlayer( PlayerInfo[] players ) {
         
-        if( CountTokensPlayer == null ) {
-            CountTokensPlayer = new List<int>();
+        if( CountTokensPlayer.Count == 0 ) {
             foreach( var ply in players ) {
                 CountTokensPlayer.Add( ply.Count );
             }

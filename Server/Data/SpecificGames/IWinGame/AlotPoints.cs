@@ -1,6 +1,8 @@
 namespace Server.Data.Classes;
 using Server.Data.Interfaces;
 public class ALotPoints : IWinGame {
+    public IWinGame Clone() => new ALotPoints();
+
     public IEnumerable<PlayerInfo> GetWinnersGame( IBoard board, IEnumerable<PlayerInfo> players ) {
         List< PlayerInfo > winners = new List<PlayerInfo>();
         foreach( var ply in players ) winners.Add(ply);

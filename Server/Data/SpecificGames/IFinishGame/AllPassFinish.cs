@@ -4,6 +4,13 @@ using Server.Data.Interfaces;
 // * El juego finaliza solo cuando todos los jugadores se pasan
 public class AllPassFinish : IFinishGame {
     int pass = 0;
+
+    public IFinishGame Clone() {
+        AllPassFinish clone = new AllPassFinish();
+        clone.pass = pass;
+        return clone;
+    }
+
     public bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players ) {
         if(this.pass == players.Count()) return true;
 

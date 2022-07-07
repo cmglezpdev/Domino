@@ -18,4 +18,6 @@ public interface IBoard {
     } 
 
     void SetMatcher(IMatch match);
+
+    IBoard Clone();
 }

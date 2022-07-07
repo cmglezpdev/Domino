@@ -2,6 +2,8 @@ namespace Server.Data.Classes;
 using Server.Data.Interfaces;
 
 public class AllforOneDistribution : IDistributeTokens {
+    public IDistributeTokens Clone() => new AllforOneDistribution();
+
     public List<Token>[] DistributeTokens( List<Token> tokens,int playerofnumber, int countTokens ) {
         Random r = new Random();
         
