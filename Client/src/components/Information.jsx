@@ -42,7 +42,6 @@ export const Information = ({ open, setOpen }) => {
       <Modal
         open={open}
         onClose={() => setOpen(false)}
-        // onOpen={() => setOpen(true)}
       >
         <Modal.Header>Game Information</Modal.Header>
         <Modal.Content scrolling className='information-game'>
