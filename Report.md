@@ -50,11 +50,12 @@ Dentro de los aspectos especificos variables del juego tenemos:
     * [Resta de sus caras](#resta-de-caras)
     * [Calculo Raro](#calculo-raro-y-aleatorio)
 
+<!-- TODO: Seguir aqui con las demas cosas variables del juego -->
 
 
 
-
-
+<!-- TODO: Escribir una breve descripcion de lo que hace cada clase -->
+<!-- TODO: Crear un link por cada variacion para poder volver al menu -->
 ### Estrategia de un jugador
 
 #### Random Player
