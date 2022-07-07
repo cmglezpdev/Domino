@@ -21,7 +21,6 @@ public class Refery {
         int IndexPlayer = SearchPlayerIndex(IdPlayer);
         aux = players[IndexPlayer].PlayToken(board, hands[IndexPlayer].ToArray());
 
-        //TODO: Que play Token devuelva la ficha y no el indice
         if(aux < 0 || aux > hands[IndexPlayer].Count) return false;
         if(!board.ValidPlay(hands[IndexPlayer][aux])) return false;
 
