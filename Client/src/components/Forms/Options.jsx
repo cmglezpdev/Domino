@@ -81,7 +81,7 @@ export const Options = () => {
         <div className='container'>
                     
             <h1>Seleccionar el tipo de juego</h1>
-            <Progress percent={100 / (settings.length - 1) * progress} precision />
+            <Progress percent={100 / (settings.length - 1) * progress} precision color='green' />
             
             {
                 // Si ya se cargaron las opciones del juego

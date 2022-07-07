@@ -5,10 +5,22 @@ using Server.Data.Interfaces;
 public class InvertedTurn : INextPlayer {
     int cursor = -1;
     int mov = 1;
-    List<int>? CountTokensPlayer; 
-    public int NextPlayer( Player[] players ) {
-        if( CountTokensPlayer == null ) {
-            CountTokensPlayer = new List<int>();
+    List<int> CountTokensPlayer = new List<int>();
+
+    public INextPlayer Clone() {
+        InvertedTurn clone = new InvertedTurn();
+        clone.cursor = cursor;
+        clone.mov = mov;
+        
+        foreach( int item in CountTokensPlayer )
+            clone.CountTokensPlayer.Add(item);
+
+        return clone;
+    }
+
+    public int NextPlayer( PlayerInfo[] players ) {
+        
+        if( CountTokensPlayer.Count == 0 ) {
             foreach( var ply in players ) {
                 CountTokensPlayer.Add( ply.Count );
             }
@@ -37,6 +49,6 @@ public class InvertedTurn : INextPlayer {
         if( this.cursor >= players.Count() ) this.cursor = 0;
         if( this.cursor < 0 ) this.cursor = players.Count() - 1; 
 
-        return this.cursor;
+        return players[this.cursor].IDPlayer.Item1;
     }
 }

@@ -1,9 +1,11 @@
 namespace Server.Data.Classes;
 
 public class RareProperties : TokenValue {
+    public override TokenValue Clone() => new RareProperties();
+
     public override int Value(Token token)
     {
-        Func<int,int,int>[] calculator = {a,b,c,d,e,f,g};
+        Func<int,int,int>[] calculator = {a,b,c,d,e,f,g,h};
         Random r = new Random();
         int left = token.Left.Value;
         int right = token.Right.Value;
@@ -12,10 +14,10 @@ public class RareProperties : TokenValue {
 
     }
     private int a(int right, int left){
-        return (int)Math.Pow(right,left);
+        return (int)Math.Abs(Math.Pow(right,3) - Math.Pow(left, 2));
     }
     private int b(int right, int left){
-        return (right + left)/2;
+        return (2 + right + left)/2;
     }
     private int c(int right, int left){
         return (int)Math.Abs((Math.Cos(left)-Math.Sin(right))*10);
@@ -24,12 +26,15 @@ public class RareProperties : TokenValue {
         return Math.Abs((right + left)*(right-left));
     }
     private int e(int right, int left){
-        return (int)((Math.Sqrt(right) + Math.Log2(left))*5);
+        return (int)((Math.Sqrt(right) + Math.Log2(left + 1))*5);
     }
     private int f(int right, int left){
         return 0;
     }
     private int g(int right, int left){
-        return 1000000;
+        return 1000;
+    }
+    private int h(int right, int left){
+        return (int)Math.Abs(Math.PI*(Math.Pow(right,2)-Math.Sqrt(left+10)));
     }
 }

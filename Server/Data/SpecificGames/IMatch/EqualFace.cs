@@ -46,4 +46,6 @@ public class EqualFace : IMatch
         return (token1[face1].Value == token2[face2].Value && !token1[face1].Played && !token2[face2].Played); 
     }
 
+    public IMatch Clone() => new EqualFace();
+
 }

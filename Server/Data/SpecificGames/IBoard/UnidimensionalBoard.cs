@@ -5,7 +5,7 @@ using Server.Data.Interfaces;
 public class UnidimensionalBoard : IBoard {
     List<Token> board = new List<Token>();
     int maxIdOfToken;
-    IMatch matcher;
+    IMatch matcher = null!;
     List<Tuple<Token, int>> PlayerByToken = new List<Tuple<Token, int>>();
     public List<Token> BuildTokens( int MaxIdOfToken, TokenValue calcValue ) {
         this.maxIdOfToken = MaxIdOfToken;
@@ -46,7 +46,6 @@ public class UnidimensionalBoard : IBoard {
         if( pos == 0 ) {
             // La ficha cabe esactamente como esta puesta
             if( this.matcher.ValidateMatch(token, 0, item, 0) ) {
-                System.Console.WriteLine(token[0].Value + ' ' + item[0].Value);
                 board[0].Played(0);
                 board.Insert(0, token.Clone());
                 board[0].Played( 0 );
@@ -55,7 +54,6 @@ public class UnidimensionalBoard : IBoard {
             }
             // Se rota la ficha
             if( this.matcher.ValidateMatch(token, 1, item, 0)) {
-                System.Console.WriteLine(token[1].Value + ' ' + item[0].Value);
                 board[0].Played(0);
                 board.Insert(0, token.Clone());
                 board[0].Played(1);
@@ -66,7 +64,6 @@ public class UnidimensionalBoard : IBoard {
         if( pos == board.Count - 1 ) {
           
             if( this.matcher.ValidateMatch(token, 0, item, 1) ) {
-                System.Console.WriteLine(token[0].Value + ' ' + item[1].Value);
                 board[pos].Played(1);
                 board.Add(token.Clone());
                 board[board.Count - 1].Played(0);
@@ -74,7 +71,6 @@ public class UnidimensionalBoard : IBoard {
             }
           
             if(this.matcher.ValidateMatch(token, 1, item, 1)) {
-                System.Console.WriteLine(token[1].Value + ' ' + item[1].Value);
                 board[pos].Played(1);
                 board.Add(token.Clone());
                 board[board.Count - 1].Played( 1 );
@@ -91,6 +87,22 @@ public class UnidimensionalBoard : IBoard {
         
         return false;
     }
+
+    public IBoard Clone() {
+        UnidimensionalBoard clone = new UnidimensionalBoard();
+        clone.board = new List<Token>();
+        
+        foreach( var item in board ) clone.board.Add( item.Clone() );
+        clone.maxIdOfToken = maxIdOfToken;
+        clone.matcher = matcher.Clone();
+        
+        clone.PlayerByToken = new List<Tuple<Token, int>>();
+        foreach( var item in PlayerByToken )
+            clone.PlayerByToken.Add( new Tuple<Token, int>( item.Item1.Clone(), item.Item2 ) );
+        
+        return clone;
+    }
+
     public Token[,] TokensInBoard {
         get{ 
             Token[,] tokens = new Token[1, this.board.Count];

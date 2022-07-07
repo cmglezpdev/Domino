@@ -4,7 +4,7 @@ public class TypeGame {
     public int maxIdTokens {get; set;} // Id maximo que tiene una ficha
     public int countPlayers {get; set;} // Cantidad de jugadores
     public int matcher {get; set;} // Tipo de matcher
-    public int[]? player {get; set;} // tipo de jugador
+    public int[] player {get; set;} = null!; // tipo de jugador
     public int board {get; set;} // tipo de tablero
     public int finishGame {get; set;} // tipo de finalizacion del juego
     public int winGame {get; set;} // de que forma se selecciona los ganadores

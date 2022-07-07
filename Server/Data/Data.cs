@@ -90,14 +90,17 @@ public static class Game {
         }
         return TokensJson;
     }
-    public static List<ResPlayer> PlayersForJson( IEnumerable<Player> players ) {
+    public static List<ResPlayer> PlayersForJson( PlayerInfo[] players, Refery refery ) {
         List<ResPlayer> result = new List<ResPlayer>();
-        foreach( var p in players ) {   
-            List<VertexToken> hand = Game.TokenForJson( p.Hand );
+        int countPlayers = players.Length;
+
+        for( int i = 0; i < countPlayers; i ++ ) {   
+            var p = players[i];
+            List<VertexToken> hand = Game.TokenForJson( refery.Hand(i) );
             result.Add(new ResPlayer() {
                 Id = p.IDPlayer.Item1,
                 Name = p.IDPlayer.Item2,
-                Points = p.points,
+                Points = p.Points,
                 HandTokens = hand.ToArray()
             });
         }

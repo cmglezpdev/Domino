@@ -3,6 +3,9 @@ using Server.Data.Interfaces;
 
 public class RareEquivalence : IMatch
 {
+    public IMatch Clone() => new RareEquivalence();
+
+
     public bool ValidateMatch(Token token1, Token token2)
     {
         return WhichFacePlay(token1, token2).Length != 0;

@@ -6,11 +6,22 @@ using Server.Data.Interfaces;
 public class NextPlayerLongana : INextPlayer
 {
     int cursor = -1;
-    List<int>? CountTokensPlayer; 
-    public int NextPlayer( Player[] players ) {
+    List<int> CountTokensPlayer = new List<int>();
+
+    public INextPlayer Clone() {
         
-        if( CountTokensPlayer == null ) {
-            CountTokensPlayer = new List<int>();
+        NextPlayerLongana clone = new NextPlayerLongana();
+        clone.cursor = cursor;
+
+        foreach( int item in CountTokensPlayer )
+            clone.CountTokensPlayer.Add(item);
+
+        return clone;
+    }
+
+    public int NextPlayer( PlayerInfo[] players ) {
+        
+        if( CountTokensPlayer.Count == 0 ) {
             foreach( var ply in players ) {
                 CountTokensPlayer.Add( ply.Count );
             }
@@ -22,6 +33,8 @@ public class NextPlayerLongana : INextPlayer
             return this.cursor;
         }
         
-        return (this.cursor = (this.cursor + 1)%players.Length);
+        this.cursor = (this.cursor + 1)%players.Length;
+        
+        return players[this.cursor].IDPlayer.Item1;
     }
 }
