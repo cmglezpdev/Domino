@@ -58,13 +58,13 @@ public class Manager {
         Manager.PassedOfPlayers[ indexCurrentPlayer ] += ( played ? 0 : 1 );
 
         PlayInfo CurrInfo = new PlayInfo() {
-            Players = Game.PlayersForJson( this.refery.PlayerInformation, this.refery ),
+            Players = Game.PlayersForJson( this.refery.PlayerInformation, this.refery.Clone() ),
             CurrentPlayer = idCurrentPlayer,
             points = this.refery.Points(idCurrentPlayer),
             Passed = !played,
-            TokensInBoard = Game.TokensInBoardJson( this.board.TokensInBoard ),
-            FinishGame = this.finishGame.FinishGame( this.board, this.refery.PlayerInformation ),
-            Winners = Game.PlayersForJson( this.winnersGame.GetWinnersGame(this.board, this.refery.PlayerInformation).ToArray<PlayerInfo>(), this.refery ),
+            TokensInBoard = Game.TokensInBoardJson( this.board.Clone().TokensInBoard ),
+            FinishGame = this.finishGame.FinishGame( this.board.Clone(), this.refery.PlayerInformation ),
+            Winners = Game.PlayersForJson( this.winnersGame.GetWinnersGame(this.board.Clone(), this.refery.PlayerInformation).ToArray<PlayerInfo>(), this.refery.Clone() ),
         };
 
         return CurrInfo;

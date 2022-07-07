@@ -3,6 +3,7 @@ using Server.Data.Interfaces;
 public class ALotPoints : IWinGame {
     public IWinGame Clone() => new ALotPoints();
 
+    // TODO: Si alguien se pega entonces este va a ser el primero siempre.
     public IEnumerable<PlayerInfo> GetWinnersGame( IBoard board, IEnumerable<PlayerInfo> players ) {
         List< PlayerInfo > winners = new List<PlayerInfo>();
         foreach( var ply in players ) winners.Add(ply);

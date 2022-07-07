@@ -1,7 +1,7 @@
 namespace Server.Data.Classes;
 using Server.Data.Interfaces;
 
-// * El juego finaliza solo cuando todos los jugadores se pasan
+// * El juego finaliza solo cuando todos los jugadores se pasan o alguien se pega
 public class AllPassFinish : IFinishGame {
     int pass = 0;
 
@@ -10,7 +10,8 @@ public class AllPassFinish : IFinishGame {
         clone.pass = pass;
         return clone;
     }
-
+    
+    // TODO: Arreglar esto, que no esta contando la cantidad de pases 
     public bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players ) {
         if(this.pass == players.Count()) return true;
 
