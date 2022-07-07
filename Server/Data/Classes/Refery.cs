@@ -79,4 +79,23 @@ public class Refery {
             return info.ToArray();
         }
     }
+
+    public Refery Clone() {
+        Refery clone = new Refery(this.board.Clone());
+        
+        Player[] players = new Player[this.players.Length];
+        for(int i = 0; i < players.Length; i ++) players[i] = this.players[i].Clone();
+
+        List<Token>[] hands = new List<Token>[this.hands.Length];
+        for(int i = 0; i < hands.Length; i ++) {
+            hands[i] = new List<Token>();
+            for(int j = 0; j < this.hands[i].Count; j ++) {
+                hands[i].Add(this.hands[i][j].Clone());
+            }
+        }
+
+        clone.MakeTokens(hands, players);
+
+        return clone;
+    }
 }
