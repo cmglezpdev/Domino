@@ -47,19 +47,20 @@ public class Manager {
     public PlayInfo GamePlay() { 
 
         // TODO: EN vez de devolver el indice, devolver el ID
-        int idxCurrentPlayer = this.nextPlayer.NextPlayer( this.refery.PlayerInformation );
-        bool played = this.refery.Play(this.players[idxCurrentPlayer].IDPlayer.Item1);
+        int idCurrentPlayer = this.nextPlayer.NextPlayer( this.refery.PlayerInformation );
+        bool played = this.refery.Play(idCurrentPlayer);
         
         // Actualizar las propiedades staticas
-        Manager.CountTokenByPlayers[ idxCurrentPlayer ] -= ( played ? 1 : 0 );
-        Manager.CountTokenByPlayers[ idxCurrentPlayer ] = Math.Max(0, Manager.CountTokenByPlayers[ idxCurrentPlayer ] );
+        int indexCurrentPlayer = this.SearchPlayerIndex(idCurrentPlayer);
+        Manager.CountTokenByPlayers[ indexCurrentPlayer ] -= ( played ? 1 : 0 );
+        Manager.CountTokenByPlayers[ indexCurrentPlayer ] = Math.Max(0, Manager.CountTokenByPlayers[ indexCurrentPlayer ] );
         
-        Manager.PassedOfPlayers[ idxCurrentPlayer ] += ( played ? 0 : 1 );
+        Manager.PassedOfPlayers[ indexCurrentPlayer ] += ( played ? 0 : 1 );
 
         PlayInfo CurrInfo = new PlayInfo() {
             Players = Game.PlayersForJson( this.refery.PlayerInformation, this.refery ),
-            CurrentPlayer = idxCurrentPlayer,
-            points = this.refery.Points(idxCurrentPlayer),
+            CurrentPlayer = idCurrentPlayer,
+            points = this.refery.Points(idCurrentPlayer),
             Passed = !played,
             TokensInBoard = Game.TokensInBoardJson( this.board.TokensInBoard ),
             FinishGame = this.finishGame.FinishGame( this.board, this.refery.PlayerInformation ),
@@ -67,6 +68,13 @@ public class Manager {
         };
 
         return CurrInfo;
+    }
+
+    private int SearchPlayerIndex(int ID) {
+        for( int i = 0; i < this.players.Length; i ++ ) {
+            if( players[i].IDPlayer.Item1 == ID ) return i;
+        }
+        return -1;
     }
 }
 
