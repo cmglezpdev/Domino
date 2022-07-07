@@ -46,7 +46,6 @@ public class UnidimensionalBoard : IBoard {
         if( pos == 0 ) {
             // La ficha cabe esactamente como esta puesta
             if( this.matcher.ValidateMatch(token, 0, item, 0) ) {
-                System.Console.WriteLine(token[0].Value + ' ' + item[0].Value);
                 board[0].Played(0);
                 board.Insert(0, token.Clone());
                 board[0].Played( 0 );
@@ -55,7 +54,6 @@ public class UnidimensionalBoard : IBoard {
             }
             // Se rota la ficha
             if( this.matcher.ValidateMatch(token, 1, item, 0)) {
-                System.Console.WriteLine(token[1].Value + ' ' + item[0].Value);
                 board[0].Played(0);
                 board.Insert(0, token.Clone());
                 board[0].Played(1);
@@ -66,7 +64,6 @@ public class UnidimensionalBoard : IBoard {
         if( pos == board.Count - 1 ) {
           
             if( this.matcher.ValidateMatch(token, 0, item, 1) ) {
-                System.Console.WriteLine(token[0].Value + ' ' + item[1].Value);
                 board[pos].Played(1);
                 board.Add(token.Clone());
                 board[board.Count - 1].Played(0);
@@ -74,7 +71,6 @@ public class UnidimensionalBoard : IBoard {
             }
           
             if(this.matcher.ValidateMatch(token, 1, item, 1)) {
-                System.Console.WriteLine(token[1].Value + ' ' + item[1].Value);
                 board[pos].Played(1);
                 board.Add(token.Clone());
                 board[board.Count - 1].Played( 1 );

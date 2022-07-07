@@ -20,6 +20,7 @@ public class BotaGordaPlayer : RandomPlayer {
 
     public override Player Clone() {
         BotaGordaPlayer clone = new BotaGordaPlayer();
+        clone.IDPlayer = this.IDPlayer;
         return clone;
     }
 

@@ -22,7 +22,6 @@ public class TypeGameController : ControllerBase
         // Crear jugadores
         List<Player> players = new List<Player>();
         for(int i = 0; i < data.countPlayers[options.countPlayers]; i ++) {
-            System.Console.WriteLine("Player# " +  options.player[i]);
             players.Add( data.Players[ options.player[i] ].Clone() ); 
             players.Last().IDPlayer = (i, namesPlayers[i]);
 

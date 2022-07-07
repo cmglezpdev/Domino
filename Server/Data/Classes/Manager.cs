@@ -35,14 +35,12 @@ public class Manager {
         Manager.CountTokenByPlayers = new int[this.players.Length];
     }
 
-    // public IEnumerable<Player> StartGame( int MaxIdOfToken, int countTokens, TokenValue CalculateValue, IMatch matcher ) {
     public void StartGame( int MaxIdOfToken, int countTokens, TokenValue CalculateValue, IMatch matcher ) {
         Manager.MaxIdOfToken = MaxIdOfToken;
         this.board.SetMatcher(matcher);
         List<Token> bTokens = this.board.BuildTokens( MaxIdOfToken, CalculateValue );
         List<Token>[] htokens = this.distributeTokens.DistributeTokens(bTokens,this.players.Length, countTokens);
         this.refery.MakeTokens(htokens, this.players);
-        // return this.players;
     }
     
     // Realiza una jugada y devuelve informacion de la jugada

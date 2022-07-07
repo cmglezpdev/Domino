@@ -28,7 +28,7 @@ public class RandomPlayer : Player {
 
     public override Player Clone() {
         RandomPlayer clone = new RandomPlayer();
-
+        clone.IDPlayer = this.IDPlayer;
         return clone;
     }
 }

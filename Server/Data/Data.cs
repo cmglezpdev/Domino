@@ -100,7 +100,7 @@ public static class Game {
             result.Add(new ResPlayer() {
                 Id = p.IDPlayer.Item1,
                 Name = p.IDPlayer.Item2,
-                Points = refery.Points(i),
+                Points = p.Points,
                 HandTokens = hand.ToArray()
             });
         }

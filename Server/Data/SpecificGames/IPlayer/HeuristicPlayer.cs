@@ -25,7 +25,8 @@ public class HeuristicPlayer : RandomPlayer {
     }
     public override Player Clone() {
         HeuristicPlayer clone = new HeuristicPlayer();
-
+        clone.IDPlayer = this.IDPlayer;
+        clone.InHand = this.InHand;
         return clone;
     }
     private int Start(Token[] hand) {
