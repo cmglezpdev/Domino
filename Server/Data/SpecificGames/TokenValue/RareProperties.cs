@@ -1,6 +1,8 @@
 namespace Server.Data.Classes;
 
 public class RareProperties : TokenValue {
+    public override TokenValue Clone() => new RareProperties();
+
     public override int Value(Token token)
     {
         Func<int,int,int>[] calculator = {a,b,c,d,e,f,g,h};
