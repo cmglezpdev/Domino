@@ -11,7 +11,7 @@ public class AllPassFinish : IFinishGame {
         return clone;
     }
     
-    // TODO: Arreglar esto, que no esta contando la cantidad de pases 
+    // FIXME: Arreglar esto, que no esta contando la cantidad de pases 
     public bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players ) {
         if(this.pass == players.Count()) return true;
 
