@@ -103,11 +103,12 @@ public class UnidimensionalBoard : IBoard {
         return clone;
     }
 
-    public Token[,] TokensInBoard {
+    public (Token, string)[,] TokensInBoard {
         get{ 
-            Token[,] tokens = new Token[1, this.board.Count];
+            (Token, string)[,] tokens = new (Token, string)[1, this.board.Count];
             for(int i = 0; i < this.board.Count; i ++) {
-                tokens[0, i] = this.board[i];
+                var t = this.board[i];
+                tokens[0, i] = (t, (t[0].Value == t[1].Value) ? "vertical" : "horizontal");
             }
             
             return tokens; 

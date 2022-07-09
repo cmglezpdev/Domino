@@ -64,15 +64,19 @@ export const Board = ({ currentPlay }) => {
       const height = tokens.length;
       const width = tokens[0].length;
 
-      let direction = (token.left == token.right) ? "vertical" : "horizontal";
-            
-      if( ( i - 1 >= 0 && tokens[i - 1][j] != null) || (i + 1 < height && tokens[i + 1][j] != null) )
-        direction  = ( token.left != token.right ) ? "vertical" : "horizontal";
-      
-      if( (j - 1 >= 0 && tokens[i][j - 1] != null) || (j + 1 < width && tokens[i][j + 1] != null) )
-        direction  = ( token.left != token.right ) ? "horizontal" : "vertical";
+      console.log(token);
+      if( token.direction ) return token.direction == "vertical-reverse" ? "vertical" : token.direction;
 
-    return direction;
+      // let direction = (token.left == token.right) ? "vertical" : "horizontal";
+            
+      // if( ( i - 1 >= 0 && tokens[i - 1][j] != null) || (i + 1 < height && tokens[i + 1][j] != null) )
+      //   direction  = ( token.left != token.right ) ? "vertical" : "horizontal";
+      
+      // if( (j - 1 >= 0 && tokens[i][j - 1] != null) || (j + 1 < width && tokens[i][j + 1] != null) )
+      //   direction  = ( token.left != token.right ) ? "horizontal" : "vertical";
+
+    // return direction;
+  
   }
 
 

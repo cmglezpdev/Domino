@@ -107,16 +107,18 @@ public static class Game {
         return result;
     }
 
-    public static List<List<VertexToken>> TokensInBoardJson ( Token[,] Tokens ) {
-        List<List<VertexToken?>> TokensJson = new List<List<VertexToken>>()!;
+    public static List<List<VertexToken>> TokensInBoardJson ( (Token, string)[,] Tokens ) {
         
+        List<List<VertexToken?>> TokensJson = new List<List<VertexToken>>()!;
+
         for( int i = 0; i < Tokens.GetLength(0); i ++ ) {
             TokensJson.Add( new List<VertexToken>()! );
             for( int j = 0; j < Tokens.GetLength(1); j ++ ) {
-                if( Tokens[i, j] == null )
+                (Token t, string d) = Tokens[i,j];
+                if(t == null )
                     TokensJson.Last().Add(null);
                 else
-                TokensJson[ TokensJson.Count - 1 ].Add( new VertexToken(){ Left = Tokens[i, j][0].Value, Right = Tokens[i, j][1].Value } );
+                TokensJson[ TokensJson.Count - 1 ].Add( new VertexToken(){ Left = t[0].Value, Right = t[1].Value, Direction = d } );
             }
         }
 
@@ -137,4 +139,5 @@ public class ResPlayer {
 public class VertexToken {
     public int? Left {get; set;}
     public int? Right {get; set;}
+    public string? Direction {get; set;}
 }

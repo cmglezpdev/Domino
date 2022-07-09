@@ -11,6 +11,11 @@
     height: 50%;
 }
 
+.token[direction="vertical-reverse"] .dot-container {
+    width: 50px;
+    height: 50%;
+}
+
 .token[direction="horizontal"] .dot-container {
     width: 50%;
     height: 100%;

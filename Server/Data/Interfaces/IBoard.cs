@@ -7,7 +7,7 @@ public interface IBoard {
     //cambio posible
     bool ValidPlay(Token token);
 
-    Token[,] TokensInBoard {
+    (Token, string)[,] TokensInBoard {
         get;
     }
     Tuple<Token, int>[] OrderListOfTokensByPlayer {
