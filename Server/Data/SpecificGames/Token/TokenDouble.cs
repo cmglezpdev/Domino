@@ -29,9 +29,9 @@ public class TokenDouble : Token
             if (index == 1)
                 return this.Right;
             if (index == 2)
-                return this.Left;
+                return this.Up;
             if (index == 3)
-                return this.Right;
+                return this.Down;
             
             throw new System.Exception("Indice fuera de rango");
         }

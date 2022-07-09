@@ -29,9 +29,10 @@ public class MultidimensionalBorad : IBoard
     private IMatch matcher = null!;
     private int maxIdOfToken;
 
-    // private List< Info > board = new List<Info>();
-    Dictionary< Token, int > TokenByPlayer = new Dictionary<Token, int>();
-    private Dictionary< Coord, InfoToken > board = new Dictionary<Coord, InfoToken>();
+    private Dictionary< Token, int > TokenByPlayer = new Dictionary<Token, int>(); // Tokens correspondientes a cada jugador
+    private Dictionary< Coord, InfoToken > board = new Dictionary<Coord, InfoToken>(); // Tablero de juego
+    private Dictionary< Coord, string > TokenDirection = new Dictionary<Coord, string>(); // Direccion de los tokens en el tablero
+    // horizontal, horizontal-reversem vertical, vertical-reverse (por defecto se gita para la derecha)
 
     public List<Token> BuildTokens(int MaxIdOfToken, TokenValue calcValue)
     {
@@ -51,13 +52,14 @@ public class MultidimensionalBorad : IBoard
     public void PlaceToken(Token token, int IdPlayer)
     {
 
-        // The board is clean
+        // The board is void
         if( board.Count == 0 ) {
             TokenByPlayer[ token ] = IdPlayer;
             this.board[ new Coord(){x = 0, y = 0} ] = new InfoToken(){ 
                                                             token = token.Clone(), 
                                                             direction = "start"
                                                         };
+            this.TokenDirection[ new Coord(){x = 0, y = 0} ] = ( token.Left.Value == token.Right.Value ) ? "horizontal" : "vertical";
             return;
         }
 
@@ -187,7 +189,7 @@ public class MultidimensionalBorad : IBoard
         }
 
     }
-    public int MaxIdOfToken => this.MaxIdOfToken;
+    public int MaxIdOfToken => this.maxIdOfToken;
     public Token[,] TokensInBoard {
         get {
             
