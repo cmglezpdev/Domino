@@ -65,7 +65,7 @@ export const Board = ({ currentPlay }) => {
       const width = tokens[0].length;
 
       console.log(token);
-      if( token.direction ) return token.direction == "vertical-reverse" ? "vertical" : token.direction;
+      return token.direction;
 
       // let direction = (token.left == token.right) ? "vertical" : "horizontal";
             
