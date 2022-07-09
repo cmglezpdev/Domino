@@ -3,9 +3,10 @@ using Server.Data.Interfaces;
 using System.Diagnostics;
 
 public class Manager {
-    static public int MaxIdOfToken;
-    static public int[] PassedOfPlayers = new int[0];
-    static public int[] CountTokenByPlayers = new int[0];
+    static public int MaxIdOfToken; 
+    static public int[] IdOfPlayers = new int[0]; // Indice de los jugadores(esto corresponde con las propiedades de abajo)
+    static public int[] PassedOfPlayers = new int[0]; // Pases de los jugadores
+    static public int[] CountTokenByPlayers = new int[0]; // Contador de tokens por jugador
     
     Player[] players;
     IBoard board;
@@ -26,13 +27,19 @@ public class Manager {
         this.nextPlayer = nextPlayer;
         this.refery = refery;
         
-        List<Player> ply = new List<Player>();
-        foreach( var pl in players ) ply.Add(pl);
-        this.players = ply.ToArray();
-
         // Actualizar el tamanno de las propiedades staticas
-        Manager.PassedOfPlayers = new int[this.players.Length]; 
-        Manager.CountTokenByPlayers = new int[this.players.Length];
+        Manager.PassedOfPlayers = new int[players.Count()]; 
+        Manager.CountTokenByPlayers = new int[players.Count()];
+        Manager.IdOfPlayers = new int[players.Count()];
+
+        List<Player> ply = new List<Player>();
+        int idx = 0;
+        foreach( var pl in players ) {
+            ply.Add(pl);
+            Manager.IdOfPlayers[idx ++] = pl.IDPlayer.Item1;
+        }
+
+        this.players = ply.ToArray();
     }
 
     public void StartGame( int MaxIdOfToken, int countTokens, TokenValue CalculateValue, IMatch matcher ) {
@@ -46,12 +53,11 @@ public class Manager {
     // Realiza una jugada y devuelve informacion de la jugada
     public PlayInfo GamePlay() { 
 
-        // TODO: EN vez de devolver el indice, devolver el ID
         int idCurrentPlayer = this.nextPlayer.NextPlayer( this.refery.PlayerInformation );
         bool played = this.refery.Play(idCurrentPlayer);
         
         // Actualizar las propiedades staticas
-        int indexCurrentPlayer = this.SearchPlayerIndex(idCurrentPlayer);
+        int indexCurrentPlayer = Manager.SearchPlayerIndex(idCurrentPlayer);
         Manager.CountTokenByPlayers[ indexCurrentPlayer ] -= ( played ? 1 : 0 );
         Manager.CountTokenByPlayers[ indexCurrentPlayer ] = Math.Max(0, Manager.CountTokenByPlayers[ indexCurrentPlayer ] );
         
@@ -70,9 +76,9 @@ public class Manager {
         return CurrInfo;
     }
 
-    private int SearchPlayerIndex(int ID) {
-        for( int i = 0; i < this.players.Length; i ++ ) {
-            if( players[i].IDPlayer.Item1 == ID ) return i;
+    public static int SearchPlayerIndex(int ID) {
+        for( int i = 0; i < Manager.IdOfPlayers.Length; i ++ ) {
+            if( Manager.IdOfPlayers[i] == ID ) return i;
         }
         return -1;
     }
