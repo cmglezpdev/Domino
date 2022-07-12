@@ -75,6 +75,8 @@ Dentro de los aspectos especificos variables del juego tenemos:
 
 #### Tablero con mas caminos
 
+<hr />
+
 ### Estrategia de un jugador
 
 Abstraido en una clase abtracta `Player` que posee un metodo abtracto `PlayToken`(en teoria deberia devolver la posicion en el array que se le pasa de la ficha que desee jugar, si imcumple este principio devolviendo un numero de una posicion invalida en la partida, se considera un turno perdido).
@@ -97,6 +99,8 @@ Jugador basado en unas heuristas simples, siempre intenta salir con un doble, y 
 
 [Indice](#report)
 
+<hr />
+
 ### Distribution de las fichas por los jugadores
 
 Abstraido en una interface `IDistributeTokens` con un metedo `DistributeTokens` el cual debe ser implementado devolviendo la distribucion de las fichas para la partida que el implementador desee.
@@ -114,6 +118,8 @@ Reparte las fichas de forma aleatoria auxiliandose del tipo `Random`
 Reparte las fichas siguiendo la primicia de dar tantas fichas con igual representacion en una de sus caras como se pueda, cuando no se puedan dar mas se completan aleatoriamente.
 
 [Indice](#report)
+
+<hr />
 
 ### Valor de las fichas
 
@@ -133,6 +139,8 @@ Auxiliandonos del tipo `Func` y `Random` creamos varias formas de calcular el va
 
 [Indice](#report)
 
+<hr />
+
 ### Final de la partida
 
 Abstraido en una interface `IFinishGame` con un metodo booleano `FinishGame` que recibiendo el estado del tablero y la informacion de cada jugador debe decidr si eljuego termino.
@@ -150,6 +158,8 @@ Regla del domino clasico si alguien puso todas sus fichas o nadie tiene una fich
 Al igual que en el domino clasico si alguien se queda sin fichas, o si todos se pasan una x cantidad de veces.
 
 [Indice](#report)
+
+<hr />
 
 ### Siguiente Jugador
 
@@ -177,6 +187,8 @@ El mismo jugador repite su turno hasta que no le queden jugadas validas por juga
 
 [Indice](#report)
 
+<hr />
+
 ### Ganador
 
 Abstraido en una inteface `IWinGame` el cual debe devolver un `IEnumerable` con el orden en que quedan los jugadores al finalizar la partida.
@@ -195,6 +207,8 @@ Regla del domino clasica donde gana el jugador cuyas fichas tengan un valor meno
 
 [Indice](#report)
 
+<hr />
+
 ### Conexion de Fichas
 
 Abstraido en una interface `IMatch` cuya implementacion debe devolver si dos fichas se pueden conectar(es decir si se puede jugar cierta ficha X, donde ya halla otra ficha Y)
@@ -206,6 +220,10 @@ Implementacion del domino clasica donde dos fichas coinciden si alguna de sus ca
 #### Conexiones raras
 
 La fichas se pueden jugar siguiendo ciertas reglas, como por ejemplo si alguna cara de la ficha X es sucesora de alguna de la ficha Y, o si alguna cara es 0, siempre combina con cualquier cara.
+
+[Indice](#report)
+
+<hr />
 
 <!-- TODO: Seguir aqui con las demas cosas variables del juego -->
 
