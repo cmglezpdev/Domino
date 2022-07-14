@@ -40,6 +40,37 @@ La aplicacion esta dividida en dos partes: El `Client`, que no es mas que una ap
   
 ## Client
 
+El cliente de la aplicacion no es mas que la interfas grafica de l juego, esta esta desarrollada con un **React**, **un framework de Javascript** para desarrollo web. Este esta completamente separado del `Server` y estos se comunican mediante peticiones `http` intercambiandose informaciones entre ellos para poder crear un flujo en el juego.
+
+Lo primero que vemos al correr nuestro juego es un menu de opciones para poder seleccionar el tipo de juego que queremos jugar, seleccionando por separado las diferentes variaciones de funcionalidades importantes del mismo.
+
+![options](./assets/photo_report1.png)
+
+En el menu se muestra un barra de progreso que se va llenando a medida que vas seleccionando una opcion de cada variacion del juego y en la parte inferior te va mostrando las opciones que vas escogiendo.
+
+Una vez que seleciconas todos las variaciones deseadas aparecera el boton de `play` para iniciar el juego.
+
+<hr width="200px">
+
+Una vez iniciado el juego tendremos una interfas dividida en dos secciones.
+
+![board](./assets/photo_report2.png)
+
+En la seccion mas grande tendremos el tablero del juego, el cual en dependencia del tipo de juego seleccionado mostrara las fichas jugadas de una forma o de otra. Estas fichas al sobresalirse del tamano de la pantalla se podra hacer scroll par poder ver todas las esquinas del juego.
+
+El pa parte inferior tenemos la infomacion del jugador actual y dos botones, **NEXT TURN** para dar paso a que juege el otro jugador y el **RESET GAME** que es para reiniciar la partida con la misma configuracion seleccionada. Una vez el juego concluya el boton **NEXT TURN** dira **NEW GAME** el cual te permitira seleccionar otra configuracion para poder jugar una nueva partida con opciones diferentes.
+
+Ahi tambien tenemos en el medio las fichas del jugador actual que esta jugando y a la izquierda tenemos una miniatura de una cara representando al jugador y el nombre del mismo con sus respectivos puntos hasta ese momento de la partida.
+
+Si un jugador se pasa o se termina el juego, saldra en el medio de la pantalla un cartelito rojo mostrando **El jugador <nombre> se ha pasado!!**, y en caso de que el juego halla finalizado mostrara la lista de jugadores en el orden definido por la variacion de "quien gana el juego" seleccionada al principio. Aqui un ejemplo
+
+![](./assets/photo_report4.png)
+![](./assets/photo_report5.png)
+
+Y en la parte superior derecha tendremos dos botones: el **BACKGROUND** que es para poder ver cambiar la imagen del tablero, y el boton a su derecha con el icono **"i"** que es para poder ver las opciones del juego que seleccionastes al principio, que corresponden con la variacion del juego que se esta jugando.
+
+![boton-info](./assets/photo_report3.png)
+
 ## Server
 
 En el `Server` tenemos los controladores de la API(`Controllers`), los modelos(`Models`) que son clases bases para el envio y recivimiento de los request del Cliente, y la parte de `Data` que contiene toda la logica de la aplicacion.
