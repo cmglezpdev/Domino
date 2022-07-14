@@ -42,7 +42,7 @@ La aplicacion esta dividida en dos partes: El `Client`, que no es mas que una ap
 
 ## Server
 
-En el `Server` tenemos los controladores de la API(`Controllers`), los modelos(`Models`) que son clases bases para el envio y recivimiento de los request del Cliente, y la parte de `Data` que contriene toda la logica de la aplicacion.
+En el `Server` tenemos los controladores de la API(`Controllers`), los modelos(`Models`) que son clases bases para el envio y recivimiento de los request del Cliente, y la parte de `Data` que contiene toda la logica de la aplicacion.
 
 ### Controllers y Models
 
@@ -71,9 +71,29 @@ Dentro de los aspectos especificos variables del juego tenemos:
 
 ### Tablero
 
+Los tableros es la clase que se encarga de mantener y darle forma a las fichas que los jugadores han jugado, esta puede variar en dependencia del tipo de juego que se quiera jugar, por lo que se creo la interfas `IBoard`, que modela los metodos basicos que tiene un tablero.
+
+Dentro de las responsabilidades que tienen los tableros esta la construccion de las fichas que se van a usar para jugar mediante el metodo: 
+
+```cs
+public List<Token> BuildTokens(int MaxIdOfToken, TokenValue calcValue)
+```
+
+y ademas contiene otro metodo importante llamado:
+
+```cs
+public bool ValidPlay(Token token);
+```
+
+que usando una instancia de la clase [IMatch](#conexion-de-fichas) valida si una ficha puede ser jugada en el tablero.
+
 #### Tablero clasico
 
+Este es la primera variacion del tablero y representa al tablero clasico, o sea, es una mesa en donde los jugadores solo pueden jugar fichas por las esquinas izquierdas y derechas de la pila de fichas ya jugadas. 
+
 #### Tablero con mas caminos
+
+Este tablero es un poco diferente ya que, los jugadores pueden jugar sus fichas y estas pueden ser colocadas por los laterales de la pila de fichas ya jugadas o, si se juego algun doble, entonces se podran jugar por los cuatro lados de la ficha(las dos caras normales mas por encima y por debajo), saliendo de este otra ramificacion del tablero por donde se podra jugar normalmente. 
 
 <hr />
 
@@ -97,7 +117,7 @@ Selecciona entre todas sus fichas la de mas valor, si es valida la juega, sino b
 
 Jugador basado en unas heuristas simples, siempre intenta salir con un doble, y jugar la ficha cuyas caras esten mas repetidas en su mano.
 
-[Indice](#report)
+[Indice☝](#report)
 
 <hr />
 
@@ -115,9 +135,9 @@ Reparte las fichas de forma aleatoria auxiliandose del tipo `Random`
 
 #### Todas las fichas del mismo tipo
 
-Reparte las fichas siguiendo la primicia de dar tantas fichas con igual representacion en una de sus caras como se pueda, cuando no se puedan dar mas se completan aleatoriamente.
+Reparte las fichas siguiendo la premicia de dar tantas fichas con igual representacion en una de sus caras como se pueda, cuando no se puedan dar mas se completan aleatoriamente.
 
-[Indice](#report)
+[Indice☝](#report)
 
 <hr />
 
@@ -137,7 +157,38 @@ El valor viene dado por la diferencia de las caras de la ficha.
 
 Auxiliandonos del tipo `Func` y `Random` creamos varias formas de calcular el valor de la ficha y aleatoriamente aplicamos una en la ficha dada.
 
-[Indice](#report)
+Dentro de las formas de calcular el valor estan: 
+
+```cs
+private int a(int right, int left){
+    return (int)Math.Abs(Math.Pow(right,3) - Math.Pow(left, 2));
+}
+private int b(int right, int left){
+    return (2 + right + left)/2;
+}
+private int c(int right, int left){
+    return (int)Math.Abs((Math.Cos(left)-Math.Sin(right))*10);
+}
+private int d(int right, int left){
+    return Math.Abs((right + left)*(right-left));
+}
+private int e(int right, int left){
+    return (int)((Math.Sqrt(right) + Math.Log2(left + 1))*5);
+}
+private int f(int right, int left){
+    return 0;
+}
+private int g(int right, int left){
+    return 1000;
+}
+private int h(int right, int left){
+    return (int)Math.Abs(Math.PI*(Math.Pow(right,2)-Math.Sqrt(left+10)));
+}
+```
+
+Entonces cuando se consulte el valor de una ficha, este seleccionara un metodo de estos de forma random y devolvera como valor de la ficha la evaluacion de la expresion matematica que contiene el metodo.
+
+[Indice☝](#report)
 
 <hr />
 
@@ -155,15 +206,15 @@ Regla del domino clasico si alguien puso todas sus fichas o nadie tiene una fich
 
 #### Todos se pasan
 
-Al igual que en el domino clasico si alguien se queda sin fichas, o si todos se pasan una x cantidad de veces.
+Al igual que en el domino clasico si alguien se queda sin fichas, o si al menos la mitad de los jugadores se pasan 2 veces.
 
-[Indice](#report)
+[Indice☝](#report)
 
 <hr />
 
 ### Siguiente Jugador
 
-Abstraido en una interface `INextPlayer` esta interface debe ser implementada de forma tal que devuelva el indice del jugador que le toca jugar.
+Abstraido en una interface `INextPlayer` esta interface debe ser implementada de forma tal que devuelva el ID del jugador que le toca jugar.
 
 ~~~C#
 int NextPlayer( PlayerInfo[] players );
@@ -183,15 +234,15 @@ El juego comienza con un orden establecido, pero si alguien se pasa este orden e
 
 #### Todas las fichas
 
-El mismo jugador repite su turno hasta que no le queden jugadas validas por jugar.
+El mismo jugador repite su turno hasta que no le queden jugadas validas por realizar.
 
-[Indice](#report)
+[Indice☝](#report)
 
 <hr />
 
 ### Ganador
 
-Abstraido en una inteface `IWinGame` el cual debe devolver un `IEnumerable` con el orden en que quedan los jugadores al finalizar la partida.
+Abstraido en una inteface `IWinGame` el cual debe devolver un `IEnumerable` con el orden en que quedan los jugadores al finalizar de cada  partida.
 
 ~~~C#
 IEnumerable<PlayerInfo> GetWinnersGame( IBoard board, IEnumerable<PlayerInfo> players );
@@ -199,13 +250,13 @@ IEnumerable<PlayerInfo> GetWinnersGame( IBoard board, IEnumerable<PlayerInfo> pl
 
 #### Mas puntos
 
-Gana el jugador con mayor valor en sus fichas.
+Gana el jugador con mayor valor en sus fichas, pero si alguien se pega, este este es el que gana.
 
 #### Menos puntos
 
 Regla del domino clasica donde gana el jugador cuyas fichas tengan un valor menor.
 
-[Indice](#report)
+[Indice☝](#report)
 
 <hr />
 
@@ -219,13 +270,10 @@ Implementacion del domino clasica donde dos fichas coinciden si alguna de sus ca
 
 #### Conexiones raras
 
-La fichas se pueden jugar siguiendo ciertas reglas, como por ejemplo si alguna cara de la ficha X es sucesora de alguna de la ficha Y, o si alguna cara es 0, siempre combina con cualquier cara.
+La fichas se pueden jugar siguiendo ciertas reglas. En genral, dos fichas son aptas para jugarse si:
 
-[Indice](#report)
+1. El valor de la cara de una ficha es el numero previo al de una cara de la otra ficha.
+2. Si una cara tiene valor cero, entonces se puede jugar con cualquier otra ficha.
+3. Si una cara de una ficha es multiplo de una cara de la otra ficha. 
 
-<hr />
-
-<!-- TODO: Seguir aqui con las demas cosas variables del juego -->
-
-<!-- TODO: Escribir una breve descripcion de lo que hace cada clase -->
-<!-- TODO: Crear un link por cada variacion para poder volver al menu -->
+[Indice☝](#report)
