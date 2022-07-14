@@ -2,7 +2,7 @@
 
 Proyecto de Programacion II
 
-![Domino](./screenshot.png)
+![Domino](./assets/screenshot.png)
 
 
 [Orientacion del proyecto](https://github.com/matcom/domino)
@@ -80,13 +80,13 @@ Si al ejecutar la aplicacion no te carga las opciones para seleccionar el tipo d
 
 Luego vas a la pestaña de `Network` y veras un listado con la palabra `loader` en rojo. Esta es la primera peticion que hace la app al server y es rechazada
 
-![](./error-1.png)
+![](./assets/error-1.png)
 
 Si das doble click ahi aparecera al lado la informacion de la peticion y el link al cual se hizo. Le damos doble click al link y nos abrira una ventana con la cual estara bloqueada por el navegador.
 
 Lo unico que tenemos que hacer es darle click a `Mostrar configuracion avanzada` y despues a `Acceder a localhost(sitio no seguro)`. Esto eliminara la restriccion y podras acceder sin problema a la informacion devuelta por la api.
 
-![](./error-2.png)
+![error](./assets/error-2.png)
 
 Ya solo queda recargar la paguina del juego y ver que salgan las opciones.
 
