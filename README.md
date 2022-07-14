@@ -1,13 +1,12 @@
 # Domino
 
-Proyecto de Programacion II
+> Proyecto de Programacion II
 
 ![Domino](./assets/screenshot.png)
 
 
 [Orientacion del proyecto](https://github.com/matcom/domino)
 
-[Lista de tareas](https://github.com/cmglezpdev/Domino/projects/1)
 
 Esta aplicación es una simulación de un jugador de domino, en donde usted podra jugar diferentes variantes del juego de domino clásico, cambiando las reglas de juego a su gusto.
 
@@ -71,7 +70,7 @@ yarn electron-dev
 yarn start
 ```
 
-**Nota:** La aplicacion de escritorio actualmente tiene un pequeño error, por lo que recomiendo ejecutarlo como aplicacion web.
+**Nota:** La aplicacion de escritorio actualmente tiene un error, por lo que recomiendo ejecutarlo como aplicacion web.
 
 
 ### Posible error al ejecutar la aplicacion
@@ -96,7 +95,7 @@ Si tienes una nueva implementacion diferente de una de las caracteristicas que s
 
 **1. Crear la clase** 
 
-En la carpeta `Data/SpecificGames` buscas la parte del juego que quieres crear nueva y creas una clase en un fichero.cs nuevo que herede la interfas corresponiente e implementas la variacion. Es recomendable que el nombre de la clase decriba o identifique el tipo de variacion correspondiente para poder diferenciarla con las demas implementaciones. 
+En la carpeta `Data/SpecificGames` buscas la parte del juego que quieres crear nueva y creas una clase en un fichero.cs nuevo que herede la interfas corresponiente e implementas la variacion. Es recomendable que el nombre de la clase describa o identifique el tipo de variacion correspondiente para poder diferenciarla con las demas implementaciones. 
 
 **2. Anadir los datos**
 
@@ -107,3 +106,11 @@ En la carpeta `Data` modificas la clase `Data` y anades una nueva instancia al a
 En la carpeta `Models` se modifica el fichero `GetOptions.cs` y se andade en el grupo de opciones correspondiente, en el array de `nameOptions` de ese grupo una descripcion identificadora de la implementacion desarrollada.
 
 **Importante:** Es importante que las descripciones de las variaciones tengan el mismo orden que las instancias de las clases que identifican cada una de las descripciones anadidas, ya que estos se seleccionaran dinamicamente por el indice que ocupen en el array. Si no tiene un orden correcto, este puede traer errores en la ejecucion del juego.
+
+
+
+## Desarrolladores
+
+Carlos Manuel Gonzalez Peña: [@cmglezpdev](https://github.com/cmglezpdev)
+
+Jorge Alberto Aspiola Gonzalez: [@aspio28](https://github.com/aspio28)
