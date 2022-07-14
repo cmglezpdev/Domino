@@ -16,7 +16,6 @@ export const Board = ({ currentPlay }) => {
       // count of rows and columns
       const height = tokens.length;
       const width = ( height == 0 ) ? 0 : tokens[0].length;
-      console.log(height,width);
       
       setGridSettings({
         width: width,
@@ -61,7 +60,6 @@ export const Board = ({ currentPlay }) => {
 
   const getDirection = (tokens, i, j) => {
       const token = tokens[i][j];
-      console.log(token);
       return token.direction;
   }
 

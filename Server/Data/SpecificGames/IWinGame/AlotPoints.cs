@@ -14,11 +14,6 @@ public class ALotPoints : IWinGame {
             return ( a.Points > b.Points ) ? -1 : (a.Points < b.Points) ? 1 : 0;
         });
 
-
-        foreach(var x in winners)
-            System.Console.WriteLine($"ID: {x.IDPlayer.Item1} -- Name: {x.IDPlayer.Item2} --> {x.Points}");
-        System.Console.WriteLine();
-
         return winners;
     }
 }

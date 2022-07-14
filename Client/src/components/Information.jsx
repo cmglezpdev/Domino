@@ -18,8 +18,7 @@ export const Information = ({ open, setOpen }) => {
         fetch( `${BASE_URL}/loader` )
             .then( response => response.json())
             .then( data => {
-                console.log(data.options);
-                setInitialOptions(
+                    setInitialOptions(
                     data.options
                 ); 
             });

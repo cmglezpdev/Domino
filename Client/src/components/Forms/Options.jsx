@@ -70,7 +70,6 @@ export const Options = () => {
 
     const selectedAllPlayers = () => {
         for(let i = 0; i < context.settings.countPlayers; i ++) {
-            console.log(context.settings);
             if( context.settings[`player_${i}`] == undefined ) return false;
         }
         return true;

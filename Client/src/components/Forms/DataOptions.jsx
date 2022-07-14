@@ -40,7 +40,7 @@ export const DataOptions = ({ titleOption, nameOptions, id, value, GetOptions })
 
     }
 
-
+    // TODO: Arreglar los problemas con los keys de las opciones
     // devuelve un array de 0, 1, .... , length
     const getArrayPlayers = (length) => Array.from({length : length}, (v, i) => i);
 
