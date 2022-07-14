@@ -65,7 +65,7 @@ export const Board = ({ currentPlay }) => {
       return token.direction;
   }
 
-
+    // TODO: ver como centrar el tablero para que se vean todas las fichas al hacer scroll
     return (
       <div className="container-game__board" >
         <div 
