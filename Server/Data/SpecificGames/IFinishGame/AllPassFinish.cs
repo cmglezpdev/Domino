@@ -15,18 +15,17 @@ public class AllPassFinish : IFinishGame {
     // Para esto usa la propiedad estatica Manager.StatusCurrentPlay
     public bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players ) {
 
-        int IDPlayerAux = -1;
-        foreach(var item in Manager.StatusCurrentPlay){
-            if(item.IDPlayerPlayed != IDPlayerAux){
-                if(item.Passed) pass++;
-                else pass = 0;
-            }
-        }
-        if(this.pass == players.Count()) return true;
-
         foreach( var item in players) {
             if( item.Count == 0) return true;
         }
+
+        bool[] aux = new bool[players.Count()];
+        foreach(var item in Manager.StatusCurrentPlay){
+            if(item.Passed) aux[Manager.SearchPlayerIndex(item.IDPlayerPlayed)] = true;
+            else aux = new bool[players.Count()];
+            }
+        if(aux.All(x => x == true)) return true;
+
         return false;
     }
 }
