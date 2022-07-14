@@ -20,7 +20,14 @@ public class AllPassFinish : IFinishGame {
         int n = Manager.StatusCurrentPlay.Count;
         if( n < players.Count() ) return false;
         
-        int count = 0;
+        bool[] aux = new bool[players.Count()];
+        foreach(var item in Manager.StatusCurrentPlay){
+            if(item.Passed) aux[Manager.SearchPlayerIndex(item.IDPlayerPlayed)] = true;
+            else aux = new bool[players.Count()];
+            }
+        if(aux.All(x => x == true)) return true;
+
+         int count = 0;
         for(int i = n - 1; i >= 0; i --) {
             if( Manager.StatusCurrentPlay[i].Passed ) {
                 count ++;
