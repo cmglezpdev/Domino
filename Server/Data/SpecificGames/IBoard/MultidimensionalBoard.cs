@@ -48,7 +48,6 @@ public class MultidimensionalBorad : IBoard
         return tokens;
     }
     
-    // TODO: Priorizar poner los tokens en los lados que no esten ocupados a lo largo
     public void PlaceToken(Token token, int IdPlayer)
     {
 

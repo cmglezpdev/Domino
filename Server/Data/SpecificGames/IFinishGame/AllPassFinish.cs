@@ -12,6 +12,7 @@ public class AllPassFinish : IFinishGame {
     }
     
     // FIXME: Arreglar esto, que no esta contando la cantidad de pases 
+    // Para esto usa la propiedad estatica Manager.StatusCurrentPlay
     public bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players ) {
         if(this.pass == players.Count()) return true;
 

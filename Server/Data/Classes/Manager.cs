@@ -7,7 +7,8 @@ public class Manager {
     static public int[] IdOfPlayers = new int[0]; // Indice de los jugadores(esto corresponde con las propiedades de abajo)
     static public int[] PassedOfPlayers = new int[0]; // Pases de los jugadores
     static public int[] CountTokenByPlayers = new int[0]; // Contador de tokens por jugador
-    
+    static public List<StatusCurrentPlay> StatusCurrentPlay = new List<StatusCurrentPlay>(); // Informacion publica de los jugadores
+
     Player[] players;
     IBoard board;
     IDistributeTokens distributeTokens;

@@ -21,11 +21,31 @@ public class Refery {
         int IndexPlayer = SearchPlayerIndex(IdPlayer);
         aux = players[IndexPlayer].PlayToken(board, hands[IndexPlayer].ToArray());
 
-        if(aux < 0 || aux > hands[IndexPlayer].Count) return false;
-        if(!board.ValidPlay(hands[IndexPlayer][aux])) return false;
+        if(aux < 0 || aux > hands[IndexPlayer].Count || 
+            !board.ValidPlay(hands[IndexPlayer][aux]) ) {
+
+                // Crear el estado del juego para cuando el jugador no jugo
+                Manager.StatusCurrentPlay.Add( new StatusCurrentPlay(){
+                    IDPlayerPlayed = IdPlayer,
+                    Passed = true,
+                    TokenPlayed = null,
+                    StatusBoard = board.Clone(),
+                } );
+
+                return false;
+            } 
 
         board.PlaceToken(hands[IndexPlayer][aux], IdPlayer);
         hands[IndexPlayer].RemoveAt(aux);
+
+        // Crear el estado del juego cuando el jugador ya realizo su jugada
+        Manager.StatusCurrentPlay.Add( new StatusCurrentPlay(){
+            IDPlayerPlayed = IdPlayer,
+            Passed = false,
+            TokenPlayed = hands[IndexPlayer][aux].Clone(),
+            StatusBoard = board.Clone(),
+        } );
+
         return true;
     }
     public Token[] Hand( int IdPlayer ) {
