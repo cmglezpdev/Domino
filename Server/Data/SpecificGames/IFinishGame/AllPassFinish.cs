@@ -15,19 +15,19 @@ public class AllPassFinish : IFinishGame {
             if( item.Count == 0) return true;
         }   
 
-        int n = Manager.StatusCurrentPlay.Count;
+        int n = (int)Game.manager?.StatusCurrentPlay.Count!;
         if( n < players.Count() ) return false;
         
         bool[] aux = new bool[players.Count()];
-        foreach(var item in Manager.StatusCurrentPlay){
-            if(item.Passed) aux[Manager.SearchPlayerIndex(item.IDPlayerPlayed)] = true;
+        foreach(var item in Game.manager.StatusCurrentPlay){
+            if(item.Passed) aux[Game.manager.SearchPlayerIndex(item.IDPlayerPlayed)] = true;
             else aux = new bool[players.Count()];
             }
         if(aux.All(x => x == true)) return true;
 
          int count = 0;
         for(int i = n - 1; i >= 0; i --) {
-            if( Manager.StatusCurrentPlay[i].Passed ) {
+            if( Game.manager.StatusCurrentPlay[i].Passed ) {
                 count ++;
                 if( count == players.Count() ) return true;
                 continue;

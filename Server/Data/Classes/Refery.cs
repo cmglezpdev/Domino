@@ -24,7 +24,7 @@ public class Refery {
         if((aux < 0 || aux > hands[IndexPlayer].Count) || !board.ValidPlay(hands[IndexPlayer][aux]) ) {
 
             // Crear el estado del juego para cuando el jugador no jugo
-            Manager.StatusCurrentPlay.Add( new StatusCurrentPlay(){
+            Game.manager?.StatusCurrentPlay.Add( new StatusCurrentPlay(){
                 IDPlayerPlayed = IdPlayer,
                 Passed = true,
                 TokenPlayed = null,
@@ -37,7 +37,7 @@ public class Refery {
         board.PlaceToken(hands[IndexPlayer][aux], IdPlayer);
 
         // Crear el estado del juego cuando el jugador ya realizo su jugada
-        Manager.StatusCurrentPlay.Add( new StatusCurrentPlay(){
+        Game.manager?.StatusCurrentPlay.Add( new StatusCurrentPlay(){
             IDPlayerPlayed = IdPlayer,
             Passed = false,
             TokenPlayed = hands[IndexPlayer][aux].Clone(),
