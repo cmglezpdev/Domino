@@ -1,4 +1,5 @@
 namespace Server.Data.Classes;
+using Server.Data.Interfaces;
 
 // * Ficha 
 public class Token {
@@ -6,9 +7,9 @@ public class Token {
     // id de la cara, true si esta disponible pa jugarla
     public InfoFace Left;
     public InfoFace Right;
-    protected TokenValue CalculateValue;
+    protected ITokenValue CalculateValue;
 
-    public Token(int left, int right, TokenValue calculateValue ){
+    public Token(int left, int right, ITokenValue calculateValue ){
         this.CalculateValue = calculateValue;
         this.Left = new InfoFace(){
             IdFace = 0,

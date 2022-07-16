@@ -1,7 +1,4 @@
 namespace Server.Data.Classes;
-
-using System;
-using System.Collections.Generic;
 using Server.Data.Interfaces;
 
 public class MultidimensionalBorad : IBoard
@@ -32,7 +29,7 @@ public class MultidimensionalBorad : IBoard
     private Dictionary< Token, int > TokenByPlayer = new Dictionary<Token, int>(); // Tokens correspondientes a cada jugador
     private Dictionary< Coord, InfoToken > board = new Dictionary<Coord, InfoToken>(); // Tablero de juego
 
-    public List<Token> BuildTokens(int MaxIdOfToken, TokenValue calcValue)
+    public List<Token> BuildTokens(int MaxIdOfToken, ITokenValue calcValue)
     {
         this.maxIdOfToken = MaxIdOfToken;
         List<Token> tokens = new List<Token>();

@@ -58,7 +58,7 @@ public class Data {
         new MultidimensionalBorad(),
     };
     // Variaciones de como se calcula el valor de una ficha
-    public TokenValue[] TokensValue = new TokenValue[] {
+    public ITokenValue[] TokensValue = new ITokenValue[] {
         new SumOfFaces(),
         new SubOfFaces(),
         new RareProperties(),

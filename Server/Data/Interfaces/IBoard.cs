@@ -3,7 +3,7 @@ using Server.Data.Classes;
 
 public interface IBoard {
   // Construye las fichas del juego 
-    List<Token> BuildTokens( int MaxIdOfToken, TokenValue CalculateValue ); 
+    List<Token> BuildTokens( int MaxIdOfToken, ITokenValue CalculateValue ); 
     
     // Recibe una ficha, la valida y la coloca en el tablero 
     void PlaceToken( Token token, int IdPlayer ); 

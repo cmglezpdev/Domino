@@ -1,9 +1,10 @@
 namespace Server.Data.Classes;
+using Server.Data.Interfaces;
 
-public class RareProperties : TokenValue {
-    public override TokenValue Clone() => new RareProperties();
+public class RareProperties : ITokenValue {
+    public ITokenValue Clone() => new RareProperties();
 
-    public override int Value(Token token)
+    public int Value(Token token)
     {
         Func<int,int,int>[] calculator = {a,b,c,d,e,f,g,h};
         Random r = new Random();

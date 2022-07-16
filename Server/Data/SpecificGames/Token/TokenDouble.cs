@@ -1,10 +1,11 @@
 namespace Server.Data.Classes;
+using Server.Data.Interfaces;
 
 public class TokenDouble : Token
 {   
     public InfoFace Up;
     public InfoFace Down;
-    public TokenDouble(int left, int right, TokenValue calculateValue) : base(left, right, calculateValue)
+    public TokenDouble(int left, int right, ITokenValue calculateValue) : base(left, right, calculateValue)
     {
         this.Up = new InfoFace(){
             IdFace = left,
