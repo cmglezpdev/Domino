@@ -5,7 +5,7 @@ public class HeuristicPlayer : RandomPlayer {
     public override int PlayToken(IBoard board, Token[] hand)
     {
         
-        Organize(board.MaxIdOfToken, hand);
+        Organize((int)Game.manager?.MaxIdOfToken!, hand);
         if(board.TokensInBoard.Length == 0){
             int start = Start(hand);
             return start;

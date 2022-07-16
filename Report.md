@@ -1,6 +1,6 @@
 # Report
 
-La aplicación está dividida en dos partes: El `Client`, que no es más que una aplicación de [React](https://es.reactjs.org/) para poder manejar la parte visual, y el `Server`,que es una API desarrollada en [C# .Net 6](https://dotnet.microsoft.com/en-us/) que contiene toda la lógica y funcionalidad de la aplicación.
+## Indice general
 
 - [Report](#report)
   - [Client](#client)
@@ -46,9 +46,9 @@ Lo primero que vemos al correr nuestro juego es un menú de opciones para poder 
 
 ![options](./assets/photo_report1.png)
 
-En el menú se muestra un barra de progreso que se va llenando a medida que vas seleccionando una opción de cada variación del juego y en la parte inferior te va mostrando las opciones que vas escogiendo.
+En el menú se muestra un barra de progreso que se va llenando a medida que vas seleccionando una opción de cada variación del juego y en la parte inferior se va mostrando las opciones que vas escogiendo.
 
-Una vez que seleccionas todos las variaciones deseadas aparecerá el boton de `play` para iniciar el juego.
+Una vez que seleccionas todos las variaciones deseadas aparecerá el botón de `play` para iniciar el juego.
 
 <hr width="200px">
 
@@ -71,23 +71,129 @@ Y en la parte superior derecha tendremos dos botones: el **BACKGROUND** que es p
 
 ![boton-info](./assets/photo_report3.png)
 
+### Un poco sobre el softweare
+
+Nuestra aplicación al principio hace una petición `http` al servidor para que este nos de la información sobre las opciones a mostrar al usuario. Esta al ser cargada se muestra dinámicamente mediante componentes que reciben la información, por lo que si se añade más opciones este será capaz de adaptarse correctamente. 
+
+El usuario constará con pequeñas validaciones mientras selecciona las opciones, mostrando un mensaje de error si este comete alguno. También tiene un seguimiento en la parte inferior que se va generando dinámicamente y guardando las selecciones hechas para mejor feedback. 
+
+Todas estas opciones se guardan en un `Context` general y se va actualizando con cada selección y, al final de todas las opciones este se enviará al servidor mediante otra petición http y donde el server devolverá la información incial para mostar en el juego.
+
+Una vez dentro del mismo, al dar click en el boton de **NEXT TURN**, este hará una petición http al servidor pidiendo los datos de la nueva jugada, la cual será cargada y mostrada en pantalla.
+
+Cuando termine la partida y se toca el boton de **NEW GAME** lo que hace la aplicación es borrar esos datos que tenia guardado en el `Context` y automáticamente cambia la vista para poder seleccionar una nueva variante del juego.
+
+Si por el contrario de da click en el boton de **RESET GAME** este lo que hace simplemente es realizar nuevamente la misma petición http que se hizo al principio para reiniciar el juego en nuestro server, manteniendo las mismas opciones del juego actual.
+
 ## Server
 
-El servidor del juego es una API desarrollada en C#, este tiene varios controladores que se comunican con el Cliente para mandar y recibir información y tiene también toda la lógica del juego, clases, implementaciones, etc.
+El servidor del juego es una **API REST** desarrollada en C#, este tiene tres controladores que se comunican con el Cliente para mandar y recibir información y tiene también toda la lógica del juego, clases, implementaciones, etc.
 
 En el `Server` tenemos los controladores de la API(`Controllers`), los modelos(`Models`) que son clases bases para el envío y recibimiento de los request del Cliente, y la parte de `Data` que contiene toda la lógica de la aplicación.
 
 ### Controllers y Models
 
-**LoaderController**: Este controlador carga la clase `InterfaceOfOptions` que está dentro de los `Models` que tiene un conjunto de informaciones relacionadas con las diferentes variaciones ya desarrolladas del juego.
+**LoaderController**: Este controlador es la primera petición que se realiza en el `Client` y es el que carga la clase `InterfaceOfOptions` que está dentro de los `Models` que tiene un conjunto de informaciones relacionadas con las diferentes variaciones ya desarrolladas del juego que se mostrarán en el cliente (id, nombre y descripcion).
 
-**TypeGameController**: Una vez que el usuario en la interfaz gráfica termina de seleccionar los diferentes aspectos para generar una variación del juego, esta información es mandada al `server` y este `controller` lo que hace es inicializar las clases generales y construir nuestro `Manager`(Clase que controla el flujo del juego) con las respectivas variaciones que el usuario seleccionó.
+**TypeGameController**: Una vez que el usuario en la interfaz gráfica termina de seleccionar los diferentes aspectos para generar una variación del juego, esta información es mandada al `Server` y este `Controller` lo que hace es recibir esas opciones y usa las clases correspondientes para construir nuestro `Manager`(Clase que controla el flujo del juego). Una vez hecho esto, se inicializa el juego y se manda la información inicial de la partida de vuelta al cliente.
 
 **NextTurnController**: Este `controller` se ejecuta cada vez que en el juego corresponde a un nuevo turno, en donde este se encarga de ejecutar los métodos necesarios del `Manager` para realizar la próxima jugada, y devuelve la información correspondiente de esa jugada que se realizó.
 
 ### Data
 
-La sección de la `Data` tiene una clase principal `Data` que tiene varios arrays de instancias de las variaciones que tenemos implementadas en el juego, asi como varios métodos que 'parsean' algunas informaciones del juego en una estructura específica para que sea más fácil usar esa información en el `Client`(usando JSON);
+La sección de la `Data` tiene una clase principal `Data` que tiene varios arrays de instancias de las variaciones que tenemos implementadas en el juego, asi como varios métodos que 'parsean' algunas informaciones del juego en una estructura específica para que sea más fácil usar esa información en el `Client`(usando JSON)
+
+```cs
+
+// Datos correspondientes a la cantidad de jugadores posibles a seleccionar
+public int[] countPlayers = new int[] {
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+};
+// Datos correspondientes al maximo numero que se le podra poner a una ficha
+public int[] maxIdTokens = new int[] {
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+};
+// Cantidad de fichas que se seleccionará por jugador
+public int[] countTokens = new int[] {
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+};
+// varaiciones de los jugadores
+public Player[] Players = new Player[] {
+    new RandomPlayer(),
+    new BotaGordaPlayer(),
+    new HeuristicPlayer(),
+};
+// Variaciones del tablero
+public IBoard[] Boards = new IBoard[] {
+    new UnidimensionalBoard(),
+    new MultidimensionalBorad(),
+};
+// Variaciones de como se calcula el valor de una ficha
+public TokenValue[] TokensValue = new TokenValue[] {
+    new SumOfFaces(),
+    new SubOfFaces(),
+    new RareProperties(),
+};
+// Variaciones de como se pueden colocar dos fichas en el tablero
+public IMatch[] Matches = new IMatch[] {
+    new EqualFace(),
+    new RareEquivalence(),
+};
+// Variaciones de como se distribuye las fichas entre los jugadores
+public IDistributeTokens[] DistributeTokens = new IDistributeTokens[] {
+    new RandomDistribution(),
+    new AllforOneDistribution(),
+};
+// Variaciones de como se finaliza el juego 
+public IFinishGame[] FinishGames = new IFinishGame[] {
+    new AllPassFinish(),
+    new APassFinish()
+};
+// variaciones de como se gana el juego
+public IWinGame[] WinGames = new IWinGame[] {
+    new FewPoints(),
+    new ALotPoints()
+};
+// Variaciones de como se selecciona el proximo jugador
+public INextPlayer[] NextPlayers = new INextPlayer[] {
+    new OrderTurn(),
+    new RandomTurn(),
+    new InvertedTurn(),
+    new NextPlayerLongana(),
+};
+
+```
 
 Además de esto tenemos una estructura de directorios formada por:
 `Classes`: Contiene las clases generales del juego o que no necesitan de una interfaz.
@@ -96,7 +202,9 @@ Además de esto tenemos una estructura de directorios formada por:
 
 ### Vista general de la Abstracciones
 
-Dentro de la sección `Classes` las principales clases son: `Manager`, el cual es el encargado de controlar el flujo de la partida, y posee todas las características(reglas) seleccionadas por el usuario. La otra clase importante es `Refery` la cual tiene la tarea de controlar las jugadas de cada jugador(esta clase la implementamos como forma de evitar el surgimiento de jugadores que incumplieran las reglas preestablecidas de la partida), además posee las fichas de todos los  jugadores y les ordena a los mismos elegir que ficha jugar, revisando si la elegida es válida, y finalmente colocándola en el tablero.
+Dentro de la sección `Classes` las principales clases son: 
+- `Manager`, el cual es el encargado de controlar el flujo de la partida, y posee todas las características(reglas) seleccionadas por el usuario. 
+- `Refery` la cual tiene la tarea de controlar las jugadas de cada jugador(esta clase la implementamos como forma de evitar el surgimiento de jugadores que incumplieran las reglas preestablecidas de la partida), además posee las fichas de todos los jugadores y les ordena a los mismos elegir que ficha jugar, revisando si la elegida es válida, y finalmente colocándola en el tablero.
 
 ### Abstracciones especificas
 
@@ -106,7 +214,7 @@ Dentro de los aspectos específicos variables del juego tenemos:
 
 Los tableros es la clase que se encarga de mantener y darle forma a las fichas que los jugadores han jugado, esta puede variar en dependencia del tipo de juego que se quiera jugar, por lo que se creó la interfaz `IBoard`, que modela los métodos básicos que tiene un tablero.
 
-Dentro de las responsabilidades que tienen los tableros está la construcción de las fichas que se van a usar para jugar mediante el método:
+Dentro de las responsabilidades que tienen los tableros está la construcción de las fichas que se van a usar para jugar mediante el método
 
 ```cs
 public List<Token> BuildTokens(int MaxIdOfToken, TokenValue calcValue)
@@ -122,7 +230,7 @@ que usando una instancia de la clase [IMatch](#conexion-de-fichas) valida si una
 
 #### Tablero clásico
 
-Este es la primera variación del tablero y representa al tablero clásico, o sea, es una mesa en donde los jugadores solo pueden jugar fichas por las esquina izquierda 0 derecha de la pila de fichas ya jugadas.
+Este es la primera variación del tablero y representa al tablero clásico, o sea, es una mesa en donde los jugadores solo pueden jugar fichas por las esquina izquierda o derecha de la cola de fichas ya jugadas.
 
 #### Tablero con mas caminos
 
@@ -134,19 +242,20 @@ Este tablero es un poco diferente ya que, los jugadores pueden jugar sus fichas 
 
 ### Estrategia de un jugador
 
-Abstraido en una clase abtracta `Player` que posee un método abtracto `PlayToken`(debe devolver la posición en el array que se le pasa de la ficha que desee jugar, si incumple este principio devolviendo un número de una posición inválida en el array, se considera un turno perdido).
+Abstraido en una clase abtracta `Player` que representa la estrategia de cualquier jugador. Posee desde la clase abstracta la asignación de su nombre y Id, y un método abtracto `PlayToken` que debe devolver la posición en el array que se le pasa de la ficha que desee jugar, si incumple este principio devolviendo un número de una posición inválida en el array, se considera un turno perdido.
 
-~~~C#
+```cs
 public abstract int PlayToken( IBoard board, Token[] hand);
-~~~
+```
+
 
 #### Random Player
 
-Selecciona una ficha al azar auxiliándose del tipo `Random`.
+Selecciona una ficha al azar de las posibles a jugar.
 
 #### Bota Gorda Player
 
-Selecciona entre todas sus fichas válidas para jugar la de más valor, siempre basándose en la implementación de valor seleccionada en la partida.
+Selecciona entre todas sus fichas válidas la de más valor, siempre basándose en la implementación de valor seleccionada en la partida.
 
 #### Heuristic Player
 
@@ -160,13 +269,13 @@ Jugador basado en unas heurístas simples, siempre intenta salir con un doble, y
 
 Abstraido en una interfaz `IDistributeTokens` con un método `DistributeTokens` el cual debe ser implementado devolviendo la distribución de las fichas para la partida que el implementador desee.
 
-~~~C#
+```cs
 List<Token>[] DistributeTokens(List<Token> tokens,int numberofplayers,int countTokens);   
-~~~
+```
 
 #### Random Distribution
 
-Reparte las fichas de forma aleatoria auxiliándose del tipo `Random`
+Reparte las fichas de forma aleatoria por cada jugador.
 
 #### Todas las fichas del mismo tipo
 
@@ -178,11 +287,11 @@ Reparte las fichas siguiendo la idea de dar tantas fichas con igual representaci
 
 ### Valor de las fichas
 
-Abstraido en una Interface `ITokenValue` con un método `Value` que recibe un `Token` y debe devolver un entero que represente el valor de esa ficha en la implementación concreta.
+Abstraido en una Interface `ITokenValue` con un método `Value` que recibe un `Token` y debe devolver un entero que represente el valor de esa ficha.
 
 #### Suma de caras
 
-El valor de las fichas clásico del domino, la suma de ambas caras.
+El valor de una ficha esta dada por la suma del valor de sus caras.
 
 #### Resta de caras
 
@@ -231,17 +340,17 @@ Entonces cuando se consulte el valor de una ficha, este seleccionará un méto
 
 Abstraido en una interface `IFinishGame` con un método booleano `FinishGame` que recibiendo el estado del tablero y la información de cada jugador debe decidir si el juego terminó.
 
-~~~C#
+```cs
 bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players );
-~~~
+```
 
 #### No se puede seguir jugando
 
-Regla del dominó clásico si alguien puso todas sus fichas o nadie tiene una ficha válida para jugar
+El juego finaliza si alguien puso todas sus fichas o nadie tiene una ficha válida para jugar
 
 #### Todos se pasan
 
-Al igual que en el dominó clásico si alguien se queda sin fichas, o si al menos la mitad de los jugadores se pasan 2 veces.
+El juego finaliza si alguien se queda sin fichas, o si al menos la mitad de los jugadores se pasan 2 veces.
 
 [Indice☝](#report)
 
@@ -249,11 +358,11 @@ Al igual que en el dominó clásico si alguien se queda sin fichas, o si al me
 
 ### Siguiente Jugador
 
-Abstraido en una interface `INextPlayer` esta interface debe ser implementada de forma tal que devuelva el ID del jugador que le toca jugar.
+Abstraido en una interface `INextPlayer` que contiene el método `nextPlayer` que devuelve el ID del proximo jugador.
 
-~~~C#
+```cs
 int NextPlayer( PlayerInfo[] players );
-~~~
+```
 
 #### Orden del domino clásico
 
@@ -277,19 +386,19 @@ El mismo jugador repite su turno hasta que no le queden jugadas válidas por re
 
 ### Ganador
 
-Abstraido en una inteface `IWinGame` el cual debe devolver un `IEnumerable` con el orden en que quedan los jugadores al finalizar de cada  partida.
+Abstraido en una inteface `IWinGame` el cual debe devolver un `IEnumerable` con el orden en que quedan los jugadores al finalizar de cada jugada.
 
-~~~C#
+```cs
 IEnumerable<PlayerInfo> GetWinnersGame( IBoard board, IEnumerable<PlayerInfo> players );
-~~~
+```
 
 #### Más puntos
 
-Gana el jugador con mayor valor en sus fichas, pero si alguien se pega, este es el que gana.
+Gana el jugador con mayor suma del valor de sus fichas restantes, pero si alguien se pega, este es el que gana.
 
 #### Menos puntos
 
-Regla del dominó clásica donde gana el jugador cuyas fichas tengan un valor menor.
+Gana el jugador cuya suma de sus fichas restantes tengan un valor menor.
 
 [Indice☝](#report)
 
@@ -301,7 +410,7 @@ Abstraido en una interface `IMatch` cuya implementación debe devolver si dos f
 
 #### Caras iguales
 
-Implementación del dominó clásico donde dos fichas coinciden si alguna de sus caras son iguales.
+Dos fichas se pueden jugar ssi alguna de sus caras son iguales y no se ha jugador por ahi anteriormente.
 
 #### Conexiones raras
 
@@ -310,5 +419,6 @@ La fichas se pueden jugar siguiendo ciertas reglas. En general, dos fichas son a
 1. El valor de la cara de una ficha es el número previo al de una cara de la otra ficha.
 2. Si una cara tiene valor cero, entonces se puede jugar con cualquier otra ficha.
 3. Si una cara de una ficha es múltiplo de una cara de la otra ficha.
+3. No se ha jugado por esa cara
 
 [Indice☝](#report)

@@ -243,16 +243,7 @@ public class MultidimensionalBorad : IBoard
                     }
                 }
 
-
-
-
-
-
-
-
             }
-
-
         }
     }
 
@@ -286,7 +277,6 @@ public class MultidimensionalBorad : IBoard
         }
 
     }
-    public int MaxIdOfToken => this.maxIdOfToken;
     public (Token, string)[,] TokensInBoard {
         get {
             

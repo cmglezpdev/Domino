@@ -10,16 +10,16 @@
 
 Esta aplicación es una simulación de un jugador de domino, en donde usted podra jugar diferentes variantes del juego de domino clásico, cambiando las reglas de juego a su gusto.
 
-La aplicación está compuesta por una aplicación de cliente desarrollada en [React](https://es.reactjs.org/) y una aplicación de servidor con una API y toda la lógica del juego desarrollado en [C# .net6](https://docs.microsoft.com/en-us/dotnet/).
+La aplicación está compuesta por una interfas gráfica desarrollada en [React](https://es.reactjs.org/) y servidor con una API y toda la lógica del juego desarrollado en [C# .net6](https://docs.microsoft.com/en-us/dotnet/).
 
 
 ## Dependencias e instalación local
 
 **Instalar Node, Yarn y .NET 6.0**
 
-Para instalar .NET 6.0 visitar su [pagina oficial](https://dotnet.microsoft.com/en-us/download/dotnet/6.0).
+- Para instalar .NET 6.0 visitar su [pagina oficial](https://dotnet.microsoft.com/en-us/download/dotnet/6.0).
 
-Para instalar node.
+- Para instalar node.
 
 ```bash
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
@@ -28,14 +28,14 @@ sudo apt-get install -y nodejs
 
 
 
-Para instalar yarn:
+- Para instalar yarn:
 
 ```bash
 #Instalar yarn
 npm install -g yarn
 ```
 
-**Dependencias del proyecto**
+### Dependencias del proyecto
 
 Entre las dependencias internas para la aplicación del lado del cliente, ademas de usar react tambien se usaron otras librerías:
 
@@ -51,7 +51,7 @@ Para instalar las dependencias de node se va a la carpeta `Client` y se ejecuta 
 yarn install
 ```
 
-## Ejecucion de la aplicacion
+## Ejecución de la aplicacion
 
 En la carpeta `Server` ejecutamos el comando siguiente para levantar el servidor:
 
@@ -60,7 +60,7 @@ En la carpeta `Server` ejecutamos el comando siguiente para levantar el servidor
 dotnet run
 ```
 
-Luego en la carpeta de Client podemos ejecutar la aplicacion como una aplicacion de escritorio o como una pagina web
+Luego en la carpeta `Client` podemos ejecutar la aplicación como una aplicación de escritorio o como una página web
 
 ``` bash
 #Ejecutar como aplicacion de escritorio
@@ -70,42 +70,45 @@ yarn electron-dev
 yarn start
 ```
 
-**Nota:** La aplicacion de escritorio actualmente tiene un error, por lo que recomiendo ejecutarlo como aplicacion web.
+**Nota:** La aplicación de escritorio actualmente tiene un error, por lo que recomiendo ejecutarlo como aplicación web.
 
 
-### Posible error al ejecutar la aplicacion
+### Posible error al ejecutar la aplicación
 
-Si al ejecutar la aplicacion no te carga las opciones para seleccionar el tipo de juego es porque tu navegador esta bloqueando el acceso de la api a la url de la misma. Para eliminar este error, nos vamos a las herramientas de desarrollo del navegador( click derecho en cualquier lugar y despues en inspeccionar ).
+Si al ejecutar la aplicación no te carga las opciones para seleccionar el tipo de juego es porque tu navegador esta bloqueando el acceso de la url de la api. Para quitar este error, nos vamos a las herramientas de desarrollo del navegador( click derecho en cualquier lugar y despues en inspeccionar ).
 
-Luego vas a la pestaña de `Network` y veras un listado con la palabra `loader` en rojo. Esta es la primera peticion que hace la app al server y es rechazada
+Luego en la pestaña de `Network` verás un listado con la palabra `loader` en rojo(si no se ve recargar la paguina). Esta es la primera petición que hace la app al server y es rechazada.
 
 ![](./assets/error-1.png)
 
-Si das doble click ahi aparecera al lado la informacion de la peticion y el link al cual se hizo. Le damos doble click al link y nos abrira una ventana con la cual estara bloqueada por el navegador.
+Si das doble click ahí aparecerá al lado la información de la petición y el link al cual se hizo. Le damos doble click al link y nos abrirá una ventana la cual estará bloqueada por el navegador.
 
-Lo unico que tenemos que hacer es darle click a `Mostrar configuracion avanzada` y despues a `Acceder a localhost(sitio no seguro)`. Esto eliminara la restriccion y podras acceder sin problema a la informacion devuelta por la api.
+Lo único que tenemos que hacer es darle click a `Mostrar configuración avanzada` y después a `Acceder a localhost(sitio no seguro)`. Esto eliminará la restricción y podrás acceder sin problema a la información devuelta por la api.
 
 ![error](./assets/error-2.png)
 
-Ya solo queda recargar la paguina del juego y ver que salgan las opciones.
+Ya solo queda recargar la páguina del juego y verificar que salgan las opciones.
 
-## Anadir nueva variacion de una caracteristicas
+## Añadir nueva variación de una caracteristicas
 
-Si tienes una nueva implementacion diferente de una de las caracteristicas que se pueden variar del juego sigues estos pasos:
+Para conocer como esta escricturado el proyecto desde la parte del desarrollo de softweare, por favor leer el [Report](./Report.md) y después continua con este sección
+
+
+Si tienes una nueva implementación diferente de una de las características que se pueden variar del juego sigue estos pasos:
 
 **1. Crear la clase** 
 
-En la carpeta `Data/SpecificGames` buscas la parte del juego que quieres crear nueva y creas una clase en un fichero.cs nuevo que herede la interfas corresponiente e implementas la variacion. Es recomendable que el nombre de la clase describa o identifique el tipo de variacion correspondiente para poder diferenciarla con las demas implementaciones. 
+En la carpeta `Data/SpecificGames` buscas la parte del juego que quieres crear nueva y crea una clase en un ***_fichero.cs_*** nuevo que herede la interfas o la clase corresponiente e implementas la variación guiandote por los requisitos que debe cumplir cada método de la clase.
 
-**2. Anadir los datos**
+**2. Añadir los datos**
 
-En la carpeta `Data` modificas la clase `Data` y anades una nueva instancia al arreglo del tipo de variacion creada
+En la carpeta `Data` modificas la clase `Data` y añades una nueva instancia al arreglo del tipo de variación creada
 
-**3. Anadir descripcion**
+**3. Añadir descripción**
 
-En la carpeta `Models` se modifica el fichero `GetOptions.cs` y se andade en el grupo de opciones correspondiente, en el array de `nameOptions` de ese grupo una descripcion identificadora de la implementacion desarrollada.
+En la carpeta `Models` se modifica el fichero `GetOptions.cs` y se añdade en el grupo de opciones correspondiente, en el array de `nameOptions` de ese grupo una descripción identificadora de la implementación desarrollada.
 
-**Importante:** Es importante que las descripciones de las variaciones tengan el mismo orden que las instancias de las clases que identifican cada una de las descripciones anadidas, ya que estos se seleccionaran dinamicamente por el indice que ocupen en el array. Si no tiene un orden correcto, este puede traer errores en la ejecucion del juego.
+**Importante:** Es importante que las descripciones de las variaciones tengan el mismo orden que las instancias de las clases que identifican cada una de las descripciones añadidas, ya que estos se seleccionarán dinámicamente por el índice que ocupen en el array. Si no tiene un orden correcto, este puede traer errores en la ejecución del juego.
 
 
 

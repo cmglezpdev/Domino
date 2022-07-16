@@ -115,5 +115,4 @@ public class UnidimensionalBoard : IBoard {
         }
     }
     public Tuple<Token, int>[] OrderListOfTokensByPlayer => this.PlayerByToken.ToArray();
-    public int MaxIdOfToken => this.maxIdOfToken;
 }
