@@ -39,10 +39,10 @@ npm install -g yarn
 
 Entre las dependencias internas para la aplicación del lado del cliente, ademas de usar react tambien se usaron otras librerías:
 
-1. [Electron](https://www.electronjs.org/)
-2. [Semantic UI React](https://react.semantic-ui.com/)
-3. [Sass](https://sass-lang.com/documentation)
-4. [React Toastify](https://fkhadra.github.io/react-toastify/introduction)
+1. [Electron](https://www.electronjs.org/): para crear aplicaciones de escritorio 
+2. [Semantic UI React](https://react.semantic-ui.com/): componentes prediseñados de elementos tipicos en una web
+3. [Sass](https://sass-lang.com/documentation): procesador de css
+4. [React Toastify](https://fkhadra.github.io/react-toastify/introduction): para crear alertas en tus apps
 
 Para instalar las dependencias de node se va a la carpeta `Client` y se ejecuta el comando:
 
