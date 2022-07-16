@@ -2,8 +2,8 @@ import React from 'react'
 import { useContext } from 'react'
 import { namesPlayers } from '../../helpers/dataPlayers';
 import { SettingsContext } from '../../helpers/SettingsContext';
-
 import './selected.scss';
+import generateId from '../../helpers/generateIds';
 
 export const Selected = ({ InfoOptions }) => {
   
@@ -24,7 +24,7 @@ export const Selected = ({ InfoOptions }) => {
                 if( option !== "done" ) {
                     if( option === 'player' ) return null;
                     return (
-                        <div className='selected-option'>
+                        <div className='selected-option'  key={generateId()}>
                             <span>{getInfo(option, "titleOption")}</span>
                             <span>{ getInfo(option, "nameOptions", settings[option]) }</span>
                         </div>
@@ -40,7 +40,7 @@ export const Selected = ({ InfoOptions }) => {
                 {
                     settings["player"]?.map((type, i) => {
                         return (
-                            <span>{`Jugador ${namesPlayers[i]}: ${getInfo("player", "nameOptions", type)}`}</span>
+                            <span key={generateId()} >{`Jugador ${namesPlayers[i]}: ${getInfo("player", "nameOptions", type)}`}</span>
                         )
                     })
                 }

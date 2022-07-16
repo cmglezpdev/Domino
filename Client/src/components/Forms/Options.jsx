@@ -80,18 +80,18 @@ export const Options = () => {
         <div className='container'>
                     
             <h1>Seleccionar el tipo de juego</h1>
-            <Progress percent={100 / (settings.length - 1) * progress} precision color='green' />
+            <Progress percent={100 / (settings.length - 1) * progress} precision={1} color='green' />
             
             {
                 // Si ya se cargaron las opciones del juego
                 settings.length !== 0 && (
                    <DataOptions 
-                        key={generateId()}
                         titleOption={settings[progress].titleOption}
                         nameOptions={settings[progress].nameOptions}
                         id={settings[progress].id}
                         GetOptions={GetOptions}
                         value={ context.settings[ settings[progress]?.id ] }
+                        key={generateId()}
                     />
                 )
             }
@@ -121,11 +121,6 @@ export const Options = () => {
             </div>
 
             <Selected InfoOptions={settings} />
-            
-            {/* {
-                JSON.stringify(context.settings, null, 6)
-            } */}
-
 
         </div>
     )

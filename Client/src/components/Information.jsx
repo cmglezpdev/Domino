@@ -5,6 +5,7 @@ import { Modal, Image, Button, Icon } from 'semantic-ui-react'
 import { BASE_URL } from '../helpers/api.js';
 import './information.scss';
 import { namesPlayers } from '../helpers/dataPlayers';
+import generateId from '../helpers/generateIds';
 
 export const Information = ({ open, setOpen }) => {
     
@@ -49,7 +50,7 @@ export const Information = ({ open, setOpen }) => {
                     if( option !== "done" ) {
                         if( option === 'player' ) return null;
                         return (
-                            <div className='options-of-game'>
+                            <div className='options-of-game' key={generateId()}>
                                 <span className='option_title'>{getInfo(option, "titleOption")}</span>
                                 <span className='option_type'>{ getInfo(option, "nameOptions", settings[option]) }</span>
                             </div>
@@ -65,7 +66,7 @@ export const Information = ({ open, setOpen }) => {
                     {
                       settings["player"]?.map((type, i) => {
                         return (
-                          <span className='option_type'>{`Jugador ${namesPlayers[i]}: ${getInfo("player", "nameOptions", type)}`}</span>
+                          <span className='option_type' key={generateId()}>{`Jugador ${namesPlayers[i]}: ${getInfo("player", "nameOptions", type)}`}</span>
                           )
                         })
                     }
