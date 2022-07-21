@@ -11,6 +11,7 @@ public class LoaderController : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
+        // Intancia la clase que contiene las oipciones ha seleccionar por el cliente
         InterfaceOfOptions IGOpt = new InterfaceOfOptions();
 
         return Ok( IGOpt.GetGeneralOptions() );

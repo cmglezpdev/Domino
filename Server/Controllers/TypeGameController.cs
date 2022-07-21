@@ -12,10 +12,12 @@ namespace ServerApp.Controllers;
 public class TypeGameController : ControllerBase
 {
     [HttpPost]
+    // options son las opciones que selecciona el cliente, o sea, 
+    //  los indices correspondientes al array de cada variacion
     public IActionResult  Post( TypeGame options )
     {
-        // ejecutar el juego
-        var data = new Data(); // Cargar tipos de juego
+        // Cargar las variaciones del juego (recursos)
+        var data = new Data(); 
         
         string[] namesPlayers = new string[]{ "Roberto", "Juan", "Carlos", "Daniel", "Jose", "Abel", "Mario", "Omar", "Felipe", "Agustin", "Fernando"};
         
@@ -26,6 +28,7 @@ public class TypeGameController : ControllerBase
             players.Last().IDPlayer = (i, namesPlayers[i]);
 
         }
+        // Instanciando el refery
         Refery  refery = new Refery( data.Boards[ options.board ] );
         // Iniciar el estado del manager y empezar el juego
         Game.manager = new Manager( 
@@ -38,8 +41,9 @@ public class TypeGameController : ControllerBase
                 refery
         );
         
-        // Lista de players con las fichas asignadas
+        // Realiza la primera jugada del juego 
         Game.manager.StartGame( data.maxIdTokens[options.maxIdTokens], data.countTokens[options.countTokens], data.TokensValue[options.tokenValue], data.Matches[ options.matcher ] );
+        //  Parsea la informacion de los jugadores y los retorna
         List<ResPlayer> result = Game.PlayersForJson( refery.PlayerInformation, refery );
 
         return Ok( result );

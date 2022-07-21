@@ -7,6 +7,8 @@
   - [Server](#server)
     - [Controllers y Models](#controllers-y-models)
     - [Data](#data)
+    - [Game](#game)
+    - [AuxiliarClasses](#auxliliar-classes)
     - [Vista general de la Abstracciones](#vista-general-de-la-abstracciones)
     - [Abstracciones especificas](#abstracciones-especificas)
     - [Tablero](#tablero)
@@ -194,11 +196,84 @@ public INextPlayer[] NextPlayers = new INextPlayer[] {
 };
 
 ```
-
 Además de esto tenemos una estructura de directorios formada por:
 `Classes`: Contiene las clases generales del juego o que no necesitan de una interfaz.
 `Interfaces`: Representa una parte de la abstracción del juego, en donde cada interfaz representa una posible variación de una característica del juego, las cuales son las seleccionadas desde el `Client`.
 `SpecificGames`: Esta tiene más directorios dentro con las implementaciones de las variaciones respectivas de todas las funcionalidades del juego que son variables.
+
+### Game
+
+También tenemos una clase estática `Game` la cual tiene la instancia general del Manager y dos métodos que "parsean"(lo que hacen es cambiar los nombres de las pripiedades) para que cuando se convierta a formato JSON que no sea con los nombres por defecto que asigna C# 
+
+El primer método es :
+
+```cs
+public static List<FacesToken> TokenForJson( IEnumerable<Token> tokens );
+```
+
+el cual te parsea una lista de fichas a este formato:
+
+```cs
+public class FacesToken {
+    public int? Left {get; set;} // valor de la cara izquierda
+    public int? Right {get; set;} // valor de la cara derecha
+    public string? Direction {get; set;} // direccion de la ficha en el tablero
+}
+```
+
+que en JSON se veria asi:
+
+```json
+{
+    "left": <value:int>,
+    "right": <value:int>,
+    "direccion": "<direction:string>"
+}
+```
+
+
+El método `PlayersForJson` parsea una lista de players con su información:
+
+```cs
+public static List<ResPlayer> PlayersForJson( PlayerInfo[] players, Refery refery ); 
+```
+
+Que lo transforma a:
+
+```cs
+public class PlayerInfo {
+    public int? Id {get; set;}
+    public string? Name {get; set;}
+    public int? Points {get; set;}
+    public FacesToken[]? HandTokens {get; set;}
+}
+```
+
+y el método `TokensInBoardJson` que recibe la la matriz que representa el tablero y la convierte en una matriz de tokens parseados
+
+```cs
+public static List<List<FacesToken>> TokensInBoardJson ( (Token, string)[,] Tokens );
+```
+
+
+### Auxiliar Classes
+
+En el archivo `AuxiliarClasses.cs` tenemos varias clases, que son clases auxiliares para tareas específicas, como es el caso de las que usamos para parsear la información de alguna colección, los estados del juego entre otras cosas.
+
+En este archivo podemos ver varias clases como:
+
+`StatusCurrentPlay`: Esta clase guarda algunas informaciones del estado del juego después de cada jugada realizada. Esta clase es usada por el manager para capturar la información de cada jugada, información que es pública ha todas las clases, pero principalmente pensada para los que los jugadores la puedan usar para sus estrategias.
+
+`PlayInfo`: Esta clases también guarda información de las jugadas, pero esta clase contiene mas información que la otra porque es la información que se manda al frontend para que sea mostrada.
+
+`PlayerInfo`: Esta clase contiene información basica sobre un jugador( cantidad de fichas, puntos, y sus ids ). Esta clase es usada por el `refery` y se usa para cuando queremos retornar información de un jugador pero no queremos que no se tenga acceso a sus métodos para evitar, entre otras cosas, que los jugadores que necesiten de información de otro jugador hagan trampa.  
+
+`ResPlayer`: Esta clase también guarda la información de un jugador, pero esta clase en específico es la que se usa como parseo a JSON para que sea enviada al frontend
+
+`FacesToken`: Esta clase parsea la información basica de una ficha( valor de sus caras, y su dirección en el tablero si esta allí ) a JSON para que sea usada en el frontend.
+
+Como te habrás dado cuenta, hay clases que guardan los datos de las mismas cosas pero una guarda mas información que otra. Esto se podía guardar todo en una mima clase y solo asignarle valores a las cosas que creamos conveniente, pero esto implicaría que las demás propiedades sean nulas, dando paso a posibles errores a la hora de usar las clases, así como no tener una idea clara de cuales SI son las propiedades que tienen valores y cuales no. Es por eso que preferimos crear varias clases que se referieren a la misma cosa, pero guardan diferentes cantidades de información.
+
 
 ### Vista general de la Abstracciones
 

@@ -13,6 +13,7 @@ public class NextTurnController : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
+        // Realiza la siguiente jugada y retorna la información del de la misma
         PlayInfo info = Game.manager?.GamePlay()!;
         return Ok( info );
     }
