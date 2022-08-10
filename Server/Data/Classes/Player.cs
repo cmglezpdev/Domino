@@ -11,5 +11,6 @@ public abstract class Player {
 
     public abstract Player Clone();
 
+    // Devuelve el indice de la ficha a jugar
     public abstract int PlayToken( IBoard board, Token[] hand);
 }

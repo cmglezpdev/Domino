@@ -324,6 +324,19 @@ public class Refery {
 - `Player` Esta clase es abstracta y contiene metodos generales de los jugadores. Tiene dos métodos abstractos, la cración del clon del jugador y `Play Token` que devuelve el indice de la ficha a ser jugada. También tiene la propiedad `IDPlayer` con el id y el nombre del jugador
 
 
+Dentro de la carpeta `Interfaces` están las interfaces principales del juego que describes las abstracciones de las funcionalidades del mismo. Cada interfas representa una caracteríastica del juego que puede ser modificada siguiendo las reglas que la interfas establece.
+
+Dentro de las variaciones que se puedes realizar estan:
+
+- `IBoard`: especifica los metodos necesarios para poder crear una variación del Tablero
+- `IDistributeTokens`: especifica los metodos necesarios para poder crear una variación de como se reparten las fichas a cada jugador
+- `IFinishGame`: especifica los metodos necesarios para poder crear una variación de como se termina una partida
+- `IMatch`: especifica los metodos necesarios para poder crear una variación de como dos fichas se pueden jugar(que tengan una cara en comun por ejemplo)
+- `INextPlayer`: especifica los metodos necesarios para poder crear una variación de como se selecciona el próximo jugador a jugar.
+- `ITokenValue`: especifica los metodos necesarios para poder crear una variación de como se calcula el valor de una ficha
+- `IWinGame`: especifica los metodos necesarios para poder crear una variación de como se selecciona el/los ganadores del juego
+
+
 ### Abstracciones especificas
 
 Dentro de los aspectos específicos variables del juego tenemos:
