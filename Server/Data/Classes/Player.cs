@@ -1,7 +1,6 @@
 namespace Server.Data.Classes;
 using Server.Data.Interfaces;
 
-// *Jugador que realiza jugadas de forma random
 public abstract class Player {
     protected (int, string) ID; // id number, player name
 

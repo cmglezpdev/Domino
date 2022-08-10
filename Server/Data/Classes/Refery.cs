@@ -16,6 +16,8 @@ public class Refery {
         this.hands = hand;
         this.players = ply;
     }
+
+    // Relaiza la jugada del jugador
     public bool Play(int IdPlayer) {
         int aux = -1;
         int IndexPlayer = SearchPlayerIndex(IdPlayer);
@@ -76,10 +78,13 @@ public class Refery {
         return -1;
     }
 
+    // Buscar el jugador y devolver su indice
     public Player Player(int IdPlayer) {
         int IndexPlayer = SearchPlayerIndex(IdPlayer);
         return players[IndexPlayer].Clone();
     }
+    
+    // Retorna informacion del jugador
     public PlayerInfo[] PlayerInformation {
         get {
             List<PlayerInfo> info = new List<PlayerInfo>();

@@ -279,7 +279,50 @@ Como te habrás dado cuenta, hay clases que guardan los datos de las mismas cosa
 
 Dentro de la sección `Classes` las principales clases son: 
 - `Manager`, el cual es el encargado de controlar el flujo de la partida, y posee todas las características(reglas) seleccionadas por el usuario. 
+Esta clase tiene un constructor que recibe la mayoría de la información con la que se iniciará el juego(jugadores, tablero y demas reglas) y las guarda internamente. 
+Tiene une metodo `Start Game` que es llamado una sola vez y carga la face inicial del juego, o sea,  construye las fichas y las reparte entre los jugadores. 
+También tiene otro metodo llamado `Game Play` que ejecuta una jugada de la partida, selecciona el jugador que le toca, realiza la jugada, actualiza los datos y retorna la información de dicha jugada.
+Y por ultimo el método `Search Player Index` que dado el id de un jugador, busca su indice en el arreglo interno donde estan guardados los mismos.
+
+
 - `Refery` la cual tiene la tarea de controlar las jugadas de cada jugador(esta clase la implementamos como forma de evitar el surgimiento de jugadores que incumplieran las reglas preestablecidas de la partida), además posee las fichas de todos los jugadores y les ordena a los mismos elegir que ficha jugar, revisando si la elegida es válida, y finalmente colocándola en el tablero.
+
+```cs
+public class Refery {
+
+    //... propiedades y constructor
+
+    // Guarda los jugadores y las fichas correspondientes
+    public void MakeTokens(List<Token>[] hand, Player[] ply);
+ 
+    // Relaiza la jugada del jugador IdPlayer
+    public bool Play(int IdPlayer);
+ 
+    // Devuelve las fichas correspondientes al jugador con ese id
+    public Token[] Hand( int IdPlayer );
+
+    // Cantidad de fichas del jugador
+    public int Count(int IdPlayer);
+
+    // Cantidad de puntos del jugador
+    public int Points(int IdPlayer);
+
+    // Buscar el jugador y devolver su indice
+    public int SearchPlayerIndex(int IdPlayer);
+
+    // Retorna el jugador
+    public Player Player(int IdPlayer);
+
+    // Retorna informacion del jugador
+    public PlayerInfo[] PlayerInformation { get; }
+
+    // Crea un clone del refery
+    public Refery Clone();
+}
+```
+
+- `Player` Esta clase es abstracta y contiene metodos generales de los jugadores. Tiene dos métodos abstractos, la cración del clon del jugador y `Play Token` que devuelve el indice de la ficha a ser jugada. También tiene la propiedad `IDPlayer` con el id y el nombre del jugador
+
 
 ### Abstracciones especificas
 
