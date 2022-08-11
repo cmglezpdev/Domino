@@ -5,14 +5,13 @@ public class MultidimensionalBorad : IBoard
 {
     private class InfoToken {
         public Token token {get;set;} = null!; // token
-        public string direction {get;set;} = null!; 
+        public string direction {get;set;} = null!; // Direccion de la ficha en el tablero(horizontal o vertical)
         public InfoToken Clone() => new InfoToken() {
             token = token.Clone(),
             direction = direction
         };
         
     }
-
     private class Coord {
         public int x{get; set;}
         public int y{get; set;}
@@ -22,13 +21,12 @@ public class MultidimensionalBorad : IBoard
             y = y
         };
     }
-
     private IMatch matcher = null!;
     private int maxIdOfToken;
-
     private Dictionary< Token, int > TokenByPlayer = new Dictionary<Token, int>(); // Tokens correspondientes a cada jugador
     private Dictionary< Coord, InfoToken > board = new Dictionary<Coord, InfoToken>(); // Tablero de juego
 
+    // Construcción de las fichas
     public List<Token> BuildTokens(int MaxIdOfToken, ITokenValue calcValue)
     {
         this.maxIdOfToken = MaxIdOfToken;
@@ -36,19 +34,20 @@ public class MultidimensionalBorad : IBoard
 
         for(int i = 0; i <= MaxIdOfToken; i++){
             for(int j = i; j <= MaxIdOfToken; j++){
+                // Si son dobles, que la ficha tenga 4 caras iguales por donde jugar por las 4 direcciones
                 if(i == j) 
                     tokens.Add(new TokenDouble(i, j, calcValue));
                 else
-                tokens.Add(new Token(i , j, calcValue));
+                    tokens.Add(new Token(i , j, calcValue));
             }
         }
         return tokens;
     }
     
+    // Toma la ficha y el id del jugador y si la jugada es valida, la coloca en el tablero
     public void PlaceToken(Token token, int IdPlayer)
     {
-
-        // The board is void
+        // Si el board no tiene fichas entonces realizo la jugada
         if( board.Count == 0 ) {
             TokenByPlayer[ token ] = IdPlayer;
             this.board[ new Coord(){x = 0, y = 0} ] = new InfoToken(){ 
@@ -58,18 +57,19 @@ public class MultidimensionalBorad : IBoard
             return;
         }
 
-        // pasar por las posiciones validas para jugar
+        // pasar por todas las fichas buscando donde se puede realizar la jugada
         foreach( var info in board ) {
             Coord coords = info.Key;
             InfoToken item = info.Value;
             Token tok = item.token;
-            // Si este token no tiene por donde jugarle
-            if( matcher.WhichFacePlay(item.token, null).Length == 0 ) continue;
 
+            // Si no se puede realizar la jugada en este token continuo con el otro
+            if( matcher.WhichFacePlay(item.token, null).Length == 0 ) continue;
 
             // Si es un token y esta en una linea horizontal || si es un doble y esta puesto verticalmente
             if( ( tok[0].Value != tok[1].Value && item.direction == "horizontal") || (tok[0].Value == tok[1].Value && item.direction == "vertical") ) {
-                // Jugar por el lado derecho de la ficha si es que se puede
+              
+                // Jugar por el lado izaquierdo de la ficha si es que se puede
                 if( !tok[0].Played && !board.ContainsKey(new Coord(){x = coords.x - 1, y = coords.y}) ) {
                     if( matcher.ValidateMatch(token, 0, tok, 0) ) {
                         tok.Played(0); // marcar la cara del token de la mesa como jugada
@@ -89,7 +89,7 @@ public class MultidimensionalBorad : IBoard
                     }
                 }
                 
-                // Comprobar si se puede jugar por la izquierda
+                // Comprobar si se puede jugar por la derecha
                 if( !tok[1].Played && !board.ContainsKey(new Coord(){x = coords.x + 1, y = coords.y}) ) {
                     if( matcher.ValidateMatch(token, 0, tok, 1) ) {
                         tok.Played(1); // marcar la cara del token de la mesa como jugada
@@ -110,7 +110,7 @@ public class MultidimensionalBorad : IBoard
                 }
 
 
-                // Si el token del board es un doble entonces comprobar si puedo jugar por arriba y por abajo
+                // Si el token del board es un doble entonces comprobar si puedo jugar por arriba o por abajo
                 if( tok[0].Value == tok[1].Value ) {
                     //   Comprobar si se puede jugar por arriba
                     if( !tok[2].Played && !board.ContainsKey(new Coord(){x = coords.x, y = coords.y - 1}) ) {
@@ -148,20 +148,14 @@ public class MultidimensionalBorad : IBoard
                     }
                 }
 
-            } else 
-
-
-
-
-
-
-
-
+            } 
+            
+            else 
 
             // Si es un token que esta puesto en una linea vertical o si es un doble con una direccion horizontal
             if( ( tok[0].Value != tok[1].Value && item.direction == "vertical") || (tok[0].Value == tok[1].Value && item.direction == "horizontal") ) {
 
-               // Jugar por arriba (el lado derecho) de la ficha si es que se puede
+               // Jugar por arriba (el lado izquierdo) de la ficha si es que se puede
                 if( !tok[0].Played && !board.ContainsKey(new Coord(){x = coords.x, y = coords.y - 1}) ) {
                     if( matcher.ValidateMatch(token, 0, tok, 0) ) {
                         tok.Played(0); // marcar la cara del token de la mesa como jugada
@@ -181,7 +175,7 @@ public class MultidimensionalBorad : IBoard
                     }
                 }
                 
-                // Comprobar si se puede jugar por la abajo (izquierda)
+                // Comprobar si se puede jugar por la abajo (derecho)
                 if( !tok[1].Played && !board.ContainsKey(new Coord(){x = coords.x, y = coords.y + 1}) ) {
                     if( matcher.ValidateMatch(token, 0, tok, 1) ) {
                         tok.Played(1); // marcar la cara del token de la mesa como jugada
@@ -204,7 +198,7 @@ public class MultidimensionalBorad : IBoard
 
                 // Si el token del board es un doble entonces comprobar si puedo jugar por arriba y por abajo(derecha o izq)
                 if( tok[0].Value == tok[1].Value ) {
-                    //   Comprobar si se puede jugar por arriba
+                    //   Comprobar si se puede jugar por arriba (izquierda)
                     if( !tok[2].Played && !board.ContainsKey(new Coord(){x = coords.x - 1, y = coords.y}) ) {
                         if( matcher.ValidateMatch(token, 0, tok, 2) ) {
                             tok.Played(2);
@@ -221,7 +215,7 @@ public class MultidimensionalBorad : IBoard
                             return;
                         }
                     }
-                    // Comrpobar si se puede jugar por la parte de abajo
+                    // Comrpobar si se puede jugar por la parte de abajo(derecha)
                     if( !tok[3].Played && !board.ContainsKey(new Coord(){x = coords.x + 1, y = coords.y}) ) {
                         if( matcher.ValidateMatch(token, 0, tok, 3) ) {
                             tok.Played(3);
@@ -245,7 +239,7 @@ public class MultidimensionalBorad : IBoard
     }
 
 
-
+    // Valida si la ficha puede ser jugada en el tablero
     public bool ValidPlay(Token token)
     {
         if( board.Count == 0 ) return true;
@@ -277,8 +271,8 @@ public class MultidimensionalBorad : IBoard
     public (Token, string)[,] TokensInBoard {
         get {
             
-            (int left, int top, int right, int bottom) = BordersBoard(); // Extremos del tablero
-            NormalizeBoard(top, left); // Normalizar el tablero
+            (int left, int top, int right, int bottom) = BordersBoard(); // Calcula los puntos extremos del tablero
+            NormalizeBoard(top, left); // Normalizar el tablero(traslada las posiciones de las fichas al primer cuadrante)
             right -= left; // Calcular el ancho del tablero
             bottom -= top; // Calcular el alto del tablero
 
@@ -294,7 +288,6 @@ public class MultidimensionalBorad : IBoard
         }
     }
 
-    // top - left
     private Tuple< int, int, int, int > BordersBoard() { 
         int left = 0, top = 0, right = 0, bottom = 0;
 
@@ -308,6 +301,8 @@ public class MultidimensionalBorad : IBoard
 
         return new Tuple<int, int, int, int>(left, top, right, bottom);
     }
+    
+    // Corre las posiciones de las fichas al primer cuadrante 
     private void NormalizeBoard( int top, int left ) {
         Dictionary<Coord, InfoToken> newBorad = new Dictionary<Coord, InfoToken>();
 
@@ -321,6 +316,7 @@ public class MultidimensionalBorad : IBoard
         this.board = newBorad;
     }
 
+    // Devuelve un clone del tablero con el estado actual
     public IBoard Clone() {
         MultidimensionalBorad board = new MultidimensionalBorad();
         

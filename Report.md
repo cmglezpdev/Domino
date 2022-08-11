@@ -336,7 +336,6 @@ Dentro de las variaciones que se puedes realizar estan:
 - `ITokenValue`: especifica los metodos necesarios para poder crear una variación de como se calcula el valor de una ficha
 - `IWinGame`: especifica los metodos necesarios para poder crear una variación de como se selecciona el/los ganadores del juego
 
-
 ### Abstracciones especificas
 
 Dentro de los aspectos específicos variables del juego tenemos:
@@ -361,11 +360,48 @@ que usando una instancia de la clase [IMatch](#conexion-de-fichas) valida si una
 
 #### Tablero clásico
 
-Este es la primera variación del tablero y representa al tablero clásico, o sea, es una mesa en donde los jugadores solo pueden jugar fichas por las esquina izquierda o derecha de la cola de fichas ya jugadas.
+Este es la primera variación del tablero y representa una mesa en donde los jugadores solo pueden jugar fichas por las esquina izquierda o derecha de la cola de fichas ya jugadas.
+
+Dentro de los métodos de la clase están los definidos por la misma interfas `IBoard`:
+
+- `public List<Token> BuildTokens( int MaxIdOfToken, ITokenValue calcValue ) `: Recibe el numero máximo que puede tener una ficha y una forma de calcular el valor de la ficha y lo que hace es construir todas las fichas posibles de dos caras, desde el [0,0] hasta el [MaxIdOfToken, MaxIdOfToken].
+
+- `public (Token, string)[,] TokensInBoard`: Devuelve una matriz [1, n] donde estan colocadas todas las fichas de la partida, esto es simulando visualmente a un tablero. Como todas las fichas se colocan  en horizontal, el alto de la matriz es 1, cuando se devuelva la matriz, las todas las posiciones de las fichas deben de ser válidas.
+- `public void PlaceToken( Token token, int IdPlayer )`: Recibe una ficha y el id del jugador que la va a jugar y en caso de que la jugada sea válida la coloca en el tablero y la añade a una lista en done guarda cada ficha con su jugador para mantener un histórico de jugadas. Este método de apoya de otro interno de la misma clase llamada `Play` que lo que hace es recibir la ficha y la posición donde se va a colocar la ficha y colocarla y, si intercambiar las caras de las fichas de ser necesario. Esto es para que todas las fichas esten debidamente organizadas y todas las caras coincidan correntamente.
+
+- `public void SetMatcher( IMatch matcher )`: Solo recibe una implementación de `IMatch` y la guarda en una propiedad interna del tablero.
+
+- `public bool ValidPlay(Token token)`: Recibe un token y apoyandose de la implementación de `IMatch` devuelve true o false si la ficha se puede jugar o no en el tablero. 
+
+- `public (Token, string)[,] TokensInBoard`: Devuelve una matriz [1, n] donde estan colocadas todas las fichas de la partida, esto es simulando visualmente a un tablero. Como todas las fichas se colocan  en horizontal, el alto de la matriz es 1. Cuando se devuelva la matriz, todas las posiciones de las fichas deben de ser válidas.
+
+- `public Tuple<Token, int>[] OrderListOfTokensByPlayer`: Devuelve la lista de las fichas jugadas(en orden) con sus respectivos jugadores.  
 
 #### Tablero con mas caminos
 
 Este tablero es un poco diferente ya que, los jugadores pueden jugar sus fichas y estas pueden ser colocadas por los laterales de la pila de fichas ya jugadas o, si se jugó algún doble, entonces se podrán jugar por los cuatro lados de la ficha(las dos caras normales más por encima y por debajo), saliendo de este otra ramificación del tablero por donde se podrá jugar normalmente.
+
+Esta implementación usa un diccionario para guardar las posiciones en la "matriz" ficticia de las fichas:
+
+```cs
+    private Dictionary< Coord, InfoToken > board = new Dictionary<Coord, InfoToken>(); // Tablero de juego
+```
+
+Este tablero usa dos clases internas `Coord` y `InfoToken` en donde `Coord` es una clase interna con dos variables **X** y **Y** para guardar las coordenadas en el tablero de donde se jugo la ficha; y tenemos a `InfoToken` que contiene la ficha que se jugó y la dirección en la que se coloca (horizontal o vertical).
+
+Dentro de los métodos de la clase están los definidos por la misma interfas `IBoard`:
+
+- `public List<Token> BuildTokens(int MaxIdOfToken, ITokenValue calcValue)`: Crea todas las fichas posibles de dos caras desde el [0,0] hasta el [MaxIdOfToken, MaxIdOfToken], pero si son dobles, entonces crear la ficha pero con 4 caras por donde jugar, para poder jugar por las 4 direcciones.
+
+- `public void PlaceToken(Token token, int IdPlayer)`: Este método toma la ficha a jugar y hace un recorrido por todas las fichas del tablero buscando que ficha tiene alguna posición libre para jugar y si las dos fichas cumplen las reglas necesarias para ser  jugadas. Una vez que encuentra una ficha por donde jugar entonces comprueba la dirección de la ficha en el tablero(horizontal o vertical) y jugar por un lado o por otro en dependencia y, si la ficha es un doble, comprobar también si se puede jugar por arriba o por abajo de la misma. Aquí también se realiza el proceso de cambio de caras de ser necesario para que si en cuanquier momento queremos renderizar la matriz las fichas esten organizadas y coincidan unas con otras.
+
+- `public bool ValidPlay(Token token)`: Valida si la ficha dada puede ser jugada en el tablero, o sea, si existe alguna posición en el tablero por donde pueda ser jugada la ficha.
+
+- `public Tuple<Token, int>[] OrderListOfTokensByPlayer`: Convierte el diccionario que teníamos con las fichas y los ids de los jugadores que realizaron esa jugada en un arreglo que es devuelto.
+
+- `public (Token, string)[,] TokensInBoard`: Convierte el diccionario que representa el board en una matris de Tokens con sus respectivas direcciones, donde en la posicion [i,j] estará la ficha con coordenadas x,y en el diccionario. Este método se apoya de otros dos llamados `BordersBoard` y `NormalizeBoard` para modificar un poco el board.
+Esta normalización se debe a que cuando añadimos por la izquierda una nueva ficha a una ficha del tablero en la posición [0,0] por ejemplo, esta nueva ficha es colocada en la posición [-1,0] y esta no es una posición valida en una matriz de elementos de C#. Para solucionar esto lo que se hace es usar el método `BordersBoard` que calcula las esquinas del tablero basado en los indices de las posiciones(el inidice mas a la derecha, a la izquierda, arriba y abajo) y despues con el método `NormalizeBoard` lo que hacemos es correr toda la matriz al cuadrante positivo de tal forma que la ficha mas a la esquina derecha y abajo sea el [0,0].
+Ya con el tablero de esta forma podemos crear la matriz y retornarla correctamente.
 
 [Indice☝](#report)
 

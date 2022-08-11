@@ -3,10 +3,11 @@ using Server.Data.Interfaces;
 
 // * Tablero con que se coloca las nuevas fichas consecutivamente
 public class UnidimensionalBoard : IBoard {
-    List<Token> board = new List<Token>();
-    int maxIdOfToken;
-    IMatch matcher = null!;
-    List<Tuple<Token, int>> PlayerByToken = new List<Tuple<Token, int>>();
+    List<Token> board = new List<Token>(); // Lista de fichas en el tablero
+    int maxIdOfToken; // Máximo número que puede tener una ficha
+    IMatch matcher = null!; // implementación de una variación de IMatch
+    List<Tuple<Token, int>> PlayerByToken = new List<Tuple<Token, int>>();  // Lista de fichas con los jugadores que la jugaron
+    // Construccion de las fichas
     public List<Token> BuildTokens( int MaxIdOfToken, ITokenValue calcValue ) {
         this.maxIdOfToken = MaxIdOfToken;
         List<Token> tokens = new List<Token>();
@@ -18,19 +19,23 @@ public class UnidimensionalBoard : IBoard {
         }
         return tokens;
     }
+    // Realizar la jugada dada si es valida
     public void PlaceToken( Token token, int IdPlayer ) {
+        // Si el tablero no tiene fichas jugadas simplemente la juego
         if( board.Count == 0 ) {
             board.Add(token);
             PlayerByToken.Add(new Tuple<Token, int>( token, IdPlayer ));
             return;
         } 
 
+        // Si se puede jugar pir el lado izquierdo del tablero
         if( matcher.ValidateMatch(token, board[0]) ) {
             Play(token, 0);
             PlayerByToken.Add(new Tuple<Token, int>( token, IdPlayer ));
             return;
         }
 
+        // Si se puede jugar por el lado derecho del tablero
         if( matcher.ValidateMatch(token, board[ board.Count - 1 ]) ) {
             Play(token, board.Count - 1);
             PlayerByToken.Add(new Tuple<Token, int>( token, IdPlayer ));
@@ -40,6 +45,7 @@ public class UnidimensionalBoard : IBoard {
     public void SetMatcher( IMatch matcher ) {
         this.matcher = matcher;
     }
+    // Coloca la ficha en el tablero
     private void Play(Token token, int pos) {
         Token item = board[pos];
         // Solo se puede jugar por la derecha de la ficha
@@ -79,6 +85,7 @@ public class UnidimensionalBoard : IBoard {
             }
         }
     }
+    // valida si la ficha puede ser jugada en el tablero
     public bool ValidPlay(Token token) {
         // Puede jugar cualquier ficha
         if( board.Count == 0 ) return true;
@@ -87,7 +94,7 @@ public class UnidimensionalBoard : IBoard {
         
         return false;
     }
-
+    // retorna un clone del tablero
     public IBoard Clone() {
         UnidimensionalBoard clone = new UnidimensionalBoard();
         clone.board = new List<Token>();
@@ -102,7 +109,7 @@ public class UnidimensionalBoard : IBoard {
         
         return clone;
     }
-
+    // matriz con las fichas de tablero
     public (Token, string)[,] TokensInBoard {
         get{ 
             (Token, string)[,] tokens = new (Token, string)[1, this.board.Count];
