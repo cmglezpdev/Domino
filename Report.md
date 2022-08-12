@@ -525,7 +525,7 @@ El juego finaliza si alguien se queda sin fichas, o si al menos la mitad de los 
 
 ### Siguiente Jugador
 
-Abstraido en una interface `INextPlayer` que contiene el método `nextPlayer` que devuelve el ID del proximo jugador.
+Abstraido en una interface `INextPlayer` que contiene el método `nextPlayer` que devuelve el ID del jugador que le toca jugar en ese momento dado de la partida.
 
 ```cs
 int NextPlayer( PlayerInfo[] players );
@@ -533,19 +533,23 @@ int NextPlayer( PlayerInfo[] players );
 
 #### Orden del domino clásico
 
-El orden clásico, fijo donde se preestablece un orden al iniciar la partida y ese se mantiene hasta el final de la partida.
+El orden clásico, fijo donde se preestablece un orden al iniciar la partida y ese se mantiene hasta el final de la partida. Por defecto el orden establecido es el mismo en el que estaban los jugadores en el array la primera vez que se recibió.
+
+Para hacer esto tenemos usamos una variable `cursor` donde cada vez que el método es llamado, este aumenta su valor (o se reinicia a cero si el valor es mayor que la cantidad de jugadores) y devuelve el jugador en esa posición.
 
 #### Orden aleatorio
 
-El siguiente jugador es seleccionado de forma aleatoria.
+El siguiente jugador es seleccionado de forma aleatoria, por lo que cada vez que el método es llamado, este simplemente escoge un número random entre 0 y la cantidad de jugadores y devuelve el jugador que se encuentre en esa posición.
 
 #### Invirtiendo el orden
 
-El juego comienza con un orden establecido, pero si alguien se pasa este orden es invertido.
+El juego comienza con un orden establecido, pero si alguien se pasa este orden es invertido y el orden establecido por defecto es el orden en el que estaban los jugadores en el array la primera vez que se  recibieron.
+Para seleccionar el próximo jugador lo que hace el método es guardar cada vez que es llamado el estado de la cantidad de fichas que tiene cada jugador, asi cada vez que el método es llamado nuevamente se compara la cantidad de fichas actual con las del estado anterior y, si el jugador actual que jugó tiene las mismas fichas que en el estado anterior(quiere decir que de pasó y no realizó ninguna jugada) entonces el próximo jugador a jugar es el anterior a él, y en caso contrario(la cantidad de las fichas son diferentes por lo que si realizó la jugada) el próximo jugador es el que le sigue a él.
 
 #### Todas las fichas
 
 El mismo jugador repite su turno hasta que no le queden jugadas válidas por realizar.
+Este método usa la misma idea que la anterior; guarda los estados de la cantidad de fichas pir jugadores y, mientras el jugador actual siempre tenga fichas diferentes es porque tiene jugadas válidas y siempre será el proximo jugador él mismo, hasta que la cantidad e fichas sea la misma y el turno pase al siguiente jugador.
 
 [Indice☝](#report)
 
