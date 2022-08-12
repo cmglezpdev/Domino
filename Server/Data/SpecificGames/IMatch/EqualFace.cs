@@ -1,11 +1,9 @@
 namespace Server.Data.Classes;
 using Server.Data.Interfaces;
 
+// Implementación que r
 public class EqualFace : IMatch
 {
-
-/// > If the value of any face on token1 matches the value of any face on token2, and neither face has
-/// been played, then return true
     public bool ValidateMatch( Token token1, Token token2 )
     {
        return WhichFacePlay(token1, token2).Length != 0;

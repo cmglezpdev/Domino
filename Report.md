@@ -573,11 +573,33 @@ Gana el jugador cuya suma de sus fichas restantes tengan un valor menor.
 
 ### Conexión de Fichas
 
-Abstraido en una interface `IMatch` cuya implementación debe devolver si dos fichas se pueden jugar juntas
+Abstraido en una interface `IMatch` cuya implementación debe devolver si dos fichas se pueden jugar una con otra.
+
+Esta interfas cuenta con tres métodos basicos para validar jugadas entre dos fichas.
+
+```cs
+public interface IMatch
+{
+    // Valida si dos fichas pueden ser jugadas juntas
+    bool ValidateMatch( Token token1, Token token2 );
+    // Valida si por la cara face1 de ficha1 se puede jugar la cara face2 de ficha 2 
+    bool ValidateMatch( Token token1, int face1, Token token2, int face2 );
+    // Devuelve un array con las caras de las fichas que pueden ser jugadas
+    int[] WhichFacePlay( Token token1, Token? token2 );
+    // Retorna un clone 
+    IMatch Clone();
+}
+```
 
 #### Caras iguales
 
-Dos fichas se pueden jugar ssi alguna de sus caras son iguales y no se ha jugador por ahi anteriormente.
+Esta implementación se basa en que si dos fichas son jugables entre si entonces es porque tienen al menos una cara en commún.
+
+- `bool ValidateMatch( Token token1, Token token2 );`: Devuevle true si el `token1` y el `token2` tienen al menos una cara con valores iguales.
+
+- `bool ValidateMatch( Token token1, int face1, Token token2, int face2 )`: Devuelve true si la cara `face1` de `token1` es igual a la cara `face2` de `token2`.
+
+- `int[] WhichFacePlay( Token token1, Token? token2 )`: Retorna una lista con los valores de las caras que tienen en común las dos fichas.
 
 #### Conexiones raras
 
