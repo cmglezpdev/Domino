@@ -280,8 +280,8 @@ Como te habrás dado cuenta, hay clases que guardan los datos de las mismas cosa
 Dentro de la sección `Classes` las principales clases son: 
 - `Manager`, el cual es el encargado de controlar el flujo de la partida, y posee todas las características(reglas) seleccionadas por el usuario. 
 Esta clase tiene un constructor que recibe la mayoría de la información con la que se iniciará el juego(jugadores, tablero y demas reglas) y las guarda internamente. 
-Tiene une metodo `Start Game` que es llamado una sola vez y carga la face inicial del juego, o sea,  construye las fichas y las reparte entre los jugadores. 
-También tiene otro metodo llamado `Game Play` que ejecuta una jugada de la partida, selecciona el jugador que le toca, realiza la jugada, actualiza los datos y retorna la información de dicha jugada.
+Tiene une método `Start Game` que es llamado una sola vez y carga la face inicial del juego, o sea,  construye las fichas y las reparte entre los jugadores. 
+También tiene otro método llamado `Game Play` que ejecuta una jugada de la partida, selecciona el jugador que le toca, realiza la jugada, actualiza los datos y retorna la información de dicha jugada.
 Y por ultimo el método `Search Player Index` que dado el id de un jugador, busca su indice en el arreglo interno donde estan guardados los mismos.
 
 
@@ -321,20 +321,20 @@ public class Refery {
 }
 ```
 
-- `Player` Esta clase es abstracta y contiene metodos generales de los jugadores. Tiene dos métodos abstractos, la cración del clon del jugador y `Play Token` que devuelve el indice de la ficha a ser jugada. También tiene la propiedad `IDPlayer` con el id y el nombre del jugador
+- `Player` Esta clase es abstracta y contiene métodos generales de los jugadores. Tiene dos métodos abstractos, la cración del clon del jugador y `Play Token` que devuelve el indice de la ficha a ser jugada. También tiene la propiedad `IDPlayer` con el id y el nombre del jugador
 
 
 Dentro de la carpeta `Interfaces` están las interfaces principales del juego que describes las abstracciones de las funcionalidades del mismo. Cada interfas representa una caracteríastica del juego que puede ser modificada siguiendo las reglas que la interfas establece.
 
 Dentro de las variaciones que se puedes realizar estan:
 
-- `IBoard`: especifica los metodos necesarios para poder crear una variación del Tablero
-- `IDistributeTokens`: especifica los metodos necesarios para poder crear una variación de como se reparten las fichas a cada jugador
-- `IFinishGame`: especifica los metodos necesarios para poder crear una variación de como se termina una partida
-- `IMatch`: especifica los metodos necesarios para poder crear una variación de como dos fichas se pueden jugar(que tengan una cara en comun por ejemplo)
-- `INextPlayer`: especifica los metodos necesarios para poder crear una variación de como se selecciona el próximo jugador a jugar.
-- `ITokenValue`: especifica los metodos necesarios para poder crear una variación de como se calcula el valor de una ficha
-- `IWinGame`: especifica los metodos necesarios para poder crear una variación de como se selecciona el/los ganadores del juego
+- `IBoard`: especifica los métodos necesarios para poder crear una variación del Tablero
+- `IDistributeTokens`: especifica los métodos necesarios para poder crear una variación de como se reparten las fichas a cada jugador
+- `IFinishGame`: especifica los métodos necesarios para poder crear una variación de como se termina una partida
+- `IMatch`: especifica los métodos necesarios para poder crear una variación de como dos fichas se pueden jugar(que tengan una cara en comun por ejemplo)
+- `INextPlayer`: especifica los métodos necesarios para poder crear una variación de como se selecciona el próximo jugador a jugar.
+- `ITokenValue`: especifica los métodos necesarios para poder crear una variación de como se calcula el valor de una ficha
+- `IWinGame`: especifica los métodos necesarios para poder crear una variación de como se selecciona el/los ganadores del juego
 
 ### Abstracciones especificas
 
@@ -555,17 +555,23 @@ El mismo jugador repite su turno hasta que no le queden jugadas válidas por re
 
 Abstraido en una inteface `IWinGame` el cual debe devolver un `IEnumerable` con el orden en que quedan los jugadores al finalizar de cada jugada.
 
+Esta interfas solo un método que devuelve la lista ordenanda de los jugadores según si criterio de orden para ganar el juego
+
 ```cs
 IEnumerable<PlayerInfo> GetWinnersGame( IBoard board, IEnumerable<PlayerInfo> players );
 ```
 
 #### Más puntos
 
-Gana el jugador con mayor suma del valor de sus fichas restantes, pero si alguien se pega, este es el que gana.
+Esta implementación establece que gana el jugador con mayor suma de los valores de las fichas que le quedan en la mano, pero si alguien se pega, este es el que gana.
+
+Por lo tanto el el método lo que devuelve es, dado la lista de los jugadores, esta es ordenado de tal forma que todo jugador `i` tiene mas puntos que cualquier jugador `j` tal que `i < j`, excepto si alguien se pegó, en cuyo caso el mayor jugador ganador tendrá cero puntos.
 
 #### Menos puntos
 
-Gana el jugador cuya suma de sus fichas restantes tengan un valor menor.
+Esta implementación establece que gana el jugador con menor suma de los valores de las fichas que le quedan en la mano.
+
+Por lo tanto el el método lo que devuelve es, dado la lista de los jugadores, esta es ordenado de tal forma que todo jugador `i` tiene menos puntos que cualquier jugador `j` tal que `i < j`.
 
 [Indice☝](#report)
 
