@@ -469,11 +469,15 @@ List<Token>[] DistributeTokens(List<Token> tokens,int numberofplayers,int countT
 
 #### Random Distribution
 
-Reparte las fichas de forma aleatoria por cada jugador.
+Esta implementación simplemente reparte de manera random las fichas que le tocan a cada jugador.
 
 #### Todas las fichas del mismo tipo
 
 Reparte las fichas siguiendo la idea de dar tantas fichas con igual representación en una de sus caras como se pueda, cuando no se puedan dar más se completan aleatoriamente.
+Esto se implementó de la siguiente manera:
+Primero que todo se ordenaron los jugadores de manera aleatoria y seleccionado un número random en el rango de las representaciones de las fichas y escogiendo todas las fichas que tengan ese número en alguna de sus caras y darselas al jugador(obviamente sin salirse de la cantidad de fichas máximas que puede tener un jugador) y, en caso de que le falten fichas se seleccionan las que faltan de manera aleatoria.
+
+Este mismo procedimiento es seguido para todos los jugadores, siendo el primer jugador al que le repartieron las fichas el que más de un mismo tipo va a tener.
 
 [Indice☝](#report)
 
