@@ -4,6 +4,7 @@
 
 - [Report](#report)
   - [Client](#client)
+    - [Un poco sobre el softweare](#un-poco-sobre-el-softweare)
   - [Server](#server)
     - [Controllers y Models](#controllers-y-models)
     - [Data](#data)
@@ -11,9 +12,9 @@
     - [AuxiliarClasses](#auxliliar-classes)
     - [Vista general de la Abstracciones](#vista-general-de-la-abstracciones)
     - [Abstracciones especificas](#abstracciones-especificas)
-    - [Tablero](#tablero)
-      - [Tablero clásico](#tablero-clásico)
-      - [Tablero con mas caminos](#tablero-con-mas-caminos)
+    - [Board](#board)
+      - [Tablero unidimensional](#tablero-unidimensional)
+      - [Tablero multidimensional](#tablero-multidimensional)
     - [Estrategia de un jugador](#estrategia-de-un-jugador)
       - [Random Player](#random-player)
       - [Bota Gorda Player](#bota-gorda-player)
@@ -26,17 +27,17 @@
       - [Resta de caras](#resta-de-caras)
       - [Cálculo raro y aleatorio](#cálculo-raro-y-aleatorio)
     - [Final de la partida](#final-de-la-partida)
-      - [No se puede seguir jugando](#no-se-puede-seguir-jugando)
+      - [La mayoria se pasan](#la-mayoria-se-pasan)
       - [Todos se pasan](#todos-se-pasan)
     - [Siguiente Jugador](#siguiente-jugador)
-      - [Orden del domino clásico](#orden-del-domino-clásico)
+      - [Orden orgánico](#orden-orgánico)
       - [Orden aleatorio](#orden-aleatorio)
       - [Invirtiendo el orden](#invirtiendo-el-orden)
       - [Todas las fichas](#todas-las-fichas)
     - [Ganador](#ganador)
       - [Más puntos](#más-puntos)
       - [Menos puntos](#menos-puntos)
-    - [Conexión de Fichas](#conexión-de-fichas)
+    - [Match entre fichas](#match-entre-fichas)
       - [Caras iguales](#caras-iguales)
       - [Conexiones raras](#conexiones-raras)
   
@@ -340,7 +341,7 @@ Dentro de las variaciones que se puedes realizar estan:
 
 Dentro de los aspectos específicos variables del juego tenemos:
 
-### Tablero
+### Board
 
 Los tableros es la clase que se encarga de mantener y darle forma a las fichas que los jugadores han jugado, esta puede variar en dependencia del tipo de juego que se quiera jugar, por lo que se creó la interfaz `IBoard`, que modela los métodos básicos que tiene un tablero.
 
@@ -356,9 +357,9 @@ y además contiene otro método importante llamado:
 public bool ValidPlay(Token token);
 ```
 
-que usando una instancia de la clase [IMatch](#conexion-de-fichas) valida si una ficha puede ser jugada en el tablero.
+que usando una instancia de la clase [IMatch](#match-entre-fichas) valida si una ficha puede ser jugada en el tablero.
 
-#### Tablero clásico
+#### Tablero Unidimensional
 
 Este es la primera variación del tablero y representa una mesa en donde los jugadores solo pueden jugar fichas por las esquina izquierda o derecha de la cola de fichas ya jugadas.
 
@@ -377,7 +378,7 @@ Dentro de los métodos de la clase están los definidos por la misma interfas `I
 
 - `public Tuple<Token, int>[] OrderListOfTokensByPlayer`: Devuelve la lista de las fichas jugadas(en orden) con sus respectivos jugadores.  
 
-#### Tablero con mas caminos
+#### Tablero Multidimensional
 
 Este tablero es un poco diferente ya que, los jugadores pueden jugar sus fichas y estas pueden ser colocadas por los laterales de la pila de fichas ya jugadas o, si se jugó algún doble, entonces se podrán jugar por los cuatro lados de la ficha(las dos caras normales más por encima y por debajo), saliendo de este otra ramificación del tablero por donde se podrá jugar normalmente.
 
@@ -542,7 +543,7 @@ Abstraido en una interface `IFinishGame` con un método booleano `FinishGame` q
 bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players );
 ```
 
-#### No se puede seguir jugando
+#### La mayoria se pasan
 
 El juego finaliza cuando alguien se pegue o la mayoría de ellos se hallan pasado al menos dos veces a lo largo de la partida
 
@@ -562,9 +563,9 @@ Abstraido en una interface `INextPlayer` que contiene el método `nextPlayer` qu
 int NextPlayer( PlayerInfo[] players );
 ```
 
-#### Orden del domino clásico
+#### Orden orgánico
 
-El orden clásico, fijo donde se preestablece un orden al iniciar la partida y ese se mantiene hasta el final de la partida. Por defecto el orden establecido es el mismo en el que estaban los jugadores en el array la primera vez que se recibió.
+El orden e sorgánico, fijo donde se preestablece un orden al iniciar la partida y ese se mantiene hasta el final de la partida. Por defecto el orden establecido es el mismo en el que estaban los jugadores en el array la primera vez que se recibió.
 
 Para hacer esto tenemos usamos una variable `cursor` donde cada vez que el método es llamado, este aumenta su valor (o se reinicia a cero si el valor es mayor que la cantidad de jugadores) y devuelve el jugador en esa posición.
 
@@ -612,7 +613,7 @@ Por lo tanto el el método lo que devuelve es, dado la lista de los jugadores, e
 
 <hr />
 
-### Conexión de Fichas
+### Match entre fichas
 
 Abstraido en una interface `IMatch` cuya implementación debe devolver si dos fichas se pueden jugar una con otra.
 
