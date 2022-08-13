@@ -489,15 +489,15 @@ Abstraido en una Interface `ITokenValue` con un método `Value` que recibe un `
 
 #### Suma de caras
 
-El valor de una ficha esta dada por la suma del valor de sus caras.
+El valor de una ficha esta dada por la suma absoluta del valor de sus caras.
 
 #### Resta de caras
 
-El valor viene dado por la diferencia de las caras de la ficha.
+El valor viene dado por la diferencia absoluta de las caras de la ficha.
 
 #### Cálculo raro y aleatorio
 
-Auxiliandonos del tipo `Func` y `Random` creamos varias formas de calcular el valor de la ficha y aleatoriamente aplicamos una en la ficha dada.
+Auxiliandonos de un delegado creamos varias formas de calcular el valor de la ficha y aleatoriamente aplicamos una en la ficha dada.
 
 Dentro de las formas de calcular el valor estan:
 
@@ -544,11 +544,11 @@ bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players );
 
 #### No se puede seguir jugando
 
-El juego finaliza si alguien puso todas sus fichas o nadie tiene una ficha válida para jugar
+El juego finaliza cuando alguien se pegue o la mayoría de ellos se hallan pasado al menos dos veces a lo largo de la partida
 
 #### Todos se pasan
 
-El juego finaliza si alguien se queda sin fichas, o si al menos la mitad de los jugadores se pasan 2 veces.
+El juego termina cuando algún jugador se pega, o si ocurren la cantidad de jugadores en pases consecutivos(también cuenta si todos los jugadores se pasan)
 
 [Indice☝](#report)
 
