@@ -51,7 +51,7 @@ Lo primero que vemos al correr nuestro juego es un menú de opciones para poder 
 
 En el menú se muestra un barra de progreso que se va llenando a medida que vas seleccionando una opción de cada variación del juego y en la parte inferior se va mostrando las opciones que vas escogiendo.
 
-Una vez que seleccionas todos las variaciones deseadas aparecerá el botón de `play` para iniciar el juego.
+Una vez que seleccionas todas las variaciones deseadas aparecerá el botón de `play` para iniciar el juego.
 
 <hr width="200px">
 
@@ -61,11 +61,11 @@ Una vez iniciado el juego tendremos una interfaz dividida en dos secciones.
 
 En la sección más grande tendremos el tablero del juego, el cual en dependencia del tipo de juego seleccionado mostrará las fichas jugadas de una forma o de otra. Estas fichas al salirse del tamaño de la pantalla se podrá hacer scroll para poder ver todas las esquinas del juego.
 
-En la parte inferior tenemos la infomación del jugador actual y dos botones, **NEXT TURN** para dar paso a que juege el otro jugador y el **RESET GAME** que es para reiniciar la partida con la misma configuración seleccionada. Una vez el juego concluya el botón **NEXT TURN** dirá **NEW GAME** el cual te permitirá seleccionar otra configuración para poder jugar una nueva partida con opciones diferentes.
+En la parte inferior tenemos la información del jugador actual y dos botones, **NEXT TURN** para dar paso a que juegue el otro jugador y el **RESET GAME** que es para reiniciar la partida con la misma configuración seleccionada. Una vez el juego concluya el botón **NEXT TURN** dirá **NEW GAME** el cual te permitirá seleccionar otra configuración para poder jugar una nueva partida con opciones diferentes.
 
 Ahí también tenemos en el medio, las fichas del jugador actual que está jugando y a la izquierda tenemos una miniatura de una cara representando al jugador y el nombre del mismo con sus respectivos puntos hasta ese momento de la partida.
 
-Si un jugador se pasa o se termina el juego, saldrá en el medio de la pantalla un cartel rojo mostrando **El jugador <nombre> se ha pasado!!**, y en caso de que el juego halla finalizado mostrará la lista de jugadores en el orden definido por la variación de "quien gana el juego" seleccionada al principio. Aqui un ejemplo
+Si un jugador se pasa o se termina el juego, saldrá en el medio de la pantalla un cartel rojo mostrando **El jugador <nombre>; se ha pasado!!**, y en caso de que el juego haya finalizado mostrará la lista de jugadores en el orden definido por la variación de "quien gana el juego" seleccionada al principio. Aquí un ejemplo
 
 ![](./assets/photo_report4.png)
 ![](./assets/photo_report5.png)
@@ -76,17 +76,17 @@ Y en la parte superior derecha tendremos dos botones: el **BACKGROUND** que es p
 
 ### Un poco sobre el softweare
 
-Nuestra aplicación al principio hace una petición `http` al servidor para que este nos de la información sobre las opciones a mostrar al usuario. Esta al ser cargada se muestra dinámicamente mediante componentes que reciben la información, por lo que si se añade más opciones este será capaz de adaptarse correctamente. 
+Nuestra aplicación al principio hace una petición `http` al servidor para que este nos dé la información sobre las opciones a mostrar al usuario. Al ser cargada se muestra dinámicamente mediante componentes que reciben la información, por lo que si se añaden más opciones este será capaz de adaptarse correctamente.
 
-El usuario constará con pequeñas validaciones mientras selecciona las opciones, mostrando un mensaje de error si este comete alguno. También tiene un seguimiento en la parte inferior que se va generando dinámicamente y guardando las selecciones hechas para mejor feedback. 
+El usuario constará con pequeñas validaciones mientras selecciona las opciones, mostrando un mensaje de error si este comete alguno. También tiene un seguimiento en la parte inferior que se va generando dinámicamente y guardando las selecciones hechas para mejor feedback.
 
-Todas estas opciones se guardan en un `Context` general y se va actualizando con cada selección y, al final de todas las opciones este se enviará al servidor mediante otra petición http y donde el server devolverá la información incial para mostar en el juego.
+Todas estas opciones se guardan en un `Context` general y se va actualizando con cada selección y, al final de todas las opciones, este se enviará al servidor mediante otra petición http y donde el server devolverá la información inicial para mostrar en el juego.
 
-Una vez dentro del mismo, al dar click en el boton de **NEXT TURN**, este hará una petición http al servidor pidiendo los datos de la nueva jugada, la cual será cargada y mostrada en pantalla.
+Una vez dentro del mismo, al dar click en el botón de **NEXT TURN**, este hará una petición http al servidor pidiendo los datos de la nueva jugada, la cual será cargada y mostrada en pantalla.
 
-Cuando termine la partida y se toca el boton de **NEW GAME** lo que hace la aplicación es borrar esos datos que tenia guardado en el `Context` y automáticamente cambia la vista para poder seleccionar una nueva variante del juego.
+Cuando termine la partida y se toca el botón de **NEW GAME** lo que hace la aplicación es borrar esos datos que tenía guardado en el `Context` y automáticamente cambia la vista para poder seleccionar una nueva variante del juego.
 
-Si por el contrario de da click en el boton de **RESET GAME** este lo que hace simplemente es realizar nuevamente la misma petición http que se hizo al principio para reiniciar el juego en nuestro server, manteniendo las mismas opciones del juego actual.
+Si, por el contrario, se da clic en el botón de **RESET GAME** este lo que hace simplemente es realizar nuevamente la misma petición http que se hizo al principio para reiniciar el juego en nuestro server, manteniendo las mismas opciones del juego actual.
 
 ## Server
 
@@ -96,18 +96,17 @@ En el `Server` tenemos los controladores de la API(`Controllers`), los modelos(`
 
 ### Controllers y Models
 
-**LoaderController**: Este controlador es la primera petición que se realiza en el `Client` y es el que carga la clase `InterfaceOfOptions` que está dentro de los `Models` que tiene un conjunto de informaciones relacionadas con las diferentes variaciones ya desarrolladas del juego que se mostrarán en el cliente (id, nombre y descripcion).
+**LoaderController**: Este controlador es la primera petición que se realiza en el `Client` y es el que carga la clase `InterfaceOfOptions` que está dentro de los `Models` que tiene un conjunto de informaciones relacionadas con las diferentes variaciones ya desarrolladas del juego que se mostrarán en el cliente (id, nombre y descripción).
 
-**TypeGameController**: Una vez que el usuario en la interfaz gráfica termina de seleccionar los diferentes aspectos para generar una variación del juego, esta información es mandada al `Server` y este `Controller` lo que hace es recibir esas opciones y usa las clases correspondientes para construir nuestro `Manager`(Clase que controla el flujo del juego). Una vez hecho esto, se inicializa el juego y se manda la información inicial de la partida de vuelta al cliente.
+**TypeGameController**: Una vez que el usuario en la interfaz gráfica termina de seleccionar los diferentes aspectos para generar una variación del juego, esta información es mandada al `Server` y este `Controller` lo que hace es recibir esas opciones y usa las clases correspondientes para construir nuestro `Manager`(Clase que controla el flujo del juego). Una vez hecho esto, se inicializa el juego y se manda la información inicial de la partida de vuelta al cliente.
 
-**NextTurnController**: Este `controller` se ejecuta cada vez que en el juego corresponde a un nuevo turno, en donde este se encarga de ejecutar los métodos necesarios del `Manager` para realizar la próxima jugada, y devuelve la información correspondiente de esa jugada que se realizó.
+**NextTurnController**: Este `controller` se ejecuta cada vez que en el juego corresponde a un nuevo turno, en donde este se encarga de ejecutar los métodos necesarios del `Manager` para realizar la próxima jugada, y devuelve la información correspondiente de esa jugada que se realizó.
 
 ### Data
 
-La sección de la `Data` tiene una clase principal `Data` que tiene varios arrays de instancias de las variaciones que tenemos implementadas en el juego, asi como varios métodos que 'parsean' algunas informaciones del juego en una estructura específica para que sea más fácil usar esa información en el `Client`(usando JSON)
+La sección de la `Data` tiene una clase principal `Data` que tiene varios arrays de instancias de las variaciones que tenemos implementadas en el juego, así como varios métodos que `parsean` algunas informaciones del juego en una estructura específica para que sea más fácil usar esa información en el `Client`(usando JSON)
 
 ```cs
-
 // Datos correspondientes a la cantidad de jugadores posibles a seleccionar
 public int[] countPlayers = new int[] {
     2,
@@ -120,7 +119,7 @@ public int[] countPlayers = new int[] {
     9,
     10
 };
-// Datos correspondientes al maximo numero que se le podra poner a una ficha
+// Datos correspondientes al máximo número que se le podrá poner a una ficha
 public int[] maxIdTokens = new int[] {
     3,
     4,
@@ -151,7 +150,7 @@ public int[] countTokens = new int[] {
     19,
     20,
 };
-// varaiciones de los jugadores
+// variaciones de los jugadores
 public Player[] Players = new Player[] {
     new RandomPlayer(),
     new BotaGordaPlayer(),
@@ -178,7 +177,7 @@ public IDistributeTokens[] DistributeTokens = new IDistributeTokens[] {
     new RandomDistribution(),
     new AllforOneDistribution(),
 };
-// Variaciones de como se finaliza el juego 
+// Variaciones de como se finaliza el juego
 public IFinishGame[] FinishGames = new IFinishGame[] {
     new AllPassFinish(),
     new APassFinish()
@@ -188,19 +187,20 @@ public IWinGame[] WinGames = new IWinGame[] {
     new FewPoints(),
     new ALotPoints()
 };
-// Variaciones de como se selecciona el proximo jugador
+// Variaciones de como se selecciona el próximo jugador
 public INextPlayer[] NextPlayers = new INextPlayer[] {
-    new OrderTurn(),
+    new OrderTurn(),    
     new RandomTurn(),
     new InvertedTurn(),
     new NextPlayerLongana(),
 };
-
 ```
+
 Además de esto tenemos una estructura de directorios formada por:
-`Classes`: Contiene las clases generales del juego o que no necesitan de una interfaz.
-`Interfaces`: Representa una parte de la abstracción del juego, en donde cada interfaz representa una posible variación de una característica del juego, las cuales son las seleccionadas desde el `Client`.
-`SpecificGames`: Esta tiene más directorios dentro con las implementaciones de las variaciones respectivas de todas las funcionalidades del juego que son variables.
+
+- `Classes`: Contiene las clases generales del juego o que no necesitan de una interfaz.
+`Interfaces`: Representa una parte de la abstracción del juego, en donde cada interfaz representa una posible variación de una característica del juego, las cuales son las seleccionadas desde el `Client`.
+`SpecificGames`: Esta tiene más directorios dentro con las implementaciones de las variaciones respectivas de todas las funcionalidades del juego que son variables.
 
 ### Game
 
@@ -212,13 +212,13 @@ El primer método es :
 public static List<FacesToken> TokenForJson( IEnumerable<Token> tokens );
 ```
 
-el cual te parsea una lista de fichas a este formato:
+el cuál te parsea una lista de fichas a este formato:
 
 ```cs
 public class FacesToken {
     public int? Left {get; set;} // valor de la cara izquierda
     public int? Right {get; set;} // valor de la cara derecha
-    public string? Direction {get; set;} // direccion de la ficha en el tablero
+    public string? Direction {get; set;} // dirección de la ficha en el tablero
 }
 ```
 
@@ -263,30 +263,30 @@ En el archivo `AuxiliarClasses.cs` tenemos varias clases, que son clases auxilia
 
 En este archivo podemos ver varias clases como:
 
-`StatusCurrentPlay`: Esta clase guarda algunas informaciones del estado del juego después de cada jugada realizada. Esta clase es usada por el manager para capturar la información de cada jugada, información que es pública ha todas las clases, pero principalmente pensada para los que los jugadores la puedan usar para sus estrategias.
+`StatusCurrentPlay`: Esta clase guarda algunas informaciones del estado del juego después de cada jugada realizada. Esta clase es usada por el manager para capturar la información de cada jugada, información que es pública a todas las clases, pero principalmente pensada para los que los jugadores la puedan usar para sus estrategias.
 
-`PlayInfo`: Esta clases también guarda información de las jugadas, pero esta clase contiene mas información que la otra porque es la información que se manda al frontend para que sea mostrada.
+`PlayInfo`: Esta clase también guarda información de las jugadas, pero esta clase contiene más información que la otra porque es la información que se manda al frontend para que sea mostrada.
 
-`PlayerInfo`: Esta clase contiene información basica sobre un jugador( cantidad de fichas, puntos, y sus ids ). Esta clase es usada por el `refery` y se usa para cuando queremos retornar información de un jugador pero no queremos que no se tenga acceso a sus métodos para evitar, entre otras cosas, que los jugadores que necesiten de información de otro jugador hagan trampa.  
+`PlayerInfo`: Esta clase contiene información básica sobre un jugador( cantidad de fichas, puntos, y sus ids ). Esta clase es usada por el `refery` y se usa para cuando queremos retornar información de un jugador, pero no queremos que no se tenga acceso a sus métodos para evitar, entre otras cosas, que los jugadores que necesiten de información de otro jugador hagan trampa.
 
-`ResPlayer`: Esta clase también guarda la información de un jugador, pero esta clase en específico es la que se usa como parseo a JSON para que sea enviada al frontend
+`ResPlayer`: Esta clase también guarda la información de un jugador, pero esta clase en específico es la que se usa como parseo a JSON para que sea enviada al frontend
 
-`FacesToken`: Esta clase parsea la información basica de una ficha( valor de sus caras, y su dirección en el tablero si esta allí ) a JSON para que sea usada en el frontend.
+`FacesToken`: Esta clase parsea la información básica de una ficha(valor de sus caras, y su dirección en el tablero, si esta allí) a JSON para que sea usada en el frontend.
 
-Como te habrás dado cuenta, hay clases que guardan los datos de las mismas cosas pero una guarda mas información que otra. Esto se podía guardar todo en una mima clase y solo asignarle valores a las cosas que creamos conveniente, pero esto implicaría que las demás propiedades sean nulas, dando paso a posibles errores a la hora de usar las clases, así como no tener una idea clara de cuales SI son las propiedades que tienen valores y cuales no. Es por eso que preferimos crear varias clases que se referieren a la misma cosa, pero guardan diferentes cantidades de información.
+Como te habrás dado cuenta, hay clases que guardan los datos de las mismas cosas, pero una guarda más información que otra. Esto se podía guardar todo en una mima clase y solo asignarle valores a las cosas que creamos conveniente, pero esto implicaría que las demás propiedades sean nulas, dando paso a posibles errores a la hora de usar las clases, así como no tener una idea clara de cuáles SI son las propiedades que tienen valores y cuáles no. Es por eso que preferimos crear varias clases que se referieren a la misma cosa, pero guardan diferentes cantidades de información.
 
 
 ### Vista general de la Abstracciones
 
-Dentro de la sección `Classes` las principales clases son: 
-- `Manager`, el cual es el encargado de controlar el flujo de la partida, y posee todas las características(reglas) seleccionadas por el usuario. 
-Esta clase tiene un constructor que recibe la mayoría de la información con la que se iniciará el juego(jugadores, tablero y demas reglas) y las guarda internamente. 
-Tiene une método `Start Game` que es llamado una sola vez y carga la face inicial del juego, o sea,  construye las fichas y las reparte entre los jugadores. 
+Dentro de la sección `Classes` las principales clases son:
+
+- `Manager`, el cual es el encargado de controlar el flujo de la partida, y posee todas las características(reglas) seleccionadas por el usuario.
+Esta clase tiene un constructor que recibe la mayoría de la información con la que se iniciará el juego(jugadores, tablero y demás reglas) y las guarda internamente.
+Tiene une método `Start Game` que es llamado una sola vez y carga la fase inicial del juego, o sea, construye las fichas y las reparte entre los jugadores.
 También tiene otro método llamado `Game Play` que ejecuta una jugada de la partida, selecciona el jugador que le toca, realiza la jugada, actualiza los datos y retorna la información de dicha jugada.
-Y por ultimo el método `Search Player Index` que dado el id de un jugador, busca su indice en el arreglo interno donde estan guardados los mismos.
+Y por último el método `Search Player Index` que dado el id de un jugador, busca su índice en el arreglo interno donde están guardados los mismos.
 
-
-- `Refery` la cual tiene la tarea de controlar las jugadas de cada jugador(esta clase la implementamos como forma de evitar el surgimiento de jugadores que incumplieran las reglas preestablecidas de la partida), además posee las fichas de todos los jugadores y les ordena a los mismos elegir que ficha jugar, revisando si la elegida es válida, y finalmente colocándola en el tablero.
+- `Refery` la cual tiene la tarea de controlar las jugadas de cada jugador(esta clase la implementamos como forma de evitar el surgimiento de jugadores que incumplieran las reglas preestablecidas de la partida), además posee las fichas de todos los jugadores y les ordena a los mismos elegir que ficha jugar, revisando si la elegida es válida, y finalmente colocándola en el tablero.
 
 ```cs
 public class Refery {
@@ -299,7 +299,7 @@ public class Refery {
     // Relaiza la jugada del jugador IdPlayer
     public bool Play(int IdPlayer);
  
-    // Devuelve las fichas correspondientes al jugador con ese id
+    // Devuelve l rrespondientes al jugador con ese id
     public Token[] Hand( int IdPlayer );
 
     // Cantidad de fichas del jugador
@@ -322,30 +322,29 @@ public class Refery {
 }
 ```
 
-- `Player` Esta clase es abstracta y contiene métodos generales de los jugadores. Tiene dos métodos abstractos, la cración del clon del jugador y `Play Token` que devuelve el indice de la ficha a ser jugada. También tiene la propiedad `IDPlayer` con el id y el nombre del jugador
+- `Player` Esta clase es abstracta y contiene métodos generales de los jugadores. Tiene dos métodos abstractos, la creación del clon del jugador y `Play Token` que devuelve el índice de la ficha a ser jugada. También tiene la propiedad `IDPlayer` con el id y el nombre del jugador
 
+Dentro de la carpeta `Interfaces` están las interfaces principales del juego que describes las abstracciones de las funcionalidades del mismo. Cada interfaz representa una característica del juego que puede ser modificada siguiendo las reglas que la interfaz establece.
 
-Dentro de la carpeta `Interfaces` están las interfaces principales del juego que describes las abstracciones de las funcionalidades del mismo. Cada interfas representa una caracteríastica del juego que puede ser modificada siguiendo las reglas que la interfas establece.
-
-Dentro de las variaciones que se puedes realizar estan:
+Dentro de las variaciones que se pueden realizar están:
 
 - `IBoard`: especifica los métodos necesarios para poder crear una variación del Tablero
 - `IDistributeTokens`: especifica los métodos necesarios para poder crear una variación de como se reparten las fichas a cada jugador
 - `IFinishGame`: especifica los métodos necesarios para poder crear una variación de como se termina una partida
-- `IMatch`: especifica los métodos necesarios para poder crear una variación de como dos fichas se pueden jugar(que tengan una cara en comun por ejemplo)
+- `IMatch`: especifica los métodos necesarios para poder crear una variación de como dos fichas se pueden jugar(que tengan una cara en común por ejemplo)
 - `INextPlayer`: especifica los métodos necesarios para poder crear una variación de como se selecciona el próximo jugador a jugar.
 - `ITokenValue`: especifica los métodos necesarios para poder crear una variación de como se calcula el valor de una ficha
 - `IWinGame`: especifica los métodos necesarios para poder crear una variación de como se selecciona el/los ganadores del juego
 
-### Abstracciones especificas
+### Abstracciones específicas
 
 Dentro de los aspectos específicos variables del juego tenemos:
 
 ### Board
 
-Los tableros es la clase que se encarga de mantener y darle forma a las fichas que los jugadores han jugado, esta puede variar en dependencia del tipo de juego que se quiera jugar, por lo que se creó la interfaz `IBoard`, que modela los métodos básicos que tiene un tablero.
+El board es la clase que se encarga de mantener y darle forma a las fichas que los jugadores han jugado, esta puede variar en dependencia del tipo de juego que se quiera jugar, por lo que se creó la interfaz `IBoard`, que modela los métodos básicos que tiene un tablero.
 
-Dentro de las responsabilidades que tienen los tableros está la construcción de las fichas que se van a usar para jugar mediante el método
+Dentro de las responsabilidades que tienen los tableros está la construcción de las fichas que se van a usar para jugar mediante el método:
 
 ```cs
 public List<Token> BuildTokens(int MaxIdOfToken, TokenValue calcValue)
@@ -361,47 +360,39 @@ que usando una instancia de la clase [IMatch](#match-entre-fichas) valida si una
 
 #### Tablero Unidimensional
 
-Este es la primera variación del tablero y representa una mesa en donde los jugadores solo pueden jugar fichas por las esquina izquierda o derecha de la cola de fichas ya jugadas.
+Este es la primera variación del tablero y representa una mesa en donde los jugadores solo pueden jugar fichas por la esquina izquierda o derecha de la cola de fichas ya jugadas.
 
-Dentro de los métodos de la clase están los definidos por la misma interfas `IBoard`:
+Dentro de los métodos de la clase están los definidos por la misma interfaz `IBoard`:
 
-- `public List<Token> BuildTokens( int MaxIdOfToken, ITokenValue calcValue ) `: Recibe el numero máximo que puede tener una ficha y una forma de calcular el valor de la ficha y lo que hace es construir todas las fichas posibles de dos caras, desde el [0,0] hasta el [MaxIdOfToken, MaxIdOfToken].
+- `public List<Token> BuildTokens( int MaxIdOfToken, ITokenValue calcValue ) `: Recibe el número máximo que puede tener una ficha y una forma de calcular el valor de la ficha y lo que hace es construir todas las fichas posibles de dos caras, desde el [0,0] hasta el [MaxIdOfToken, MaxIdOfToken].
 
-- `public (Token, string)[,] TokensInBoard`: Devuelve una matriz [1, n] donde estan colocadas todas las fichas de la partida, esto es simulando visualmente a un tablero. Como todas las fichas se colocan  en horizontal, el alto de la matriz es 1, cuando se devuelva la matriz, las todas las posiciones de las fichas deben de ser válidas.
-- `public void PlaceToken( Token token, int IdPlayer )`: Recibe una ficha y el id del jugador que la va a jugar y en caso de que la jugada sea válida la coloca en el tablero y la añade a una lista en done guarda cada ficha con su jugador para mantener un histórico de jugadas. Este método de apoya de otro interno de la misma clase llamada `Play` que lo que hace es recibir la ficha y la posición donde se va a colocar la ficha y colocarla y, si intercambiar las caras de las fichas de ser necesario. Esto es para que todas las fichas esten debidamente organizadas y todas las caras coincidan correntamente.
-
-- `public void SetMatcher( IMatch matcher )`: Solo recibe una implementación de `IMatch` y la guarda en una propiedad interna del tablero.
-
-- `public bool ValidPlay(Token token)`: Recibe un token y apoyandose de la implementación de `IMatch` devuelve true o false si la ficha se puede jugar o no en el tablero. 
-
-- `public (Token, string)[,] TokensInBoard`: Devuelve una matriz [1, n] donde estan colocadas todas las fichas de la partida, esto es simulando visualmente a un tablero. Como todas las fichas se colocan  en horizontal, el alto de la matriz es 1. Cuando se devuelva la matriz, todas las posiciones de las fichas deben de ser válidas.
-
-- `public Tuple<Token, int>[] OrderListOfTokensByPlayer`: Devuelve la lista de las fichas jugadas(en orden) con sus respectivos jugadores.  
+- `public (Token, string)[,] TokensInBoard`: Devuelve una matriz [1, n] donde están colocadas todas las fichas de la partida, esto es simulando visualmente a un tablero. Como todas las fichas se colocan en horizontal, el alto de la matriz es 1, cuando se devuelva la matriz, las todas las posiciones de las fichas deben de ser válidas.
+- `public void PlaceToken( Token token, int IdPlayer )`: Recibe una ficha y el id del jugador que la va a jugar y en caso de que la jugada sea válida la coloca en el tablero y la añade a una lista en donde guarda cada ficha con su jugador para mantener un histórico de jugadas. Este método se apoya de otro interno de la misma clase llamada `Play` que lo que hace es recibir la ficha y la posición donde se va a colocar la ficha y colocarla y, si intercambiar las caras de las fichas de ser necesario. Esto es para que todas las fichas estén debidamente organizadas y todas las caras coincidan correctamente.
 
 #### Tablero Multidimensional
 
-Este tablero es un poco diferente ya que, los jugadores pueden jugar sus fichas y estas pueden ser colocadas por los laterales de la pila de fichas ya jugadas o, si se jugó algún doble, entonces se podrán jugar por los cuatro lados de la ficha(las dos caras normales más por encima y por debajo), saliendo de este otra ramificación del tablero por donde se podrá jugar normalmente.
+Este tablero es un poco diferente, ya que los jugadores pueden jugar sus fichas y estas pueden ser colocadas por los laterales de la pila de fichas ya jugadas o, si se jugó algún doble, entonces se podrán jugar por los cuatro lados de la ficha(las dos caras normales más por encima y por debajo), saliendo de este otra ramificación del tablero por donde se podrá jugar normalmente.
 
 Esta implementación usa un diccionario para guardar las posiciones en la "matriz" ficticia de las fichas:
 
 ```cs
-    private Dictionary< Coord, InfoToken > board = new Dictionary<Coord, InfoToken>(); // Tablero de juego
+private Dictionary< Coord, InfoToken > board = new Dictionary<Coord, InfoToken> (); // Tablero de juego
 ```
 
-Este tablero usa dos clases internas `Coord` y `InfoToken` en donde `Coord` es una clase interna con dos variables **X** y **Y** para guardar las coordenadas en el tablero de donde se jugo la ficha; y tenemos a `InfoToken` que contiene la ficha que se jugó y la dirección en la que se coloca (horizontal o vertical).
+Este tablero usa dos clases internas, `Coord` y `InfoToken` en donde `Coord` es una clase interna con dos variables **X** y **Y** para guardar las coordenadas en el tablero de donde se jugó la ficha; y tenemos a `InfoToken` que contiene la ficha que se jugó y la dirección en la que se coloca (horizontal o vertical).
 
 Dentro de los métodos de la clase están los definidos por la misma interfas `IBoard`:
 
-- `public List<Token> BuildTokens(int MaxIdOfToken, ITokenValue calcValue)`: Crea todas las fichas posibles de dos caras desde el [0,0] hasta el [MaxIdOfToken, MaxIdOfToken], pero si son dobles, entonces crear la ficha pero con 4 caras por donde jugar, para poder jugar por las 4 direcciones.
+- `public List<Token>BuildTokens(int MaxIdOfToken, ITokenValue calcValue)`: Crea todas las fichas posibles de dos caras desde el [0,0] hasta el [MaxIdOfToken, MaxIdOfToken], pero si son dobles, entonces crear la ficha pero con 4 caras por donde jugar, para poder jugar por las 4 direcciones.
 
-- `public void PlaceToken(Token token, int IdPlayer)`: Este método toma la ficha a jugar y hace un recorrido por todas las fichas del tablero buscando que ficha tiene alguna posición libre para jugar y si las dos fichas cumplen las reglas necesarias para ser  jugadas. Una vez que encuentra una ficha por donde jugar entonces comprueba la dirección de la ficha en el tablero(horizontal o vertical) y jugar por un lado o por otro en dependencia y, si la ficha es un doble, comprobar también si se puede jugar por arriba o por abajo de la misma. Aquí también se realiza el proceso de cambio de caras de ser necesario para que si en cuanquier momento queremos renderizar la matriz las fichas esten organizadas y coincidan unas con otras.
+- `public void PlaceToken(Token token, int IdPlayer)`: Este método toma la ficha a jugar y hace un recorrido por todas las fichas del tablero buscando que ficha tiene alguna posición libre para jugar y si las dos fichas cumplen las reglas necesarias para ser jugadas. Una vez que encuentra una ficha por donde jugar entonces comprueba la dirección de la ficha en el tablero(horizontal o vertical) y jugar por un lado o por otro en dependencia y, si la ficha es un doble, comprobar también si se puede jugar por arriba o por abajo de la misma. Aquí también se realiza el proceso de cambio de caras de ser necesario para que si en cualquier momento queremos renderizar la matriz las fichas estén organizadas y coincidan unas con otras.
 
 - `public bool ValidPlay(Token token)`: Valida si la ficha dada puede ser jugada en el tablero, o sea, si existe alguna posición en el tablero por donde pueda ser jugada la ficha.
 
 - `public Tuple<Token, int>[] OrderListOfTokensByPlayer`: Convierte el diccionario que teníamos con las fichas y los ids de los jugadores que realizaron esa jugada en un arreglo que es devuelto.
 
-- `public (Token, string)[,] TokensInBoard`: Convierte el diccionario que representa el board en una matris de Tokens con sus respectivas direcciones, donde en la posicion [i,j] estará la ficha con coordenadas x,y en el diccionario. Este método se apoya de otros dos llamados `BordersBoard` y `NormalizeBoard` para modificar un poco el board.
-Esta normalización se debe a que cuando añadimos por la izquierda una nueva ficha a una ficha del tablero en la posición [0,0] por ejemplo, esta nueva ficha es colocada en la posición [-1,0] y esta no es una posición valida en una matriz de elementos de C#. Para solucionar esto lo que se hace es usar el método `BordersBoard` que calcula las esquinas del tablero basado en los indices de las posiciones(el inidice mas a la derecha, a la izquierda, arriba y abajo) y despues con el método `NormalizeBoard` lo que hacemos es correr toda la matriz al cuadrante positivo de tal forma que la ficha mas a la esquina derecha y abajo sea el [0,0].
+- `public (Token, string)[,] TokensInBoard`: Convierte el diccionario que representa el board en una matriz de Tokens con sus respectivas direcciones, donde en la posición [i,j] estará la ficha con coordenadas x,y en el diccionario. Este método se apoya de otros dos llamados `BordersBoard` y `NormalizeBoard` para modificar un poco el board.
+Esta normalización se debe a que cuando añadimos por la izquierda una nueva ficha a una ficha del tablero en la posición [0,0] por ejemplo, esta nueva ficha es colocada en la posición [-1,0] y esta no es una posición válida en una matriz de elementos de C#. Para solucionar esto lo que se hace es usar el método `BordersBoard` que calcula las esquinas del tablero basado en los índices de las posiciones(el índice más a la derecha, a la izquierda, arriba y abajo) y después con el método `NormalizeBoard` lo que hacemos es correr toda la matriz al cuadrante positivo de tal forma que la ficha más a la esquina derecha y abajo sea el [0,0].
 Ya con el tablero de esta forma podemos crear la matriz y retornarla correctamente.
 
 [Indice☝](#report)
@@ -410,7 +401,7 @@ Ya con el tablero de esta forma podemos crear la matriz y retornarla correctamen
 
 ### Estrategia de un jugador
 
-Abstraido en una clase abtracta `Player` que representa la estrategia de cualquier jugador. Posee desde la clase abstracta la asignación de su nombre y Id, y un método abtracto `PlayToken` que debe devolver la posición en el array que se le pasa de la ficha que desee jugar, si incumple este principio devolviendo un número de una posición inválida en el array, se considera un turno perdido.
+Abstraido en una clase abtracta `Player` que representa la estrategia de cualquier jugador. Posee en la clase abstracta la asignación de su nombre y Id, y un método abstracto `PlayToken` que debe devolver la posición en el array que se le pasa de la ficha que desee jugar, si incumple este principio devolviendo un número de una posición inválida en el array, se considera un turno perdido.
 
 ```cs
 public abstract int PlayToken( IBoard board, Token[] hand);
@@ -438,7 +429,7 @@ Lo primero que hace el jugador es que mediante el método privado `Organize(...)
 private void Organize(int maxidtoken, Token[] hand);
 ```
 
-También usa otro método llamado `Double` que retorna el indice de todos los dobles que hay en su mano
+También usa otro método llamado `Double` que retorna el índice de todos los dobles que hay en su mano
 
 ```cs
 private List<(Token,int)> Double(Token[] hand);
@@ -451,7 +442,6 @@ private int Start(Token[] hand);
 ```
 
 Este método lo que hace es devolver el doble con el número mas alto que tenga, y en caso de que no tenga dobles entoces devuelve la ficha con las caras que tengan los números que más se repiten en su mano.
-
 
 Si por el contrario simplemente le toca jugar, entoces jugará la ficha con los números que más se repitan en su mano. Si no tiene jugadas válidas entonces retorna `-1`. 
 
@@ -476,7 +466,7 @@ Esta implementación simplemente reparte de manera random las fichas que le toca
 
 Reparte las fichas siguiendo la idea de dar tantas fichas con igual representación en una de sus caras como se pueda, cuando no se puedan dar más se completan aleatoriamente.
 Esto se implementó de la siguiente manera:
-Primero que todo se ordenaron los jugadores de manera aleatoria y seleccionado un número random en el rango de las representaciones de las fichas y escogiendo todas las fichas que tengan ese número en alguna de sus caras y darselas al jugador(obviamente sin salirse de la cantidad de fichas máximas que puede tener un jugador) y, en caso de que le falten fichas se seleccionan las que faltan de manera aleatoria.
+Primero que todo se ordenaron los jugadores de manera aleatoria y seleccionado un número random en el rango de las representaciones de las fichas y escogiendo todas las fichas que tengan ese número en alguna de sus caras y dárselas al jugador(obviamente sin salirse de la cantidad de fichas máximas que puede tener un jugador) y, en caso de que le falten fichas se seleccionan las que faltan de manera aleatoria.
 
 Este mismo procedimiento es seguido para todos los jugadores, siendo el primer jugador al que le repartieron las fichas el que más de un mismo tipo va a tener.
 
@@ -557,7 +547,7 @@ El juego termina cuando algún jugador se pega, o si ocurren la cantidad de juga
 
 ### Siguiente Jugador
 
-Abstraido en una interface `INextPlayer` que contiene el método `nextPlayer` que devuelve el ID del jugador que le toca jugar en ese momento dado de la partida.
+Abstraido en una interfaz `INextPlayer` que contiene el método `nextPlayer` que devuelve el ID del jugador que le toca jugar en ese momento dado de la partida.
 
 ```cs
 int NextPlayer( PlayerInfo[] players );
@@ -565,9 +555,11 @@ int NextPlayer( PlayerInfo[] players );
 
 #### Orden orgánico
 
-El orden e sorgánico, fijo donde se preestablece un orden al iniciar la partida y ese se mantiene hasta el final de la partida. Por defecto el orden establecido es el mismo en el que estaban los jugadores en el array la primera vez que se recibió.
+El orden es orgánico, fijo donde se preestablece un orden al iniciar la partida y ese se mantiene hasta el final de la partida. Por defecto, el orden establecido es el mismo en el que estaban los jugadores en el array la primera vez que se recibió.
 
-Para hacer esto tenemos usamos una variable `cursor` donde cada vez que el método es llamado, este aumenta su valor (o se reinicia a cero si el valor es mayor que la cantidad de jugadores) y devuelve el jugador en esa posición.
+Para hacer esto tenemos usamos una variabl
+curs
+ donde cada vez que el método es llamado, este aumenta su valor (o se reinicia a cero si el valor es mayor que la cantidad de jugadores) y devuelve el jugador en esa posición.
 
 #### Orden aleatorio
 
@@ -575,13 +567,13 @@ El siguiente jugador es seleccionado de forma aleatoria, por lo que cada vez que
 
 #### Invirtiendo el orden
 
-El juego comienza con un orden establecido, pero si alguien se pasa este orden es invertido y el orden establecido por defecto es el orden en el que estaban los jugadores en el array la primera vez que se  recibieron.
-Para seleccionar el próximo jugador lo que hace el método es guardar cada vez que es llamado el estado de la cantidad de fichas que tiene cada jugador, asi cada vez que el método es llamado nuevamente se compara la cantidad de fichas actual con las del estado anterior y, si el jugador actual que jugó tiene las mismas fichas que en el estado anterior(quiere decir que de pasó y no realizó ninguna jugada) entonces el próximo jugador a jugar es el anterior a él, y en caso contrario(la cantidad de las fichas son diferentes por lo que si realizó la jugada) el próximo jugador es el que le sigue a él.
+El juego comienza con un orden establecido, pero si alguien se pasa este orden es invertido y el orden establecido por defecto es el orden en el que estaban los jugadores en el array la primera vez que se recibieron.
+Para seleccionar el próximo jugador lo que hace el método es guardar cada vez que es llamado el estado de la cantidad de fichas que tiene cada jugador, así cada vez que el método es llamado nuevamente se compara la cantidad de fichas actual con las del estado anterior y, si el jugador actual que jugó tiene las mismas fichas que en el estado anterior(quiere decir que se pasó y no realizó ninguna jugada) entonces el próximo jugador a jugar es el anterior a él, y en caso contrario(la cantidad de las fichas son diferentes por lo que si realizó la jugada) el próximo jugador es el que le sigue a él.
 
 #### Todas las fichas
 
-El mismo jugador repite su turno hasta que no le queden jugadas válidas por realizar.
-Este método usa la misma idea que la anterior; guarda los estados de la cantidad de fichas pir jugadores y, mientras el jugador actual siempre tenga fichas diferentes es porque tiene jugadas válidas y siempre será el proximo jugador él mismo, hasta que la cantidad e fichas sea la misma y el turno pase al siguiente jugador.
+El mismo jugador repite su turno hasta que no le queden jugadas válidas por realizar.
+Este método usa la misma idea que la anterior; guarda los estados de la cantidad de fichas por jugadores y, mientras el jugador actual siempre tenga fichas diferentes, es porque tiene jugadas válidas y siempre será el próximo jugador él mismo, hasta que la cantidad de fichas sea la misma y el turno pase al siguiente jugador.
 
 [Indice☝](#report)
 
@@ -601,23 +593,33 @@ IEnumerable<PlayerInfo> GetWinnersGame( IBoard board, IEnumerable<PlayerInfo> pl
 
 Esta implementación establece que gana el jugador con mayor suma de los valores de las fichas que le quedan en la mano, pero si alguien se pega, este es el que gana.
 
-Por lo tanto el el método lo que devuelve es, dado la lista de los jugadores, esta es ordenado de tal forma que todo jugador `i` tiene mas puntos que cualquier jugador `j` tal que `i < j`, excepto si alguien se pegó, en cuyo caso el mayor jugador ganador tendrá cero puntos.
+Por lo tanto el método lo que devuelve es, dado la lista de los jugadores, esta es ordenado de tal forma que todo jugado
+ tiene más puntos que cualquier jugado
+ tal qu
+i <
+, excepto si alguien se pegó, en cuyo caso el mayor jugador ganador tendrá cero puntos.
 
 #### Menos puntos
 
 Esta implementación establece que gana el jugador con menor suma de los valores de las fichas que le quedan en la mano.
 
-Por lo tanto el el método lo que devuelve es, dado la lista de los jugadores, esta es ordenado de tal forma que todo jugador `i` tiene menos puntos que cualquier jugador `j` tal que `i < j`.
+Por lo tanto el método lo que devuelve es, dado la lista de los jugadores, esta es ordenado de tal forma que todo jugado
+ tiene menos puntos que cualquier jugado
+ tal qu
+i <
+.
 
 [Indice☝](#report)
 
-<hr />
+<hr />;
 
 ### Match entre fichas
 
-Abstraido en una interface `IMatch` cuya implementación debe devolver si dos fichas se pueden jugar una con otra.
+Abstraído en una interfa
+IMat
+ cuya implementación debe devolver si dos fichas se pueden jugar una con otra.
 
-Esta interfas cuenta con tres métodos basicos para validar jugadas entre dos fichas.
+Esta interfaz cuenta con tres métodos básicos para validar jugadas entre dos fichas.
 
 ```cs
 public interface IMatch
