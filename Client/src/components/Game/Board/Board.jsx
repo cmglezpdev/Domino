@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Grid } from 'semantic-ui-react'
 import generateId from '../../../helpers/generateIds';
 import { Token } from '../Token/Token';
 import './board.scss';
@@ -15,7 +14,7 @@ export const Board = ({ currentPlay }) => {
       
       // count of rows and columns
       const height = tokens.length;
-      const width = ( height == 0 ) ? 0 : tokens[0].length;
+      const width = ( height === 0 ) ? 0 : tokens[0].length;
       
       setGridSettings({
         width: width,
@@ -26,9 +25,10 @@ export const Board = ({ currentPlay }) => {
 
       setBoard(board);
       
-    }
+    } 
   }, [currentPlay])
   
+  // Construye el tablero
   const BuildBoard = ( width, height, tokens ) => {
      let board = [];
     

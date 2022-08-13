@@ -1,12 +1,13 @@
 import React, {useEffect, useState, useContext} from 'react'
 import { SettingsContext } from './../helpers/SettingsContext'
-import { Modal, Image, Button, Icon } from 'semantic-ui-react'
+import { Modal, Button } from 'semantic-ui-react'
 
 import { BASE_URL } from '../helpers/api.js';
 import './information.scss';
 import { namesPlayers } from '../helpers/dataPlayers';
 import generateId from '../helpers/generateIds';
 
+// Muestra el modal con la configuración del juego
 export const Information = ({ open, setOpen }) => {
     
     // Context que tiene las opciones del juego  seleccionadas por el usuario
@@ -31,9 +32,9 @@ export const Information = ({ open, setOpen }) => {
           return option.id === id
         });
 
-        if(opt.length == 0) return;
+        if(opt.length === 0) return;
 
-        if( propertie == "titleOption" )  return opt[0][propertie];
+        if( propertie === "titleOption" )  return opt[0][propertie];
         
         return opt[0][propertie][index];
     }

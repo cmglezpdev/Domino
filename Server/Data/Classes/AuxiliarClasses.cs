@@ -1,28 +1,28 @@
 namespace Server.Data.Classes;
 using Server.Data.Interfaces;
 
-// Clase que representa la informaciom actual de una jugada
+// Clase que representa la información actual de una jugada
 public class StatusCurrentPlay {
-    public int IDPlayerPlayed {get; set;} // El jugador que la realizo
-    public bool Passed {get; set;} // si se paso
+    public int IDPlayerPlayed {get; set;} // El jugador que la realizó
+    public bool Passed {get; set;} // si se pasó
     public Token? TokenPlayed {get; set;} // la ficha que jugo
     public IBoard? StatusBoard {get; set;} // el estado del tablero
 }
 
-// Esta representa el estado de una jugada tambien ,pero contiene mas informacion 
-//  pq es la que se envia al frontend para que se muestre la informacion
+// Esta representa el estado de una jugada también ,pero contiene mas información 
+//  pq es la que se envía al frontend para que se muestre la información
 public class PlayInfo {
-    public IEnumerable<ResPlayer>? Players {get; set;} // Lista de jugadores con su informacion
+    public IEnumerable<ResPlayer>? Players {get; set;} // Lista de jugadores con su información
     public int? CurrentPlayer {get; set;} // ID del jugador que jugo
     public int? points {get; set;} // cantidad actual de puntos del jugador
-    public bool? Passed {get; set;} // Si el jugador se paso o no
-    public IEnumerable< IEnumerable<FacesToken> >? TokensInBoard {get; set;} // Las fichas que estan en el tablero despues de la jugada
-    public bool? FinishGame {get; set;} // True si se termino el juego
+    public bool? Passed {get; set;} // Si el jugador se pasó o no
+    public IEnumerable< IEnumerable<FacesToken> >? TokensInBoard {get; set;} // Las fichas que estan en el tablero después de la jugada
+    public bool? FinishGame {get; set;} // True si se terminó el juego
     public IEnumerable<ResPlayer>? Winners{get; set;} // Lista de ganadores en la ronda actual
 }
 
 
-// Esta clase representa un jugador con su informacion
+// Esta clase representa un jugador con su información
 public class PlayerInfo {
     public int Count {get; private set;} // cantidad de fichas
     public int Points {get; private set;} // cantidad de puntos
@@ -47,5 +47,5 @@ public class ResPlayer {
 public class FacesToken {
     public int? Left {get; set;}
     public int? Right {get; set;}
-    public string? Direction {get; set;} // direccion de la ficha en el tablero
+    public string? Direction {get; set;} // dirección de la ficha en el tablero
 }

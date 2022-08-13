@@ -65,7 +65,7 @@ En la parte inferior tenemos la información del jugador actual y dos botones, *
 
 Ahí también tenemos en el medio, las fichas del jugador actual que está jugando y a la izquierda tenemos una miniatura de una cara representando al jugador y el nombre del mismo con sus respectivos puntos hasta ese momento de la partida.
 
-Si un jugador se pasa o se termina el juego, saldrá en el medio de la pantalla un cartel rojo mostrando **El jugador <nombre>; se ha pasado!!**, y en caso de que el juego haya finalizado mostrará la lista de jugadores en el orden definido por la variación de "quien gana el juego" seleccionada al principio. Aquí un ejemplo
+Si un jugador se pasa o se termina el juego, saldrá en el medio de la pantalla un cartel rojo mostrando **El jugador [nombre] se ha pasado!!**, y en caso de que el juego haya finalizado mostrará la lista de jugadores en el orden definido por la variación de "quien gana el juego" seleccionada al principio. Aquí un ejemplo
 
 ![](./assets/photo_report4.png)
 ![](./assets/photo_report5.png)

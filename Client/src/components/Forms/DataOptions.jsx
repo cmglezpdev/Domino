@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, Input } from 'semantic-ui-react';
+import { Dropdown } from 'semantic-ui-react';
 import { SettingsContext } from '../../helpers/SettingsContext';
 import generateId from '../../helpers/generateIds';
 import { namesPlayers } from '../../helpers/dataPlayers';
@@ -11,12 +11,16 @@ export const DataOptions = ({ titleOption, nameOptions, id, value, GetOptions })
     const { settings, setSettings } = useContext( SettingsContext );
     const TypeOptions = GetTypeOptions(nameOptions);
     
+
+    // Maneja los cambios que ocurren en los formularios
     const handleChange = (e, result) => {
         
         let aux = settings.player;
-        if( id == "countPlayers" ) {
+        
+        // Manejar que la cantidad maxima de fichas posibles a crear se puedan repartir entre todos los jugadores
+        if( id === "countPlayers" ) {
             
-            // Si ya se seleccionarion las fichas y los jugadores comprobar si sale una cantidad correnta
+            // Si ya se seleccionarion las fichas y los jugadores comprobar si sale una cantidad correcta
             const maxIdTokens = parseInt(GetOptions("maxIdTokens")[settings.maxIdTokens]);          
             const countPlayer = parseInt(GetOptions("countPlayers")[result.value]);
             const countTokens = parseInt(GetOptions("countTokens")[settings.countTokens]);
@@ -32,6 +36,7 @@ export const DataOptions = ({ titleOption, nameOptions, id, value, GetOptions })
             aux = new Array(parseInt(GetOptions("countPlayers")[result.value])).fill(0);
         }
         
+        // Actualizar el estado con los nuevos valores
         setSettings({
             ...settings,
             [id]: result.value,
@@ -75,7 +80,7 @@ export const DataOptions = ({ titleOption, nameOptions, id, value, GetOptions })
                             </div>
                         )
                     })
-                :
+                : // Mostrar los campos que le corresponden
                     (<Dropdown
                         placeholder='Selecciona una opcion'
                         fluid
@@ -94,7 +99,7 @@ export const DataOptions = ({ titleOption, nameOptions, id, value, GetOptions })
 
 
 
-
+// Protopype del componente
 DataOptions.prototype = {
     titleOption: PropTypes.string.isRequired,
     nameOptions: PropTypes.array.isRequired,
@@ -102,6 +107,7 @@ DataOptions.prototype = {
 }
 
 
+// Construir la información necesaria para los Dropdown
 const GetTypeOptions = (nameValue) => {
     let options = [];
 

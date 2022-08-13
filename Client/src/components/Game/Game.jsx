@@ -11,6 +11,7 @@ import getBackground from '../../helpers/backgroundBoard';
 import './game.scss';
 import { Information } from '../Information';
 
+// Lógica general del juego(visual)
 export const Game = () => {
   
   const { settings, setSettings } = useContext(SettingsContext);
@@ -19,8 +20,10 @@ export const Game = () => {
   const [open, setOpen] = useState(false);
   const [openInformation, setOpenInformation] = useState(false);
          
+  // Controla las acciones de los botones de Next Turn y New Game
   const handleNextTurn = (e) => {
     const btnText = e.target.innerText;
+    // Reiniciar las configuraciones a cero
     if( btnText === 'New Game'.toUpperCase() ) {
       setSettings({
         done: false
@@ -28,6 +31,7 @@ export const Game = () => {
       return;
     }
 
+    // Fetch a la api para obtener la información de la próxima partida
     fetch( `${BASE_URL}/NextTurn` )
       .then(result => result.json())
       .then(play => {
@@ -35,6 +39,7 @@ export const Game = () => {
       })
   }
 
+  // Manda configuraciones al server y obtiene datos iniciales
   const handleStartGame = () => {
     fetch(`${BASE_URL}/TypeGame`, {
       method: 'POST',

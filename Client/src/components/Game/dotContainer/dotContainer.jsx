@@ -16,13 +16,13 @@ Indices: 0, 4, 8
 */
 
 const DotContainer = ({dotsNumber}) => {
-  const extraAttrs = {['dots-number']: dotsNumber};
+  const extraAttrs = {'dots-number': dotsNumber};
 
   return (
     <div className='dot-container' {...extraAttrs}>
       {
         Array.from(Array(MAX_DOTS).keys()).map((num,i) => {
-          const dotExtraAttr = {['dot-index']: i};
+          const dotExtraAttr = {'dot-index': i};
           return <div key={i} {...dotExtraAttr} className={'dot'}/>;
         })
       }

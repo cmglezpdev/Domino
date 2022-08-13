@@ -4,6 +4,8 @@ import { namesPlayers } from '../../../helpers/dataPlayers';
 import generateId from '../../../helpers/generateIds';
 import './messageGame.scss'
 
+// Muestra el mensaje con la lista de ganadores o
+// El de cuando alguien se pasa
 export const MessageGame = ({ currentPlay }) => {
   return (
     <>

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { BASE_URL } from '../../helpers/api.js';
 import { DataOptions } from './DataOptions.jsx';
 import './options.scss';
-import { Button, Input, Progress } from 'semantic-ui-react';
+import { Button, Progress } from 'semantic-ui-react';
 import { SettingsContext } from '../../helpers/SettingsContext.js';
 import { toast } from 'react-toastify';
 import generateId from '../../helpers/generateIds.js';
@@ -28,7 +28,7 @@ export const Options = () => {
     // Metodo que se ejecuta al dar play al juego
     const handleStartGame = () => {
   
-        // Comprobar si la seleccion de la cant fichas, judaores y id esta bien
+        // Comprobar si la seleccion de la cant fichas, judadores y id están bien
         const cantTokens = context.settings.maxIdTokens * (context.settings.maxIdTokens + 1) / 2;
         const maxCountTokensbyPlayers = Math.floor( cantTokens / context.settings.countPlayer );
        
@@ -43,17 +43,17 @@ export const Options = () => {
         });
     }
         
-    // Antes de pasar a seleccionar otra opcion se verifica que se selecciono alguna opcion en la actual
+    // Antes de pasar a seleccionar otra opción se verifica que se seleccionó alguna opción en la actual
     const handleEvaluate = ( e ) => {
         
         const text = e.target.innerText; 
 
-        if(text == "Anterior") {
+        if(text === "Anterior") {
             setProgress(progress - 1)
             return;
         }
 
-        if(text == "Siguiente" ) {
+        if(text === "Siguiente" ) {
             setProgress(progress + 1)
             return;
         }
@@ -62,7 +62,7 @@ export const Options = () => {
         handleStartGame();
     }
 
-    // Devolver las opciones de un id especifico
+    // Devolver las opciones de un id específico
     const GetOptions = (id) => {
         const opt = settings.filter(option => option.id === id);
         return opt[0].nameOptions || [];
@@ -70,7 +70,7 @@ export const Options = () => {
 
     const selectedAllPlayers = () => {
         for(let i = 0; i < context.settings.countPlayers; i ++) {
-            if( context.settings[`player_${i}`] == undefined ) return false;
+            if( context.settings[`player_${i}`] === undefined ) return false;
         }
         return true;
     }
@@ -120,6 +120,7 @@ export const Options = () => {
                 </Button>
             </div>
 
+            {/* Mustra la información seleccionada hasta el momento */}
             <Selected InfoOptions={settings} />
 
         </div>

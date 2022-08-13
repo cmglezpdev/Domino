@@ -6,7 +6,7 @@ import './playerTokens.scss';
 
 import { iconsPlayers, namesPlayers } from '../../../helpers/dataPlayers';
 
-
+// Renderiza la información del jugador
 export const PlayerTokens = ({ currentPlay, handleNextTurn, handleResetGame }) => {
 
 
