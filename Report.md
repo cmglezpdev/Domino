@@ -418,15 +418,42 @@ public abstract int PlayToken( IBoard board, Token[] hand);
 
 #### Random Player
 
-Selecciona una ficha al azar de las posibles a jugar.
+Este jugador realiza las jugadas de manera random. Mediante el método `PlayToken` este recibe las fichas que le corresponden y selecciona una ficha válida de manera random que será la que jugará. En caso de no tener fichas válidas retorna `-1`.
 
 #### Bota Gorda Player
 
 Selecciona entre todas sus fichas válidas la de más valor, siempre basándose en la implementación de valor seleccionada en la partida.
 
+Este simplemente lo que hace es recorrer todas las fichas que tiene y quedarse con la ficha válida de mayor puntaje. Si no tiene jugadas válidas retorna `-1`.
+
 #### Heuristic Player
 
 Jugador basado en unas heurístas simples, siempre intenta salir con un doble, y jugar la ficha cuyas caras estén más repetidas en su mano.
+
+
+Lo primero que hace el jugador es que mediante el método privado `Organize(...)` guarda en una lista la cantidad de fichas que tiene cada número hasta el máximo posible.
+
+```cs
+private void Organize(int maxidtoken, Token[] hand);
+```
+
+También usa otro método llamado `Double` que retorna el indice de todos los dobles que hay en su mano
+
+```cs
+private List<(Token,int)> Double(Token[] hand);
+```
+
+Luego si es la primera persona en jugar de todas, entonces mediante el método `Start(...)` realiza la primera jugada:
+
+```cs
+private int Start(Token[] hand);
+```
+
+Este método lo que hace es devolver el doble con el número mas alto que tenga, y en caso de que no tenga dobles entoces devuelve la ficha con las caras que tengan los números que más se repiten en su mano.
+
+
+Si por el contrario simplemente le toca jugar, entoces jugará la ficha con los números que más se repitan en su mano. Si no tiene jugadas válidas entonces retorna `-1`. 
+
 
 [Indice☝](#report)
 
