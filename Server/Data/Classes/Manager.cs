@@ -6,7 +6,7 @@ public class Manager {
     public int[] IdOfPlayers{ get; private set; } = new int[0]; // Índice de los jugadores(esto corresponde con las propiedades de abajo)
     public int[] PassedOfPlayers{ get; private set; } = new int[0]; // Pases de los jugadores
     public int[] CountTokenByPlayers{ get; private set; } = new int[0]; // Contador de tokens por jugador
-    public List<StatusCurrentPlay> StatusCurrentPlay{ get; private set; } = new List<StatusCurrentPlay>(); // Información pública de los jugadores
+    private List<StatusCurrentPlay> StatusCurrentPlay{ get; set; } = new List<StatusCurrentPlay>(); // Información pública de los jugadores
 
     Player[] players;
     IBoard board;
@@ -57,7 +57,7 @@ public class Manager {
 
         // seleccionar el jugador y realizar la jugada
         int idCurrentPlayer = this.nextPlayer.NextPlayer( this.refery.PlayerInformation );
-        bool played = this.refery.Play(idCurrentPlayer);
+        bool played = this.refery.Play(idCurrentPlayer, new List<StatusCurrentPlay>(StatusCurrentPlay));
         
         // Actualizar las propiedades estáticas
         int indexCurrentPlayer = this.SearchPlayerIndex(idCurrentPlayer);
@@ -72,7 +72,7 @@ public class Manager {
             points = this.refery.Points(idCurrentPlayer),
             Passed = !played,
             TokensInBoard = Game.TokensInBoardJson( this.board.Clone().TokensInBoard ),
-            FinishGame = this.finishGame.FinishGame( this.board.Clone(), this.refery.PlayerInformation ),
+            FinishGame = this.finishGame.FinishGame( this.board.Clone(), this.refery.PlayerInformation, new List<StatusCurrentPlay> (StatusCurrentPlay) ),
             Winners = Game.PlayersForJson( this.winnersGame.GetWinnersGame(this.board.Clone(), this.refery.PlayerInformation).ToArray<PlayerInfo>(), this.refery.Clone() ),
         };
 
@@ -86,4 +86,5 @@ public class Manager {
         }
         return -1;
     }
+
 }

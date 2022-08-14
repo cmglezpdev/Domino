@@ -5,7 +5,7 @@ using Server.Data.Interfaces;
 public class APassFinish : IFinishGame {
     public IFinishGame Clone() => new APassFinish();
 
-    public bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players ) {
+    public bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players, List<StatusCurrentPlay> StatusCurrentPlay ) {
        
         // Si alguien se paso
         foreach(var item in players) {
