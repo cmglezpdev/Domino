@@ -3,6 +3,6 @@ namespace Server.Data.Interfaces;
 using Server.Data.Classes;
 
 public interface IFinishGame {
-    bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players, List<StatusCurrentPlay> StatusCurrentPlay );
+    bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players, PublicInformation Information );
     IFinishGame Clone();
 }

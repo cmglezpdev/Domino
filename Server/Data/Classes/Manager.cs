@@ -2,12 +2,16 @@ namespace Server.Data.Classes;
 using Server.Data.Interfaces;
 
 public class Manager {
-    public int MaxIdOfToken{ get; private set; } // Máximo número que puede tener una ficha
-    public int[] IdOfPlayers{ get; private set; } = new int[0]; // Índice de los jugadores(esto corresponde con las propiedades de abajo)
-    public int[] PassedOfPlayers{ get; private set; } = new int[0]; // Pases de los jugadores
-    public int[] CountTokenByPlayers{ get; private set; } = new int[0]; // Contador de tokens por jugador
-    private List<StatusCurrentPlay> StatusCurrentPlay{ get; set; } = new List<StatusCurrentPlay>(); // Información pública de los jugadores
 
+    // Información publica
+    // public int MaxIdOfToken{ get; private set; } // Máximo número que puede tener una ficha
+    // public int[] IdOfPlayers{ get; private set; } // Índice de los jugadores(esto corresponde con las propiedades de abajo)
+    // public int[] PassedOfPlayers{ get; private set; } // Pases de los jugadores
+    // public int[] CountTokenByPlayers{ get; private set; } // Contador de tokens por jugador
+    // private List<StatusCurrentPlay> StatusCurrentPlay{ get; set; } // Información pública de los jugadores
+    PublicInformation Information = new PublicInformation();
+
+    // Intancias de las variaciones
     Player[] players;
     IBoard board;
     IDistributeTokens distributeTokens;
@@ -28,15 +32,15 @@ public class Manager {
         this.refery = refery;
         
         // Actualizar el tamaño de las propiedades generales
-        this.PassedOfPlayers = new int[players.Count()]; 
-        this.CountTokenByPlayers = new int[players.Count()];
-        this.IdOfPlayers = new int[players.Count()];
+        Information.PassedOfPlayers = new int[players.Count()]; 
+        Information.CountTokenByPlayers = new int[players.Count()];
+        Information.IdOfPlayers = new int[players.Count()];
 
         List<Player> ply = new List<Player>();
         int idx = 0;
         foreach( var pl in players ) {
             ply.Add(pl);
-            this.IdOfPlayers[idx ++] = pl.IDPlayer.Item1;
+            Information.IdOfPlayers[idx ++] = pl.IDPlayer.Item1;
         }
 
         this.players = ply.ToArray();
@@ -44,7 +48,7 @@ public class Manager {
 
     // Inicializa el juego creando las fichas y repartiéndolas
     public void StartGame( int MaxIdOfToken, int countTokens, ITokenValue CalculateValue, IMatch matcher ) {
-        this.MaxIdOfToken = MaxIdOfToken;
+        Information.MaxIdOfToken = MaxIdOfToken;
         this.board.SetMatcher(matcher);
         List<Token> bTokens = this.board.BuildTokens( MaxIdOfToken, CalculateValue );
         List<Token>[] htokens = this.distributeTokens.DistributeTokens(bTokens, this.players.Length, countTokens);
@@ -57,13 +61,13 @@ public class Manager {
 
         // seleccionar el jugador y realizar la jugada
         int idCurrentPlayer = this.nextPlayer.NextPlayer( this.refery.PlayerInformation );
-        bool played = this.refery.Play(idCurrentPlayer, new List<StatusCurrentPlay>(StatusCurrentPlay));
+        bool played = this.refery.Play(idCurrentPlayer, Information);
         
         // Actualizar las propiedades estáticas
         int indexCurrentPlayer = this.SearchPlayerIndex(idCurrentPlayer);
-        this.CountTokenByPlayers[ indexCurrentPlayer ] -= ( played ? 1 : 0 );
-        this.CountTokenByPlayers[ indexCurrentPlayer ] = Math.Max(0, this.CountTokenByPlayers[ indexCurrentPlayer ] );
-        this.PassedOfPlayers[ indexCurrentPlayer ] += ( played ? 0 : 1 );
+        Information.CountTokenByPlayers[ indexCurrentPlayer ] -= ( played ? 1 : 0 );
+        Information.CountTokenByPlayers[ indexCurrentPlayer ] = Math.Max(0, Information.CountTokenByPlayers[ indexCurrentPlayer ] );
+        Information.PassedOfPlayers[ indexCurrentPlayer ] += ( played ? 0 : 1 );
 
         // Construir la información de la jugada y retornarla
         PlayInfo CurrInfo = new PlayInfo() {
@@ -72,7 +76,7 @@ public class Manager {
             points = this.refery.Points(idCurrentPlayer),
             Passed = !played,
             TokensInBoard = Game.TokensInBoardJson( this.board.Clone().TokensInBoard ),
-            FinishGame = this.finishGame.FinishGame( this.board.Clone(), this.refery.PlayerInformation, new List<StatusCurrentPlay> (StatusCurrentPlay) ),
+            FinishGame = this.finishGame.FinishGame( this.board.Clone(), this.refery.PlayerInformation, Information.Clone() ),
             Winners = Game.PlayersForJson( this.winnersGame.GetWinnersGame(this.board.Clone(), this.refery.PlayerInformation).ToArray<PlayerInfo>(), this.refery.Clone() ),
         };
 
@@ -81,8 +85,8 @@ public class Manager {
 
     // Buscar el índice en el arreglo de jugadores del jugador con el ID
     public int SearchPlayerIndex(int ID) {
-        for( int i = 0; i < this.IdOfPlayers.Length; i ++ ) {
-            if( this.IdOfPlayers[i] == ID ) return i;
+        for( int i = 0; i < Information.IdOfPlayers.Length; i ++ ) {
+            if( Information.IdOfPlayers[i] == ID ) return i;
         }
         return -1;
     }

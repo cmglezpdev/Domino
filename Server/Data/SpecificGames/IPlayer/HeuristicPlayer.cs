@@ -2,10 +2,10 @@ namespace Server.Data.Classes;
 using Server.Data.Interfaces;
 public class HeuristicPlayer : RandomPlayer {
     List<int> InHand = new List<int>();
-    public override int PlayToken(IBoard board, Token[] hand)
+    public override int PlayToken(IBoard board, Token[] hand, PublicInformation Information)
     {
         // Hago una llamada al metodo Organize, el cual almacena en la propiedad InHand cunatas fichas de cada valor posee el jugador en estae turno
-        Organize((int)Game.manager?.MaxIdOfToken!, hand);
+        Organize(Information.MaxIdOfToken, hand);
         // Sino se ha jugado niguna jugada, es decir le toca empezar al jugado, se llamaal metodo start
         if(board.TokensInBoard.Length == 0){
             int start = Start(hand);

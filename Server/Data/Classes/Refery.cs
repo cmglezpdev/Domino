@@ -18,15 +18,15 @@ public class Refery {
     }
 
     // Relaiza la jugada del jugador
-    public bool Play(int IdPlayer, List<StatusCurrentPlay> StatusCurrentPlay) {
+    public bool Play(int IdPlayer, PublicInformation Information) {
         int aux = -1;
         int IndexPlayer = SearchPlayerIndex(IdPlayer);
-        aux = players[IndexPlayer].PlayToken(board, hands[IndexPlayer].ToArray());
+        aux = players[IndexPlayer].PlayToken(board, hands[IndexPlayer].ToArray(), Information.Clone());
 
         if((aux < 0 || aux > hands[IndexPlayer].Count) || !board.ValidPlay(hands[IndexPlayer][aux]) ) {
 
             // Crear el estado del juego para cuando el jugador no jugó
-            StatusCurrentPlay.Add( new StatusCurrentPlay(){
+            Information.StatusCurrentPlay.Add( new StatusCurrentPlay(){
                 IDPlayerPlayed = IdPlayer,
                 Passed = true,
                 TokenPlayed = null,
@@ -39,7 +39,7 @@ public class Refery {
         board.PlaceToken(hands[IndexPlayer][aux], IdPlayer);
 
         // Crear el estado del juego cuando el jugador ya realizó su jugada
-        StatusCurrentPlay.Add( new StatusCurrentPlay(){
+        Information.StatusCurrentPlay.Add( new StatusCurrentPlay(){
             IDPlayerPlayed = IdPlayer,
             Passed = false,
             TokenPlayed = hands[IndexPlayer][aux].Clone(),

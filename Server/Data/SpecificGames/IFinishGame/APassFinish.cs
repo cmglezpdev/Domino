@@ -5,7 +5,7 @@ using Server.Data.Interfaces;
 public class APassFinish : IFinishGame {
     public IFinishGame Clone() => new APassFinish();
 
-    public bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players, List<StatusCurrentPlay> StatusCurrentPlay ) {
+    public bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players, PublicInformation Information ) {
        
         // Si alguien se paso
         foreach(var item in players) {
@@ -14,8 +14,8 @@ public class APassFinish : IFinishGame {
        
         // Si la mayoria se paso al menos dos veces retornar true
         int count = 0;
-        for(int i = 0; i < Game.manager?.PassedOfPlayers.Length; i ++)
-            if( Game.manager.PassedOfPlayers[i] >= 2 ) count ++;
+        for(int i = 0; i < Information.PassedOfPlayers.Length; i ++)
+            if( Information.PassedOfPlayers[i] >= 2 ) count ++;
 
         int comp = players.Count() / 2;
         if( players.Count() %2 != 0 ) comp ++;

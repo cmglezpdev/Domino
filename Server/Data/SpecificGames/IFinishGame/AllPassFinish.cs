@@ -9,7 +9,9 @@ public class AllPassFinish : IFinishGame {
         return clone;
     }
     
-    public bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players, List<StatusCurrentPlay> StatusCurrentPlay ) {
+    public bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players, PublicInformation Information ) {
+
+        var StatusCurrentPlay = Information.StatusCurrentPlay;
 
         foreach( var item in players) {
             if( item.Count == 0) return true;
