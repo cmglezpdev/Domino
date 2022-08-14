@@ -4,13 +4,17 @@ public class HeuristicPlayer : RandomPlayer {
     List<int> InHand = new List<int>();
     public override int PlayToken(IBoard board, Token[] hand)
     {
-        
+        // Hago una llamada al metodo Organize, el cual almacena en la propiedad InHand cunatas fichas de cada valor posee el jugador en estae turno
         Organize((int)Game.manager?.MaxIdOfToken!, hand);
+        // Sino se ha jugado niguna jugada, es decir le toca empezar al jugado, se llamaal metodo start
         if(board.TokensInBoard.Length == 0){
             int start = Start(hand);
             return start;
         }
 
+        // Selecciono la ficha cuyas caras mas veces tengo repetida y la juego, en la dupla el primer termino es el valor de la ficha y el segundo la cantidad de veces que la tengo
+
+        //Nota: este metodo no es muy util en un modo de juego donde se necesite quedarsecon fichas, ues la logica es tratar de siempre tener una ficha para jugar
         (int,int) aux = (0,0);
         for(int i = 0; i < hand.Length; i++) {
             int a = InHand[hand[i][0].Value] + InHand[hand[i][1].Value];
@@ -18,6 +22,7 @@ public class HeuristicPlayer : RandomPlayer {
                 aux = (i, a);
             }
         }
+        // Si la cantdad de fichas es 0, es decir que no tengo jugada valida
         if(aux.Item2 != 0){
             return aux.Item1;
         }
@@ -29,7 +34,10 @@ public class HeuristicPlayer : RandomPlayer {
         clone.InHand = this.InHand;
         return clone;
     }
+
+    // Metodo utilizado si el tablero esta vacio, trata de seleccioar e doble con mas repetciones, y  en su defecto la ficha con mas repeticiones
     private int Start(Token[] hand) {
+        // Llamo al metodo Double que devuelve una lista con todos los dobles
         List<(Token,int)> doubles = Double(hand);
         if(doubles.Count == 0) { 
             int maxtokenindex = 0; 
