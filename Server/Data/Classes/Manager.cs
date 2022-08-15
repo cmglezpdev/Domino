@@ -61,8 +61,10 @@ public class Manager {
 
         // seleccionar el jugador y realizar la jugada
         int idCurrentPlayer = this.nextPlayer.NextPlayer( this.refery.PlayerInformation );
-        bool played = this.refery.Play(idCurrentPlayer, Information);
-        
+        StatusCurrentPlay currentPlay = this.refery.Play(idCurrentPlayer, Information);
+        Information.StatusCurrentPlay.Add(currentPlay);
+        bool played = !currentPlay.Passed;
+
         // Actualizar las propiedades estáticas
         int indexCurrentPlayer = this.SearchPlayerIndex(idCurrentPlayer);
         Information.CountTokenByPlayers[ indexCurrentPlayer ] -= ( played ? 1 : 0 );
