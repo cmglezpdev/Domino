@@ -8,13 +8,20 @@ public class StatusCurrentPlay {
     public Token? TokenPlayed {get; set;} // la ficha que jugo
     public IBoard? StatusBoard {get; set;} // el estado del tablero
 
+    public StatusCurrentPlay ( int IdPlayerPlayed, bool Passed, Token? tokenPlayed, IBoard? Board ) {
+        this.IDPlayerPlayed = IdPlayerPlayed;
+        this.Passed = Passed;
+        this.TokenPlayed = tokenPlayed;
+        this.StatusBoard = Board;
+    }
+
     public StatusCurrentPlay Clone() {
-        return new StatusCurrentPlay() {
-            IDPlayerPlayed = this.IDPlayerPlayed,
-            Passed = this.Passed,
-            TokenPlayed = this.TokenPlayed?.Clone(),
-            StatusBoard = this.StatusBoard?.Clone(),
-        };
+        return new StatusCurrentPlay( 
+            this.IDPlayerPlayed, 
+            this.Passed, 
+            this.TokenPlayed?.Clone(), 
+            this.StatusBoard?.Clone() 
+        );
     }
 }
 

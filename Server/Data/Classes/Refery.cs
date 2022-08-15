@@ -25,27 +25,23 @@ public class Refery {
         aux = players[IndexPlayer].PlayToken(board, hands[IndexPlayer].ToArray(), Information);
 
         // Si el jugador no pudo realizar la jugada
-        if((aux < 0 || aux > hands[IndexPlayer].Count) || !board.ValidPlay(hands[IndexPlayer][aux]) ) {
-
+        if((aux < 0 || aux >= hands[IndexPlayer].Count) || !board.ValidPlay(hands[IndexPlayer][aux]) ) {
             // Crear el estado del juego para cuando el jugador no jugó
-            return new StatusCurrentPlay(){
-                IDPlayerPlayed = IdPlayer,
-                Passed = true,
-                TokenPlayed = null,
-                StatusBoard = board.Clone(),
-            };
+            return new StatusCurrentPlay(IdPlayer, true, null, board.Clone());
         } 
+
         // Actualizar el board con la nueva jugada y remover la ficha de la mano del jugador
         board.PlaceToken(hands[IndexPlayer][aux], IdPlayer);
+        Token t = hands[IndexPlayer][aux].Clone();        
         hands[IndexPlayer].RemoveAt(aux);
 
         // Crear el estado del juego cuando el jugador ya realizó su jugada
-        return new StatusCurrentPlay(){
-            IDPlayerPlayed = IdPlayer,
-            Passed = false,
-            TokenPlayed = hands[IndexPlayer][aux].Clone(),
-            StatusBoard = board.Clone(),
-        };
+        return new StatusCurrentPlay( 
+            IdPlayer, 
+            false, 
+            t,
+            board.Clone()
+        );
 
     }
     // Devuelve las fichas de la mano del jugador con Id: IdPlayer
