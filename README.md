@@ -39,10 +39,9 @@ npm install -g yarn
 
 Entre las dependencias internas para la aplicación del lado del cliente, ademas de usar react también se usaron otras librerías:
 
-1. [Electron](https://www.electronjs.org/): para crear aplicaciones de escritorio 
-2. [Semantic UI React](https://react.semantic-ui.com/): componentes prediseñados de elementos típicos en una web
-3. [Sass](https://sass-lang.com/documentation): procesador de css
-4. [React Toastify](https://fkhadra.github.io/react-toastify/introduction): para crear alertas en tus apps
+1. [Semantic UI React](https://react.semantic-ui.com/): componentes prediseñados de elementos típicos en una web
+2. [Sass](https://sass-lang.com/documentation): procesador de css
+3. [React Toastify](https://fkhadra.github.io/react-toastify/introduction): para crear alertas en tus apps
 
 Para instalar las dependencias de node se va a la carpeta `Client` y se ejecuta el comando:
 
@@ -60,19 +59,12 @@ En la carpeta `Server` ejecutamos el comando siguiente para levantar el servidor
 dotnet run
 ```
 
-Luego en la carpeta `Client` podemos ejecutar la aplicación como una aplicación de escritorio o como una página web
+En la carpeta `Client` ejecutamos el comando siguiente para levantar la aplicación:
 
 ``` bash
-#Ejecutar como aplicacion de escritorio
-yarn electron-dev
-
 #Ejecutar como aplicacion web
 yarn start
 ```
-
-**Nota:** La aplicación de escritorio actualmente tiene un error, por lo que recomiendo ejecutarlo como aplicación web.
-
-
 ### Posible error al ejecutar la aplicación
 
 Si al ejecutar la aplicación no te carga las opciones para seleccionar el tipo de juego es porque tu navegador esta bloqueando el acceso de la url de la api. Para quitar este error, nos vamos a las herramientas de desarrollo del navegador( click derecho en cualquier lugar y después en inspeccionar ).
