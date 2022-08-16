@@ -27,7 +27,7 @@ public class AllPassFinish : IFinishGame {
         // Comprobar si todos los jugadores se pasaron 
         foreach(var item in StatusCurrentPlay){
             if(item.Passed) 
-                aux[Game.manager.SearchPlayerIndex(item.IDPlayerPlayed)] = true;
+                aux[this.SearchPlayerIndex(item.IDPlayerPlayed, players.ToArray())] = true;
             else 
                 aux = new bool[players.Count()];
         }
@@ -46,5 +46,12 @@ public class AllPassFinish : IFinishGame {
         }
 
         return false;
+    }
+
+    private int SearchPlayerIndex(int IDPlayerPlayed, PlayerInfo[] players) {
+        for(int i = 0; i < players.Length; i++) {
+            if( players[i].IDPlayer.Item1 == IDPlayerPlayed ) return i;
+        }
+        return -1;
     }
 }

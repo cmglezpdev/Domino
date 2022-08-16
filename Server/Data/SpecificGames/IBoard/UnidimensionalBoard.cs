@@ -56,8 +56,7 @@ public class UnidimensionalBoard : IBoard {
                 // board.Insert(0, token.Clone());
                 // board[0].Played(0);
                 // board[0].SwapFaces();
-                // PutInFristPosition(token.Clone(), 0, true);
-                PutInPosition(token.Clone(), 0, 0, true);
+                PutInPosition(token.Clone(), 0, 0, "left", true);
                 return;
             }
             // Se rota la ficha
@@ -65,8 +64,7 @@ public class UnidimensionalBoard : IBoard {
                 // board[0].Played(0);
                 // board.Insert(0, token.Clone());
                 // board[0].Played(1);
-                // PutInFristPosition(token.Clone(), 1);
-                PutInPosition(token.Clone(), 1, 0, false);
+                PutInPosition(token.Clone(), 1, 0, "left", false);
                 return;
             }
         }
@@ -77,8 +75,7 @@ public class UnidimensionalBoard : IBoard {
                 // board[pos].Played(1);
                 // board.Add(token.Clone());
                 // board[board.Count - 1].Played(0);
-                // PutInLastPosition(token.Clone(), 0);
-                PutInPosition(token.Clone(), 0, board.Count - 1, false);
+                PutInPosition(token.Clone(), 0, 1, "right", false);
                 return;
             }
           
@@ -87,39 +84,25 @@ public class UnidimensionalBoard : IBoard {
                 // board.Add(token.Clone());
                 // board[board.Count - 1].Played( 1 );
                 // board[board.Count - 1].SwapFaces();
-                // PutInLastPosition(token.Clone(), 1, true);
-                PutInPosition(token.Clone(), 0, board.Count - 1, true);
+                PutInPosition(token.Clone(), 1, 1, "right", true);
                 return;
             }
         }
     }
 
-    // private void PutInFristPosition( Token TokenToPlay, int faceToPlay, bool swapPosition = false ) {
-    //     board[0].Played(0);
-    //     TokenToPlay.Played(faceToPlay);
-    //     if(swapPosition) TokenToPlay.SwapFaces();
-    //     board.Insert(0, TokenToPlay);
-    // }
-    // private void PutInLastPosition( Token TokenToPlay, int faceToPlay, bool swapPosition = false ) {
-    //     int n = board.Count - 1;
-    //     board[n].Played(1);
-    //     TokenToPlay.Played( faceToPlay );
-    //     if(swapPosition) TokenToPlay.SwapFaces();
-    //     board.Add(TokenToPlay);
-    // }
+    private void PutInPosition( Token TokenToPlay, int faceTokenPlay, int faceTokenBoard, string position, bool swapPosition ) {
+        // System.Console.WriteLine($"[{ TokenToPlay[0].Value } : { TokenToPlay[1].Value }]");
+        int positionIndex = ( position == "left" ) ? 0 : board.Count - 1;
 
-    private void PutInPosition( Token TokenToPlay, int faceToPlay, int position, bool swapPosition ) {
-        int faceTokenBoard = ( position == 0 ) ? 0 : 1; 
+        board[positionIndex].Played(faceTokenBoard);
+        TokenToPlay.Played(faceTokenPlay);
+        if( swapPosition ) TokenToPlay.SwapFaces();
         
-        board[position].Played(faceTokenBoard);
-        TokenToPlay.Played(faceToPlay);
-        if(swapPosition) TokenToPlay.SwapFaces();
-        
-        if( position == 0 )
-            board.Insert(0, TokenToPlay);
+        if( position == "left" ) 
+            board.Insert(0, TokenToPlay); 
         else board.Add(TokenToPlay);
-    }
 
+    }
 
     // valida si la ficha puede ser jugada en el tablero
     public bool ValidPlay(Token token) {

@@ -1,7 +1,7 @@
 namespace Server.Data.Classes;
 using Server.Data.Interfaces;
 
-public class Manager {
+public class Manager : IManager {
 
     // Información publica
     // public int MaxIdOfToken{ get; private set; } // Máximo número que puede tener una ficha
@@ -20,7 +20,9 @@ public class Manager {
     INextPlayer nextPlayer;
     Refery refery;
 
-    public Manager( IEnumerable<Player> players, IBoard board, 
+    public Manager(){}
+
+    public void AssignDependencies( IEnumerable<Player> players, IBoard board, 
                     IDistributeTokens distributeTokens, IFinishGame finishGame, 
                     IWinGame winnersGame, INextPlayer nextPlayer, Refery refery ) {
 

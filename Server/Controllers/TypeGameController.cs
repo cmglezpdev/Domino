@@ -11,6 +11,14 @@ namespace ServerApp.Controllers;
 [ApiController]
 public class TypeGameController : ControllerBase
 {
+    private IManager _manager;
+    // Se inyecta la dependencia del manager como Singleton 
+    public TypeGameController(IManager manager)
+    {
+        _manager = manager;
+    }
+
+ 
     [HttpPost]
     // options son las opciones que selecciona el cliente, o sea, 
     //  los indices correspondientes al array de cada variacion
@@ -31,7 +39,7 @@ public class TypeGameController : ControllerBase
         // Instanciando el refery
         Refery  refery = new Refery( data.Boards[ options.board ] );
         // Iniciar el estado del manager y empezar el juego
-        Game.manager = new Manager( 
+        _manager.AssignDependencies(
                 players,
                 data.Boards[ options.board ], 
                 data.DistributeTokens[ options.distributeTokens ],
@@ -42,7 +50,7 @@ public class TypeGameController : ControllerBase
         );
         
         // Realiza la primera jugada del juego 
-        Game.manager.StartGame( data.maxIdTokens[options.maxIdTokens], data.countTokens[options.countTokens], data.TokensValue[options.tokenValue], data.Matches[ options.matcher ] );
+        _manager.StartGame( data.maxIdTokens[options.maxIdTokens], data.countTokens[options.countTokens], data.TokensValue[options.tokenValue], data.Matches[ options.matcher ] );
         //  Parsea la informacion de los jugadores y los retorna
         List<ResPlayer> result = Game.PlayersForJson( refery.PlayerInformation, refery );
 

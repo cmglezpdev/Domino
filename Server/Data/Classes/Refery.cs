@@ -90,12 +90,12 @@ public class Refery {
             
             for(int i = 0; i < contPlayers; i ++) {
                 int IdPlayer = players[i].IDPlayer.Item1;
-                info.Add(
-                    new PlayerInfo(this.Count(IdPlayer), 
+                info.Add( new PlayerInfo(
+                    this.Count(IdPlayer), 
                     this.Points(IdPlayer), 
                     this.Player(IdPlayer).IDPlayer.Item1, 
-                    this.Player(IdPlayer).IDPlayer.Item2)
-                );
+                    this.Player(IdPlayer).IDPlayer.Item2
+                ));
             }
 
             return info.ToArray();

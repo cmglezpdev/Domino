@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Server.Models;
-using Server.Data;
 using Server.Data.Classes;
+using Server.Data.Interfaces;
 
 namespace ServerApp.Controllers;
 
@@ -10,11 +9,18 @@ namespace ServerApp.Controllers;
 [ApiController]
 public class NextTurnController : ControllerBase
 {
+    private IManager _manager;
+
+    public NextTurnController(IManager manager)
+    {
+        _manager = manager;
+    }
+
     [HttpGet]
     public IActionResult Get()
     {
         // Realiza la siguiente jugada y retorna la información del de la misma
-        PlayInfo info = Game.manager?.GamePlay()!;
+        PlayInfo info = _manager.GamePlay()!;
         return Ok( info );
     }
 
