@@ -90,6 +90,7 @@ public class UnidimensionalBoard : IBoard {
         }
     }
 
+    // Colocar una ficha en una posición determinada del tablero
     private void PutInPosition( Token TokenToPlay, int faceTokenPlay, int faceTokenBoard, string position, bool swapPosition ) {
         // System.Console.WriteLine($"[{ TokenToPlay[0].Value } : { TokenToPlay[1].Value }]");
         int positionIndex = ( position == "left" ) ? 0 : board.Count - 1;

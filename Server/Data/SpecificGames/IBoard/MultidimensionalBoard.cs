@@ -259,6 +259,7 @@ public class MultidimensionalBorad : IBoard
         }
     }
 
+    // Funcion que se encarga de colocar el token en la posicion indicada
     private void PutInPosition ( Token TokenToPlay, Token TokenInBoard, int faceTokenPlay, int faceTokenBoard, Coord PositionCoord, bool swapFaces, int IdPlayer, string direction ) {
         TokenInBoard.Played( faceTokenBoard );
         TokenToPlay.Played( faceTokenPlay );
