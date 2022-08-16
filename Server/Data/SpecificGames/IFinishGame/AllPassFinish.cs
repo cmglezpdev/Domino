@@ -9,23 +9,25 @@ public class AllPassFinish : IFinishGame {
         return clone;
     }
     
-    public bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players ) {
+    public bool FinishGame( IBoard board, IEnumerable<PlayerInfo> players, PublicInformation Information ) {
+
+        var StatusCurrentPlay = Information.StatusCurrentPlay;
 
         foreach( var item in players) {
             if( item.Count == 0) return true;
         }   
 
         // Ver si alguien a jugado anteriormente
-        int n = (int)Game.manager?.StatusCurrentPlay.Count!;
+        int n = StatusCurrentPlay.Count!;
         // si todos los jugadores no han jugado entonces retorno falso
         if( n < players.Count() ) return false;
         
         bool[] aux = new bool[players.Count()];
         
         // Comprobar si todos los jugadores se pasaron 
-        foreach(var item in Game.manager.StatusCurrentPlay){
+        foreach(var item in StatusCurrentPlay){
             if(item.Passed) 
-                aux[Game.manager.SearchPlayerIndex(item.IDPlayerPlayed)] = true;
+                aux[this.SearchPlayerIndex(item.IDPlayerPlayed, players.ToArray())] = true;
             else 
                 aux = new bool[players.Count()];
         }
@@ -35,7 +37,7 @@ public class AllPassFinish : IFinishGame {
          int count = 0;
         //  Si las ultimas jugadas se pasaron entonces termina igual
         for(int i = n - 1; i >= 0; i --) {
-            if( Game.manager.StatusCurrentPlay[i].Passed ) {
+            if( StatusCurrentPlay[i].Passed ) {
                 count ++;
                 if( count == players.Count() ) return true;
                 continue;
@@ -44,5 +46,12 @@ public class AllPassFinish : IFinishGame {
         }
 
         return false;
+    }
+
+    private int SearchPlayerIndex(int IDPlayerPlayed, PlayerInfo[] players) {
+        for(int i = 0; i < players.Length; i++) {
+            if( players[i].IDPlayer.Item1 == IDPlayerPlayed ) return i;
+        }
+        return -1;
     }
 }

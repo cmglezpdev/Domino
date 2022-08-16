@@ -3,7 +3,7 @@ using Server.Data.Interfaces;
 
 //jugador que juega la ficha de mas valor
 public class BotaGordaPlayer : RandomPlayer {
-    public override int PlayToken( IBoard board, Token[] hand) {
+    public override int PlayToken( IBoard board, Token[] hand, PublicInformation Information) {
         int index = -1;
 
         for(int i = 0; i < hand.Length; i++){

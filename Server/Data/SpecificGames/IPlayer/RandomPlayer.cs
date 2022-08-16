@@ -3,7 +3,7 @@ using Server.Data.Interfaces;
 
 // *Jugador que realiza jugadas de forma random
 public class RandomPlayer : Player {
-    public override int PlayToken( IBoard board, Token[] hand) {
+    public override int PlayToken( IBoard board, Token[] hand, PublicInformation Information) {
 
         Random random = new Random();
         int aux = -1;

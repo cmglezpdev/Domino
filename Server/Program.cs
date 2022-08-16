@@ -1,14 +1,14 @@
 using Server.Data;
+using Server.Data.Classes;
+using Server.Data.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSingleton<IManager, Manager>();
 
 string MyCors = "MyCors";
 builder.Services.AddCors(options => {
@@ -20,6 +20,7 @@ builder.Services.AddCors(options => {
         }
     );
 });
+
 
 var app = builder.Build();
 

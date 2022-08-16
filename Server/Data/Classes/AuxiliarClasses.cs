@@ -7,6 +7,22 @@ public class StatusCurrentPlay {
     public bool Passed {get; set;} // si se pasó
     public Token? TokenPlayed {get; set;} // la ficha que jugo
     public IBoard? StatusBoard {get; set;} // el estado del tablero
+
+    public StatusCurrentPlay ( int IdPlayerPlayed, bool Passed, Token? tokenPlayed, IBoard? Board ) {
+        this.IDPlayerPlayed = IdPlayerPlayed;
+        this.Passed = Passed;
+        this.TokenPlayed = tokenPlayed;
+        this.StatusBoard = Board;
+    }
+
+    public StatusCurrentPlay Clone() {
+        return new StatusCurrentPlay( 
+            this.IDPlayerPlayed, 
+            this.Passed, 
+            this.TokenPlayed?.Clone(), 
+            this.StatusBoard?.Clone() 
+        );
+    }
 }
 
 // Esta representa el estado de una jugada también ,pero contiene mas información 
@@ -48,4 +64,46 @@ public class FacesToken {
     public int? Left {get; set;}
     public int? Right {get; set;}
     public string? Direction {get; set;} // dirección de la ficha en el tablero
+}
+
+
+public class PublicInformation {
+    public int MaxIdOfToken{ get; set; } // Máximo número que puede tener una ficha
+    public int[] IdOfPlayers{ get; set; } // Índice de los jugadores(esto corresponde con las propiedades de abajo)
+    public int[] PassedOfPlayers{ get; set; } // Pases de los jugadores
+    public int[] CountTokenByPlayers{ get; set; } // Contador de tokens por jugador
+    public List<StatusCurrentPlay> StatusCurrentPlay{ get; set; } // Información pública de los jugadores
+
+    public PublicInformation() {
+        this.MaxIdOfToken = 0;
+        this.IdOfPlayers = new int[0];
+        this.PassedOfPlayers = new int[0];
+        this.CountTokenByPlayers = new int[0];
+        this.StatusCurrentPlay = new List<StatusCurrentPlay>();
+    }
+
+    public PublicInformation Clone() {
+
+        int[] IdOfPlayersClone = new int[ this.IdOfPlayers.Length ];
+        Array.Copy( this.IdOfPlayers, IdOfPlayersClone, IdOfPlayers.Length );
+
+        int[] PassedOfPlayersClone = new int[ this.PassedOfPlayers.Length ];
+        Array.Copy( this.PassedOfPlayers, PassedOfPlayersClone, PassedOfPlayers.Length );
+
+        int[] CountTokenByPlayersClone = new int[ this.CountTokenByPlayers.Length ];
+        Array.Copy( this.CountTokenByPlayers, CountTokenByPlayersClone, CountTokenByPlayers.Length );
+
+        List<StatusCurrentPlay> StatusCurrentPlayClone = new List<StatusCurrentPlay>();
+        foreach (StatusCurrentPlay status in this.StatusCurrentPlay) {
+            StatusCurrentPlayClone.Add( status.Clone() );
+        }
+
+        return new PublicInformation () {
+            MaxIdOfToken = this.MaxIdOfToken,
+            IdOfPlayers = IdOfPlayersClone,
+            PassedOfPlayers = PassedOfPlayersClone,
+            CountTokenByPlayers = CountTokenByPlayersClone,
+            StatusCurrentPlay = StatusCurrentPlayClone,
+        };
+    }
 }

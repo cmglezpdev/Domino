@@ -1,7 +1,6 @@
 using Server.Data.Classes;
 
 public static class Game {
-    public static Manager? manager;
 
     // "Convertir" una lista de fichas a formato json
     public static List<FacesToken> TokenForJson( IEnumerable<Token> tokens ) {
