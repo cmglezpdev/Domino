@@ -71,40 +71,47 @@ public class MultidimensionalBorad : IBoard
               
                 // Jugar por el lado izaquierdo de la ficha si es que se puede
                 if( !tok[0].Played && !board.ContainsKey(new Coord(){x = coords.x - 1, y = coords.y}) ) {
+                    string direction = ( token.Left.Value != token.Right.Value ) ? "horizontal" : "vertical";
+
                     if( matcher.ValidateMatch(token, 0, tok, 0) ) {
-                        tok.Played(0); // marcar la cara del token de la mesa como jugada
-                        token.Played(0); // marcar la cara del token a jugar como jugada
-                        token.SwapFaces(); // Invertir las caras
-                        this.board[ new Coord(){x = coords.x - 1, y = coords.y} ] = new InfoToken(){token = token.Clone() , direction = ( token.Left.Value != token.Right.Value ) ? "horizontal" : "vertical" }; // guardar el nuevo token
-                        TokenByPlayer[ token ] = IdPlayer; // guardar el jugador que juega el token
+                        // tok.Played(0); // marcar la cara del token de la mesa como jugada
+                        // token.Played(0); // marcar la cara del token a jugar como jugada
+                        // token.SwapFaces(); // Invertir las caras
+                        // this.board[ new Coord(){x = coords.x - 1, y = coords.y} ] = new InfoToken(){token = token.Clone() , direction = ( token.Left.Value != token.Right.Value ) ? "horizontal" : "vertical" }; // guardar el nuevo token
+                        // TokenByPlayer[ token ] = IdPlayer; // guardar el jugador que juega el token
+                        PutInPosition(token, tok, 0, 0, new Coord(){x = coords.x - 1, y = coords.y}, true, IdPlayer, direction);
                         return;
                     }
                     
                     if( matcher.ValidateMatch(token, 1, tok, 0) ) {
-                        tok.Played(0); // marcar la cara del token de la mesa como jugada
-                        token.Played(1); // marcar la cara del token a jugar como jugada
-                        this.board[ new Coord(){x = coords.x - 1, y = coords.y} ] = new InfoToken(){token = token.Clone() , direction = ( token.Left.Value != token.Right.Value ) ? "horizontal" : "vertical"}; // guardar el nuevo token
-                        TokenByPlayer[ token ] = IdPlayer; // guardar el jugador que juega el token
+                        // tok.Played(0); // marcar la cara del token de la mesa como jugada
+                        // token.Played(1); // marcar la cara del token a jugar como jugada
+                        // this.board[ new Coord(){x = coords.x - 1, y = coords.y} ] = new InfoToken(){token = token.Clone() , direction = ( token.Left.Value != token.Right.Value ) ? "horizontal" : "vertical"}; // guardar el nuevo token
+                        // TokenByPlayer[ token ] = IdPlayer; // guardar el jugador que juega el token
+                        PutInPosition(token, tok, 1, 0, new Coord(){x = coords.x - 1, y = coords.y}, false, IdPlayer, direction);
                         return;
                     }
                 }
                 
                 // Comprobar si se puede jugar por la derecha
                 if( !tok[1].Played && !board.ContainsKey(new Coord(){x = coords.x + 1, y = coords.y}) ) {
+                    string direction = ( token.Left.Value != token.Right.Value ) ? "horizontal" : "vertical";
                     if( matcher.ValidateMatch(token, 0, tok, 1) ) {
-                        tok.Played(1); // marcar la cara del token de la mesa como jugada
-                        token.Played(0); // marcar la cara del token a jugar como jugada
-                        this.board[ new Coord(){x = coords.x + 1, y = coords.y} ] = new InfoToken(){token = token.Clone() , direction = ( token.Left.Value != token.Right.Value ) ? "horizontal" : "vertical"}; // guardar el nuevo token
-                        TokenByPlayer[ token ] = IdPlayer; // guardar el jugador que juega el token
+                        // tok.Played(1); // marcar la cara del token de la mesa como jugada
+                        // token.Played(0); // marcar la cara del token a jugar como jugada
+                        // this.board[ new Coord(){x = coords.x + 1, y = coords.y} ] = new InfoToken(){token = token.Clone() , direction = ( token.Left.Value != token.Right.Value ) ? "horizontal" : "vertical"}; // guardar el nuevo token
+                        // TokenByPlayer[ token ] = IdPlayer; // guardar el jugador que juega el token
+                        PutInPosition(token, tok, 0, 1, new Coord(){x = coords.x + 1, y = coords.y}, false, IdPlayer, direction);
                         return;
                     }
                     
                     if( matcher.ValidateMatch(token, 1, tok, 1) ) {
-                        tok.Played(1); // marcar la cara del token de la mesa como jugada
-                        token.Played(1); // marcar la cara del token a jugar como jugada
-                        token.SwapFaces(); // Invertir las caras
-                        this.board[ new Coord(){x = coords.x + 1, y = coords.y} ] = new InfoToken(){token = token.Clone() , direction = ( token.Left.Value != token.Right.Value ) ? "horizontal" : "vertical"}; // guardar el nuevo token
-                        TokenByPlayer[ token ] = IdPlayer; // guardar el jugador que juega el token
+                        // tok.Played(1); // marcar la cara del token de la mesa como jugada
+                        // token.Played(1); // marcar la cara del token a jugar como jugada
+                        // token.SwapFaces(); // Invertir las caras
+                        // this.board[ new Coord(){x = coords.x + 1, y = coords.y} ] = new InfoToken(){token = token.Clone() , direction = ( token.Left.Value != token.Right.Value ) ? "horizontal" : "vertical"}; // guardar el nuevo token
+                        // TokenByPlayer[ token ] = IdPlayer; // guardar el jugador que juega el token
+                        PutInPosition(token, tok, 1, 1, new Coord(){x = coords.x + 1, y = coords.y}, true, IdPlayer, direction);
                         return;
                     }                    
                 }
@@ -115,34 +122,38 @@ public class MultidimensionalBorad : IBoard
                     //   Comprobar si se puede jugar por arriba
                     if( !tok[2].Played && !board.ContainsKey(new Coord(){x = coords.x, y = coords.y - 1}) ) {
                         if( matcher.ValidateMatch(token, 0, tok, 2) ) {
-                            tok.Played(2);
-                            token.Played(0);
-                            token.SwapFaces();
-                            this.board[ new Coord(){x = coords.x, y = coords.y - 1} ] = new InfoToken(){token = token.Clone() , direction = "vertical"};
+                            // tok.Played(2);
+                            // token.Played(0);
+                            // token.SwapFaces();
+                            // this.board[ new Coord(){x = coords.x, y = coords.y - 1} ] = new InfoToken(){token = token.Clone() , direction = "vertical"};
+                            PutInPosition(token, tok, 0, 2, new Coord(){x = coords.x, y = coords.y - 1}, true, IdPlayer, "vertical");
                             return;
                         }
                         
                         if( matcher.ValidateMatch(token, 1, tok, 2) ) {
-                            tok.Played(2);
-                            token.Played(1);
-                            this.board[ new Coord(){x = coords.x, y = coords.y - 1} ] = new InfoToken(){token = token.Clone() , direction = "vertical"};
+                            // tok.Played(2);
+                            // token.Played(1);
+                            // this.board[ new Coord(){x = coords.x, y = coords.y - 1} ] = new InfoToken(){token = token.Clone() , direction = "vertical"};
+                            PutInPosition(token, tok, 1, 2, new Coord(){x = coords.x, y = coords.y - 1}, false, IdPlayer, "vertical");
                             return;
                         }
                     }
                     // Comrpobar si se puede jugar por la parte de abajo
                     if( !tok[3].Played && !board.ContainsKey(new Coord(){x = coords.x, y = coords.y + 1}) ) {
                         if( matcher.ValidateMatch(token, 0, tok, 3) ) {
-                            tok.Played(3);
-                            token.Played(0);
-                            this.board[ new Coord(){x = coords.x, y = coords.y + 1} ] = new InfoToken(){token = token.Clone() , direction = "vertical"};
+                            // tok.Played(3);
+                            // token.Played(0);
+                            // this.board[ new Coord(){x = coords.x, y = coords.y + 1} ] = new InfoToken(){token = token.Clone() , direction = "vertical"};
+                            PutInPosition(token, tok, 0, 3, new Coord(){x = coords.x, y = coords.y + 1}, false, IdPlayer, "vertical");
                             return;
                         }
                         
                         if( matcher.ValidateMatch(token, 1, tok, 3) ) {
-                            tok.Played(3);
-                            token.Played(1);
-                            token.SwapFaces();
-                            this.board[ new Coord(){x = coords.x, y = coords.y + 1} ] = new InfoToken(){token = token.Clone() , direction = "vertical"};
+                            // tok.Played(3);
+                            // token.Played(1);
+                            // token.SwapFaces();
+                            // this.board[ new Coord(){x = coords.x, y = coords.y + 1} ] = new InfoToken(){token = token.Clone() , direction = "vertical"};
+                            PutInPosition(token, tok, 1, 3, new Coord(){x = coords.x, y = coords.y + 1}, true, IdPlayer, "vertical");
                             return;
                         }
                     }
@@ -155,22 +166,26 @@ public class MultidimensionalBorad : IBoard
             // Si es un token que esta puesto en una linea vertical o si es un doble con una direccion horizontal
             if( ( tok[0].Value != tok[1].Value && item.direction == "vertical") || (tok[0].Value == tok[1].Value && item.direction == "horizontal") ) {
 
+                string direction = ( token.Left.Value == token.Right.Value ) ? "horizontal" : "vertical";
+
                // Jugar por arriba (el lado izquierdo) de la ficha si es que se puede
                 if( !tok[0].Played && !board.ContainsKey(new Coord(){x = coords.x, y = coords.y - 1}) ) {
                     if( matcher.ValidateMatch(token, 0, tok, 0) ) {
-                        tok.Played(0); // marcar la cara del token de la mesa como jugada
-                        token.Played(0); // marcar la cara del token a jugar como jugada
-                        token.SwapFaces(); // Invertir las caras
-                        this.board[ new Coord(){x = coords.x, y = coords.y - 1} ] = new InfoToken(){token = token.Clone() , direction = ( token.Left.Value == token.Right.Value ) ? "horizontal" : "vertical" }; // guardar el nuevo token
-                        TokenByPlayer[ token ] = IdPlayer; // guardar el jugador que juega el token
+                        // tok.Played(0); // marcar la cara del token de la mesa como jugada
+                        // token.Played(0); // marcar la cara del token a jugar como jugada
+                        // token.SwapFaces(); // Invertir las caras
+                        // this.board[ new Coord(){x = coords.x, y = coords.y - 1} ] = new InfoToken(){token = token.Clone() , direction = ( token.Left.Value == token.Right.Value ) ? "horizontal" : "vertical" }; // guardar el nuevo token
+                        // TokenByPlayer[ token ] = IdPlayer; // guardar el jugador que juega el token
+                        PutInPosition(token, tok, 0, 0, new Coord(){x = coords.x, y = coords.y - 1}, true, IdPlayer, direction);
                         return;
                     }
                     
                     if( matcher.ValidateMatch(token, 1, tok, 0) ) {
-                        tok.Played(0); // marcar la cara del token de la mesa como jugada
-                        token.Played(1); // marcar la cara del token a jugar como jugada
-                        this.board[ new Coord(){x = coords.x, y = coords.y - 1} ] = new InfoToken(){token = token.Clone() , direction = ( token.Left.Value == token.Right.Value ) ? "horizontal" : "vertical"}; // guardar el nuevo token
-                        TokenByPlayer[ token ] = IdPlayer; // guardar el jugador que juega el token
+                        // tok.Played(0); // marcar la cara del token de la mesa como jugada
+                        // token.Played(1); // marcar la cara del token a jugar como jugada
+                        // this.board[ new Coord(){x = coords.x, y = coords.y - 1} ] = new InfoToken(){token = token.Clone() , direction = ( token.Left.Value == token.Right.Value ) ? "horizontal" : "vertical"}; // guardar el nuevo token
+                        // TokenByPlayer[ token ] = IdPlayer; // guardar el jugador que juega el token
+                        PutInPosition(token, tok, 1, 0, new Coord(){x = coords.x, y = coords.y - 1}, false, IdPlayer, direction);
                         return;
                     }
                 }
@@ -178,19 +193,21 @@ public class MultidimensionalBorad : IBoard
                 // Comprobar si se puede jugar por la abajo (derecho)
                 if( !tok[1].Played && !board.ContainsKey(new Coord(){x = coords.x, y = coords.y + 1}) ) {
                     if( matcher.ValidateMatch(token, 0, tok, 1) ) {
-                        tok.Played(1); // marcar la cara del token de la mesa como jugada
-                        token.Played(0); // marcar la cara del token a jugar como jugada
-                        this.board[ new Coord(){x = coords.x, y = coords.y + 1} ] = new InfoToken(){token = token.Clone() , direction = ( token.Left.Value == token.Right.Value ) ? "horizontal" : "vertical"}; // guardar el nuevo token
-                        TokenByPlayer[ token ] = IdPlayer; // guardar el jugador que juega el token
+                        // tok.Played(1); // marcar la cara del token de la mesa como jugada
+                        // token.Played(0); // marcar la cara del token a jugar como jugada
+                        // this.board[ new Coord(){x = coords.x, y = coords.y + 1} ] = new InfoToken(){token = token.Clone() , direction = ( token.Left.Value == token.Right.Value ) ? "horizontal" : "vertical"}; // guardar el nuevo token
+                        // TokenByPlayer[ token ] = IdPlayer; // guardar el jugador que juega el token
+                        PutInPosition(token, tok, 0, 1, new Coord(){x = coords.x, y = coords.y + 1}, false, IdPlayer, direction);
                         return;
                     }
                     
                     if( matcher.ValidateMatch(token, 1, tok, 1) ) {
-                        tok.Played(1); // marcar la cara del token de la mesa como jugada
-                        token.Played(1); // marcar la cara del token a jugar como jugada
-                        token.SwapFaces(); // Invertir las caras
-                        this.board[ new Coord(){x = coords.x, y = coords.y + 1} ] = new InfoToken(){token = token.Clone() , direction = ( token.Left.Value == token.Right.Value ) ? "horizontal" : "vertical"}; // guardar el nuevo token
-                        TokenByPlayer[ token ] = IdPlayer; // guardar el jugador que juega el token
+                        // tok.Played(1); // marcar la cara del token de la mesa como jugada
+                        // token.Played(1); // marcar la cara del token a jugar como jugada
+                        // token.SwapFaces(); // Invertir las caras
+                        // this.board[ new Coord(){x = coords.x, y = coords.y + 1} ] = new InfoToken(){token = token.Clone() , direction = ( token.Left.Value == token.Right.Value ) ? "horizontal" : "vertical"}; // guardar el nuevo token
+                        // TokenByPlayer[ token ] = IdPlayer; // guardar el jugador que juega el token
+                        PutInPosition(token, tok, 1, 1, new Coord(){x = coords.x, y = coords.y + 1}, true, IdPlayer, direction);
                         return;
                     }                    
                 }
@@ -201,34 +218,38 @@ public class MultidimensionalBorad : IBoard
                     //   Comprobar si se puede jugar por arriba (izquierda)
                     if( !tok[2].Played && !board.ContainsKey(new Coord(){x = coords.x - 1, y = coords.y}) ) {
                         if( matcher.ValidateMatch(token, 0, tok, 2) ) {
-                            tok.Played(2);
-                            token.Played(0);
-                            token.SwapFaces();
-                            this.board[ new Coord(){x = coords.x - 1, y = coords.y} ] = new InfoToken(){token = token.Clone() , direction = "horizontal"};
+                            // tok.Played(2);
+                            // token.Played(0);
+                            // token.SwapFaces();
+                            // this.board[ new Coord(){x = coords.x - 1, y = coords.y} ] = new InfoToken(){token = token.Clone() , direction = "horizontal"};
+                            PutInPosition(token, tok, 0, 2, new Coord(){x = coords.x - 1, y = coords.y}, true, IdPlayer, "horizontal");
                             return;
                         }
                         
                         if( matcher.ValidateMatch(token, 1, tok, 2) ) {
-                            tok.Played(2);
-                            token.Played(1);
-                            this.board[ new Coord(){x = coords.x - 1, y = coords.y} ] = new InfoToken(){token = token.Clone() , direction = "horizontal"};
+                            // tok.Played(2);
+                            // token.Played(1);
+                            // this.board[ new Coord(){x = coords.x - 1, y = coords.y} ] = new InfoToken(){token = token.Clone() , direction = "horizontal"};
+                            PutInPosition(token, tok, 1, 2, new Coord(){x = coords.x - 1, y = coords.y}, false, IdPlayer, "horizontal");
                             return;
                         }
                     }
                     // Comrpobar si se puede jugar por la parte de abajo(derecha)
                     if( !tok[3].Played && !board.ContainsKey(new Coord(){x = coords.x + 1, y = coords.y}) ) {
                         if( matcher.ValidateMatch(token, 0, tok, 3) ) {
-                            tok.Played(3);
-                            token.Played(0);
-                            this.board[ new Coord(){x = coords.x + 1, y = coords.y} ] = new InfoToken(){token = token.Clone() , direction = "horizontal"};
+                            // tok.Played(3);
+                            // token.Played(0);
+                            // this.board[ new Coord(){x = coords.x + 1, y = coords.y} ] = new InfoToken(){token = token.Clone() , direction = "horizontal"};
+                            PutInPosition(token, tok, 0, 3, new Coord(){x = coords.x + 1, y = coords.y}, false, IdPlayer, "horizontal");
                             return;
                         }
                         
                         if( matcher.ValidateMatch(token, 1, tok, 3) ) {
-                            tok.Played(3);
-                            token.Played(1);
-                            token.SwapFaces();
-                            this.board[ new Coord(){x = coords.x + 1, y = coords.y} ] = new InfoToken(){token = token.Clone() , direction = "horizontal"};
+                        //     tok.Played(3);
+                        //     token.Played(1);
+                        //     token.SwapFaces();
+                        //     this.board[ new Coord(){x = coords.x + 1, y = coords.y} ] = new InfoToken(){token = token.Clone() , direction = "horizontal"};
+                            PutInPosition(token, tok, 1, 3, new Coord(){x = coords.x + 1, y = coords.y}, true, IdPlayer, "horizontal");
                             return;
                         }
                     }
@@ -237,6 +258,16 @@ public class MultidimensionalBorad : IBoard
             }
         }
     }
+
+    private void PutInPosition ( Token TokenToPlay, Token TokenInBoard, int faceTokenPlay, int faceTokenBoard, Coord PositionCoord, bool swapFaces, int IdPlayer, string direction ) {
+        TokenInBoard.Played( faceTokenBoard );
+        TokenToPlay.Played( faceTokenPlay );
+        if( swapFaces ) TokenToPlay.SwapFaces();
+        this.board[ PositionCoord ] = new InfoToken(){token = TokenToPlay.Clone() , direction = direction}; // guardar el nuevo token
+        TokenByPlayer[ TokenToPlay ] = IdPlayer; // guardar el jugador que juega el token
+    }
+
+
 
 
     // Valida si la ficha puede ser jugada en el tablero
