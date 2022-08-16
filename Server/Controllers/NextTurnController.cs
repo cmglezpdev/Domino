@@ -20,7 +20,7 @@ public class NextTurnController : ControllerBase
     public IActionResult Get()
     {
         // Realiza la siguiente jugada y retorna la información del de la misma
-        PlayInfo info = _manager.GamePlay()!;
+        PlayInfo info = _manager.GamePlay();
         return Ok( info );
     }
 

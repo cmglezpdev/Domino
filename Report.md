@@ -9,7 +9,13 @@
     - [Controllers y Models](#controllers-y-models)
     - [Data](#data)
     - [Game](#game)
-    - [AuxiliarClasses](#auxliliar-classes)
+    - [Clases](#classes)
+        - [AuxiliarClasses](#auxliliar-classes)
+        - [Manager](#manager)
+        - [Refery](#refery)
+    - [Interfaces](#interfaces)
+    - [Implementaciones Específicas](#implementaciones-específicas)
+    - [Detalles del funcionamiento del Server](#detalles-del-funcionamiento-del-server)
     - [Vista general de la Abstracciones](#vista-general-de-la-abstracciones)
     - [Abstracciones especificas](#abstracciones-especificas)
     - [Board](#board)
@@ -196,12 +202,6 @@ public INextPlayer[] NextPlayers = new INextPlayer[] {
 };
 ```
 
-Además de esto tenemos una estructura de directorios formada por:
-
-- `Classes`: Contiene las clases generales del juego o que no necesitan de una interfaz.
-`Interfaces`: Representa una parte de la abstracción del juego, en donde cada interfaz representa una posible variación de una característica del juego, las cuales son las seleccionadas desde el `Client`.
-`SpecificGames`: Esta tiene más directorios dentro con las implementaciones de las variaciones respectivas de todas las funcionalidades del juego que son variables.
-
 ### Game
 
 También tenemos una clase estática `Game` la cual tiene la instancia general del Manager y dos métodos que "parsean"(lo que hacen es cambiar los nombres de las pripiedades) para que cuando se convierta a formato JSON que no sea con los nombres por defecto que asigna C# 
@@ -257,7 +257,11 @@ public static List<List<FacesToken>> TokensInBoardJson ( (Token, string)[,] Toke
 ```
 
 
-### Auxiliar Classes
+### Classes
+
+Dentro de esta carpeta tenemos varias clases que representan algunas cosas generales del juego. Dentro de estas están:
+
+#### Auxiliar Classes
 
 En el archivo `AuxiliarClasses.cs` tenemos varias clases, que son clases auxiliares para tareas específicas, como es el caso de las que usamos para parsear la información de alguna colección, los estados del juego entre otras cosas.
 
@@ -273,54 +277,61 @@ En este archivo podemos ver varias clases como:
 
 `FacesToken`: Esta clase parsea la información básica de una ficha(valor de sus caras, y su dirección en el tablero, si esta allí) a JSON para que sea usada en el frontend.
 
+`PublicInformation`: Esta clase contiene toda la información publica que se maneja durante el juego y que se usa para las distintas implementaciones que necesiten de esta información.
+
 Como te habrás dado cuenta, hay clases que guardan los datos de las mismas cosas, pero una guarda más información que otra. Esto se podía guardar todo en una mima clase y solo asignarle valores a las cosas que creamos conveniente, pero esto implicaría que las demás propiedades sean nulas, dando paso a posibles errores a la hora de usar las clases, así como no tener una idea clara de cuáles SI son las propiedades que tienen valores y cuáles no. Es por eso que preferimos crear varias clases que se referieren a la misma cosa, pero guardan diferentes cantidades de información.
 
 
-### Vista general de la Abstracciones
+#### Manager
 
-Dentro de la sección `Classes` las principales clases son:
+Esta clase es la encargada de controlar el flujo de la partida, y posee todas las características(reglas) seleccionadas por el usuario.
 
-- `Manager`, el cual es el encargado de controlar el flujo de la partida, y posee todas las características(reglas) seleccionadas por el usuario.
-Esta clase tiene un constructor que recibe la mayoría de la información con la que se iniciará el juego(jugadores, tablero y demás reglas) y las guarda internamente.
-Tiene une método `Start Game` que es llamado una sola vez y carga la fase inicial del juego, o sea, construye las fichas y las reparte entre los jugadores.
-También tiene otro método llamado `Game Play` que ejecuta una jugada de la partida, selecciona el jugador que le toca, realiza la jugada, actualiza los datos y retorna la información de dicha jugada.
-Y por último el método `Search Player Index` que dado el id de un jugador, busca su índice en el arreglo interno donde están guardados los mismos.
+- `public void AssignDependencies( ... )`: Este método recibe las clases que representan las variaciones seleccionadas por el usuario y estas son guardadas como propiedades internas del Manager.
 
-- `Refery` la cual tiene la tarea de controlar las jugadas de cada jugador(esta clase la implementamos como forma de evitar el surgimiento de jugadores que incumplieran las reglas preestablecidas de la partida), además posee las fichas de todos los jugadores y les ordena a los mismos elegir que ficha jugar, revisando si la elegida es válida, y finalmente colocándola en el tablero.
+- `public void StartGame( ... )`: Este método ejecuta las primeras acciones para iniciar el juego, o sea, crea todas las fichas( mediante el método `BuildTokens` del Board ) y las reparte entre los jugadores(Mediante el método `distributeTokens` que corresponde a una de las variaciones seleccionadas por el usuario). 
+
+- `public PlayInfo GamePlay()`: Este método realiza toda la jugada que corresponde, guarda las actualizaciones pertinentes en sus propiedades internas y devuelve un resumen de dicha jugada, todo esto mediante las variaciones seleccionadas por el usuario al inicio del juego.
+Mas específicamente, mediante el método `NextPlayer` correspondiente a dicha variación devuelve el id del jugador que le toca jugar. Este mediante el método `Play` del refery se realiza la jugada de dicho jugador y se controla que se halla hecho correctamente. Posteriormente se realiza el guardado se las informaciones que son públicas en sus propiedades y se retorna la información necesaria para que será representada en la Interfas Gráfica(esta información es la que representa la clase auxiliar `PlayInfo`).
+
+- `public int SearchPlayerIndex(int Id)`: este método simplemente busca en la lista de los jugadores el índice en el arreglo al que le corresponde el jugador con dicho `Id`.
+
+#### Refery
+
+Esta clase tiene la tarea de controlar las jugadas de cada jugador(esta clase la implementamos como forma de evitar el surgimiento de jugadores que incumplieran las reglas preestablecidas de la partida), además posee las fichas de todos los jugadores y les ordena a los mismos elegir que ficha jugar, revisando si la elegida es válida, y finalmente colocándola en el tablero. Posee varios métodos entre los que se encuentran:
+
+- `MakeTokens`: Recibe y asigna a sus propiedades internas los jugadores y las fichas que tienen respectivamente.
+- `Play`: El método más importante y se encarga de que el jugador realice una jugada correcta, o sea, controla que los jugadores no hagan trampas y devuelve la información de la jugada. Este manda a llamar el método `PlayToken` correspondiente al jugador y que devuelve la ficha que va a jugar. En Refery controla que la jugada sea válida y en caso correcto llama `PlaceToken` del board para que sea puesta en el tablero y, posteriormente se elimina esa ficha de la mano del jugador.
+
+Luego tenemos otros métodos auxiliares como son `Hand`, `Count`, `Points`, `Player` y otros más que ayudan a realizar funcionalidades auxiliares específicas de ayuda a los otros métodos.
+
+### Interfaces
+
+En este directorio están todas las interfaces que se están usando en el programa. Ahi está la interfaz `IManager` que representa al manager y algunas funcionalidades variables que se pueden implementar 
+
+### Implementaciones específicas
+
+En este directorio están todas las implementaciones de diferentes variaciones del juego. Estas implementaciones se explican [aquí](#vista-general-de-la-abstracciones)
+
+
+## Detalles del funcionamiento del Server
+
+Una vez ejecutamos el server, en el archivo `Program.cs` se añade como una dependencia del juego a la clase `Manager`
 
 ```cs
-public class Refery {
-
-    //... propiedades y constructor
-
-    // Guarda los jugadores y las fichas correspondientes
-    public void MakeTokens(List<Token>[] hand, Player[] ply);
- 
-    // Relaiza la jugada del jugador IdPlayer
-    public bool Play(int IdPlayer);
- 
-    // Devuelve l rrespondientes al jugador con ese id
-    public Token[] Hand( int IdPlayer );
-
-    // Cantidad de fichas del jugador
-    public int Count(int IdPlayer);
-
-    // Cantidad de puntos del jugador
-    public int Points(int IdPlayer);
-
-    // Buscar el jugador y devolver su indice
-    public int SearchPlayerIndex(int IdPlayer);
-
-    // Retorna el jugador
-    public Player Player(int IdPlayer);
-
-    // Retorna informacion del jugador
-    public PlayerInfo[] PlayerInformation { get; }
-
-    // Crea un clone del refery
-    public Refery Clone();
-}
+builder.Services.AddSingleton<IManager, Manager>();
 ```
+
+Esto es para que después, mediante una inyección de dependencias en los controladores poder usar esta clase. Se especifica que sea una dependencia `Singleton` para que una vez se cree la instancia de `Manager` que representa el juego, esta misma sea la que se utilice en los demás controladores.
+
+Posteriormente, cuando la interfaz gráfica carge, se realizará la primera petición al server mediante el controlador `LoaderController`, el cual devolverá las opciones del juego que estaban previamente guardadas en la clase `InterfaceOfOptions`.
+
+Después de que en el Cliente se seleccionen todos las variaciones del juego a utilizar este es mandado nuevamente al Server mediante el controlador `TypeGameController`. Es en este momento en el que se genera la primera y única instancia de manager. Este controlador lo que hace es asignarle al manager todas esas variaciones que se seleccionaron previamente, y mediante el método `StartGame` del manager se ejecuta la primera jugada y, la información que es devuelta por este método es enviada al Cliente. Este método lo que devuelve son los jugadores con sus respectivas fichas, el nombre de quien jugó, su Id y sus puntos. Esta información es la que se muestra en el Cliente.
+
+Cuando en el cliente se ejecuta solicita la próxima jugada, esta petición se hace mediante el controlador `NextTurn Controller`, el cual simplemente ejecuta el método `GamePlay` del `Manager` y este método es quien ejecuta toda la jugada correspondiente y devuelve la información de dicha jugada(quien la realizó, si se pasó o no, etc).
+
+Una vez termine la partida esta es reiniciada con las mismas opciones o es cambiada por otras nuevas, en cualquier caso siempre se ejecutará esta misma lógica.
+
+### Vista general de la Abstracciones
 
 - `Player` Esta clase es abstracta y contiene métodos generales de los jugadores. Tiene dos métodos abstractos, la creación del clon del jugador y `Play Token` que devuelve el índice de la ficha a ser jugada. También tiene la propiedad `IDPlayer` con el id y el nombre del jugador
 
@@ -328,6 +339,7 @@ Dentro de la carpeta `Interfaces` están las interfaces principales del juego qu
 
 Dentro de las variaciones que se pueden realizar están:
 
+- `Player`: Es una clase abstracta que tiene varias propiedades fijas y el método abstracto `PlayToken` que representa la estrategia del mismo 
 - `IBoard`: especifica los métodos necesarios para poder crear una variación del Tablero
 - `IDistributeTokens`: especifica los métodos necesarios para poder crear una variación de como se reparten las fichas a cada jugador
 - `IFinishGame`: especifica los métodos necesarios para poder crear una variación de como se termina una partida

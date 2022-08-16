@@ -67,6 +67,7 @@ public class FacesToken {
 }
 
 
+// Reperesenta toda la información que es publica durante el juego y que los jugadores pueden tener acceso
 public class PublicInformation {
     public int MaxIdOfToken{ get; set; } // Máximo número que puede tener una ficha
     public int[] IdOfPlayers{ get; set; } // Índice de los jugadores(esto corresponde con las propiedades de abajo)
