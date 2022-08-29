@@ -36,8 +36,9 @@ public class TypeGameController : ControllerBase
             players.Last().IDPlayer = (i, namesPlayers[i]);
 
         }
+
         // Instanciando el refery
-        Refery  refery = new Refery( data.Boards[ options.board ] );
+        Refery  refery = new Refery( data.Boards[ options.board ], Search.SearchIndexPlayer );
         // Iniciar el estado del manager y empezar el juego
         _manager.AssignDependencies(
                 players,
@@ -46,7 +47,8 @@ public class TypeGameController : ControllerBase
                 data.FinishGames[ options.finishGame ],
                 data.WinGames[ options.winGame ],
                 data.NextPlayers[ options.nextPlayer ],
-                refery
+                refery,
+                Search.SearchIndexPlayer
         );
         
         // Realiza la primera jugada del juego 

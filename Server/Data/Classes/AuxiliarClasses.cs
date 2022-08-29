@@ -108,3 +108,13 @@ public class PublicInformation {
         };
     }
 }
+
+public static class Search {
+    public static int SearchIndexPlayer(int IdPlayer, Player[] players) {
+        for(int i = 0; i < players.Length; i ++) {
+            if( players[i].IDPlayer.Item1 == IdPlayer )
+                return i;
+        }
+        return -1;
+    }
+}

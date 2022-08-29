@@ -1,15 +1,17 @@
 namespace Server.Data.Classes;
 using Server.Data.Interfaces;
+using Server.Data.Delegates;
 public class Refery {
     List<Token>[] hands;
     Player[] players;
     IBoard board;
+    SearchPlayerIndex Search;
 
-    public Refery(IBoard board) {
-        
+    public Refery(IBoard board, SearchPlayerIndex Search) {
         this.board = board;
         this.hands = new List<Token>[0];
         this.players = new Player[0];
+        this.Search = Search;
     } 
     public void MakeTokens(List<Token>[] hand, Player[] ply){
 
@@ -20,7 +22,7 @@ public class Refery {
     // Relaiza la jugada del jugador y devuelve información de la jugada
     public StatusCurrentPlay Play(int IdPlayer, PublicInformation Information) {
         int aux = -1;
-        int IndexPlayer = SearchPlayerIndex(IdPlayer);
+        int IndexPlayer = this.Search(IdPlayer, this.players);
         // obtener la ficha que va a jugar
         aux = players[IndexPlayer].PlayToken(board, hands[IndexPlayer].ToArray(), Information);
 
@@ -46,7 +48,7 @@ public class Refery {
     }
     // Devuelve las fichas de la mano del jugador con Id: IdPlayer
     public Token[] Hand( int IdPlayer ) {
-        int IndexPlayer = SearchPlayerIndex(IdPlayer);
+        int IndexPlayer = this.Search(IdPlayer, this.players);
         List<Token> hand = new List<Token>();
         for(int i = 0; i < this.hands[IndexPlayer].Count; i ++) {
             hand.Add( this.hands[ IndexPlayer ][i].Clone() );
@@ -56,29 +58,22 @@ public class Refery {
     }
     // Cuenta la cantidad de fichas que tiene el jugador con Id: IdPlayer
     public int Count(int IdPlayer){
-        int IndexPlayer = SearchPlayerIndex(IdPlayer);
+        int IndexPlayer = this.Search(IdPlayer, this.players);
         return hands[IndexPlayer].Count;
     }
     // Cantidad de Puntos que tiene el jugador con Id: IdPlayer
     public int Points(int IdPlayer) {
         int total = 0;
-        int IndexPlayer = SearchPlayerIndex(IdPlayer);
+        int IndexPlayer = this.Search(IdPlayer, this.players);
         foreach(var item in hands[IndexPlayer]) {
             total += item.Value;
         }
         return total;
     }
-    // Buscar el indice del jugador con Id: IdPlayer
-    public int SearchPlayerIndex(int IdPlayer) {
-        for(int i = 0; i < players.Length; i ++) {
-            if(players[i].IDPlayer.Item1 == IdPlayer) return i;
-        }
-        return -1;
-    }
 
     // Buscar el jugador y devolver su indice
     public Player Player(int IdPlayer) {
-        int IndexPlayer = SearchPlayerIndex(IdPlayer);
+        int IndexPlayer = this.Search(IdPlayer, this.players);
         return players[IndexPlayer].Clone();
     }
     
@@ -103,7 +98,7 @@ public class Refery {
     }
 
     public Refery Clone() {
-        Refery clone = new Refery(this.board.Clone());
+        Refery clone = new Refery(this.board.Clone(), this.Search);
         
         Player[] players = new Player[this.players.Length];
         for(int i = 0; i < players.Length; i ++) players[i] = this.players[i].Clone();
