@@ -204,7 +204,7 @@ public INextPlayer[] NextPlayers = new INextPlayer[] {
 
 ### Game
 
-También tenemos una clase estática `Game` la cual tiene la instancia general del Manager y dos métodos que "parsean"(lo que hacen es cambiar los nombres de las pripiedades) para que cuando se convierta a formato JSON que no sea con los nombres por defecto que asigna C# 
+También tenemos una clase estática `Game` la cual tiene dos métodos que "parsean"(lo que hacen es cambiar los nombres de las pripiedades) para que cuando se convierta a formato JSON que no sea con los nombres por defecto que asigna C# 
 
 El primer método es :
 
