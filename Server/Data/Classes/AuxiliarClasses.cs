@@ -54,25 +54,7 @@ public class PlayInfoJson : AbstractPlayInfo {
 #endregion
 
 
-
-
-
-
-// Esta clase representa un jugador con su información
-public class PlayerInfo {
-    public int Count {get; private set;} // cantidad de fichas
-    public int Points {get; private set;} // cantidad de puntos
-    public (int, string) IDPlayer {get; private set;} // id number, player name
-
-    public PlayerInfo(int countTokens, int Points, int ID, string name) {
-        this.Count = countTokens;
-        this.Points = Points;
-        this.IDPlayer = (ID, name);
-    }
-}
-
-
-// Info de un jugador que es convertida a JSON para ser enviada al frontend
+// Info de un jugador que sera usada por la interfaz grafica
 #region  ResPlayer
 
 public class AbstractResPlayer {
@@ -89,9 +71,6 @@ public class ResPlayerJson : AbstractResPlayer {
 }
 
 #endregion
-
-
-
 
 #region Tokens Info
 
@@ -111,6 +90,18 @@ public class TokenInBoard {
 #endregion
 
 
+// Esta clase representa un jugador con su información
+public class PlayerInfo {
+    public int Count {get; private set;} // cantidad de fichas
+    public int Points {get; private set;} // cantidad de puntos
+    public (int, string) IDPlayer {get; private set;} // id number, player name
+
+    public PlayerInfo(int countTokens, int Points, int ID, string name) {
+        this.Count = countTokens;
+        this.Points = Points;
+        this.IDPlayer = (ID, name);
+    }
+}
 
 
 
