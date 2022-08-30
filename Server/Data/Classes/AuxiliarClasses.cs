@@ -50,7 +50,7 @@ public class PlayInfo : AbstractPlayInfo {
             points = this.points,
             Passed = this.Passed,
             FinishGame = this.FinishGame,
-            TokensInBoard = Game.GetTokenInBoardToJson( this.TokensInBoard! )
+            TokensInBoard = Parsers.GetTokenInBoardToJson( this.TokensInBoard! )
         };
     }
 }

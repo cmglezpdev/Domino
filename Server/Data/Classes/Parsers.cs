@@ -1,10 +1,11 @@
 using Server.Data.Classes;
 
-public static class Game {
+public static class Parsers {
 
     // "Convertir" una lista de fichas a formato json
     #region Token's Parsers
 
+    // Convertir una lista de fichas a Json
     public static List<FacesToken> GetTokensToJson( IEnumerable<Token> tokens ) {
         List<FacesToken> TokensJson = new List<FacesToken>();
         foreach( var t in tokens ) {
@@ -14,8 +15,8 @@ public static class Game {
     }
 
 
-    // "Convertir" la informacion del tablero a formato json 
-    public static List<List<FacesToken>> GetTokenInBoardToJson ( TokenInBoard[,] Tokens ) {
+    // "Convertir la informacion del tablero a un template json de informacion general
+    public static List<List<FacesToken>>  GetTokenInBoardToJson( TokenInBoard[,] Tokens ) {
         
         List<List<FacesToken?>> TokensJson = new List<List<FacesToken>>()!;
 
@@ -34,59 +35,7 @@ public static class Game {
         return TokensJson!;
     }
 
-    #endregion
-
-
-
-
-
-
-
-    public static List<ResPlayerJson> GetPlayersToJson( IEnumerable<ResPlayer> players ) {
-
-        List<ResPlayerJson> playersJson = new List<ResPlayerJson>();
-        foreach( var p in players ) {
-            playersJson.Add(new ResPlayerJson(){
-                Id = p.Id,
-                Name = p.Name,
-                Points = p.Points,
-                HandTokens = Game.GetTokensToJson(p.HandTokens!).ToArray()
-            });
-        }
-        return playersJson;
-    }
-
-
-
-
-
-
-
-
-
-
-
-    // "Convertir" una lista de jugadores en una plantilla ResPlayers
-    public static List<ResPlayer> GetPlayersTemplate( PlayerInfo[] players, Refery refery ) {
-        List<ResPlayer> result = new List<ResPlayer>();
-        int countPlayers = players.Length;
-
-        for( int i = 0; i < countPlayers; i ++ ) {   
-            var p = players[i];
-            
-            result.Add(new ResPlayer() {
-                Id = p.IDPlayer.Item1,
-                Name = p.IDPlayer.Item2,
-                Points = p.Points,
-                HandTokens = refery.Hand(i)
-            });
-        }
-        return result;
-    }
-
-
-
-
+    // Convertir la informacion del tablero a un template de informacion general
     public static TokenInBoard?[,]  GetTokenInBoardTemplate( (Token, string)[,] Tokens ) {
         
         TokenInBoard?[,] TokensTemplate = new TokenInBoard[ Tokens.GetLength(0), Tokens.GetLength(1) ];
@@ -105,6 +54,47 @@ public static class Game {
     }
 
 
+    #endregion
 
+
+
+
+    #region Players's Parsers
+
+    // Convertir la informacion de los jugadores a un template json de informacion general
+    public static List<ResPlayerJson> GetPlayersToJson( IEnumerable<ResPlayer> players ) {
+
+        List<ResPlayerJson> playersJson = new List<ResPlayerJson>();
+        foreach( var p in players ) {
+            playersJson.Add(new ResPlayerJson(){
+                Id = p.Id,
+                Name = p.Name,
+                Points = p.Points,
+                HandTokens = Parsers.GetTokensToJson(p.HandTokens!).ToArray()
+            });
+        }
+        return playersJson;
+    }
+
+    // Convertir la informacion de los jugadores a un template de informacion general
+    public static List<ResPlayer> GetPlayersTemplate( PlayerInfo[] players, Refery refery ) {
+        List<ResPlayer> result = new List<ResPlayer>();
+        int countPlayers = players.Length;
+
+        for( int i = 0; i < countPlayers; i ++ ) {   
+            var p = players[i];
+            
+            result.Add(new ResPlayer() {
+                Id = p.IDPlayer.Item1,
+                Name = p.IDPlayer.Item2,
+                Points = p.Points,
+                HandTokens = refery.Hand(i)
+            });
+        }
+        return result;
+    }
+
+
+    #endregion
 
 }

@@ -27,9 +27,9 @@ public class NextTurnController : ControllerBase
             FinishGame = info.FinishGame,
             Passed = info.Passed,
             points = info.points,
-            TokensInBoard = Game.GetTokenInBoardToJson( info.TokensInBoard! ),
-            Players = Game.GetPlayersToJson(info.Players!),
-            Winners = Game.GetPlayersToJson(info.Winners!)
+            TokensInBoard = Parsers.GetTokenInBoardToJson( info.TokensInBoard! ),
+            Players = Parsers.GetPlayersToJson(info.Players!),
+            Winners = Parsers.GetPlayersToJson(info.Winners!)
         });
     }
 

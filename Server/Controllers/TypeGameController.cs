@@ -54,8 +54,8 @@ public class TypeGameController : ControllerBase
         // Realiza la primera jugada del juego 
         _manager.StartGame( data.maxIdTokens[options.maxIdTokens], data.countTokens[options.countTokens], data.TokensValue[options.tokenValue], data.Matches[ options.matcher ] );
         //  Parsea la informacion de los jugadores y los retorna
-        List<ResPlayer> result = Game.GetPlayersTemplate( refery.PlayerInformation, refery );
+        List<ResPlayer> result = Parsers.GetPlayersTemplate( refery.PlayerInformation, refery );
         // Respuesta de peticion con los jugadores
-        return Ok( Game.GetPlayersToJson(result) );
+        return Ok( Parsers.GetPlayersToJson(result) );
     }
 }
