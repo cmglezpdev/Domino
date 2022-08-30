@@ -21,7 +21,16 @@ public class NextTurnController : ControllerBase
     {
         // Realiza la siguiente jugada y retorna la información del de la misma
         PlayInfo info = _manager.GamePlay();
-        return Ok( info );
+
+        return Ok( new PlayInfoJson() {
+            CurrentPlayer = info.CurrentPlayer,
+            FinishGame = info.FinishGame,
+            Passed = info.Passed,
+            points = info.points,
+            TokensInBoard = Parsers.GetTokenInBoardToJson( info.TokensInBoard! ),
+            Players = Parsers.GetPlayersToJson(info.Players!),
+            Winners = Parsers.GetPlayersToJson(info.Winners!)
+        });
     }
 
 }

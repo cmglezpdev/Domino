@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/cmglezpdev/Programming/Domino/Server/ServerApp.csproj": {}
+    "/home/cmglezpdev/Dev/Domino/Server/ServerApp.csproj": {}
   },
   "projects": {
-    "/home/cmglezpdev/Programming/Domino/Server/ServerApp.csproj": {
+    "/home/cmglezpdev/Dev/Domino/Server/ServerApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/cmglezpdev/Programming/Domino/Server/ServerApp.csproj",
+        "projectUniqueName": "/home/cmglezpdev/Dev/Domino/Server/ServerApp.csproj",
         "projectName": "ServerApp",
-        "projectPath": "/home/cmglezpdev/Programming/Domino/Server/ServerApp.csproj",
+        "projectPath": "/home/cmglezpdev/Dev/Domino/Server/ServerApp.csproj",
         "packagesPath": "/home/cmglezpdev/.nuget/packages/",
-        "outputPath": "/home/cmglezpdev/Programming/Domino/Server/obj/",
+        "outputPath": "/home/cmglezpdev/Dev/Domino/Server/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/cmglezpdev/.nuget/NuGet/NuGet.Config"
@@ -57,6 +57,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.8, 6.0.8]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -65,7 +71,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.201/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.108/RuntimeIdentifierGraph.json"
         }
       }
     }

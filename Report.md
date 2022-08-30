@@ -8,12 +8,13 @@
   - [Server](#server)
     - [Controllers y Models](#controllers-y-models)
     - [Data](#data)
-    - [Game](#game)
     - [Clases](#classes)
-        - [AuxiliarClasses](#auxliliar-classes)
+        - [AuxiliarClasses](#auxiliar-classes)
         - [Manager](#manager)
         - [Refery](#refery)
+        - [Parsers](#parsers)
     - [Interfaces](#interfaces)
+    - [Delegados](#delegados)
     - [Implementaciones Específicas](#implementaciones-específicas)
     - [Detalles del funcionamiento del Server](#detalles-del-funcionamiento-del-server)
     - [Vista general de la Abstracciones](#vista-general-de-la-abstracciones)
@@ -110,7 +111,7 @@ En el `Server` tenemos los controladores de la API(`Controllers`), los modelos(`
 
 ### Data
 
-La sección de la `Data` tiene una clase principal `Data` que tiene varios arrays de instancias de las variaciones que tenemos implementadas en el juego, así como varios métodos que `parsean` algunas informaciones del juego en una estructura específica para que sea más fácil usar esa información en el `Client`(usando JSON)
+La sección de la `Data` tiene una clase principal `Data` que tiene varios arrays de instancias de las variaciones que tenemos implementadas en el juego.
 
 ```cs
 // Datos correspondientes a la cantidad de jugadores posibles a seleccionar
@@ -204,7 +205,7 @@ public INextPlayer[] NextPlayers = new INextPlayer[] {
 
 ### Game
 
-También tenemos una clase estática `Game` la cual tiene dos métodos que "parsean"(lo que hacen es cambiar los nombres de las pripiedades) para que cuando se convierta a formato JSON que no sea con los nombres por defecto que asigna C# 
+También tenemos una clase estática `Game` la cual tiene la instancia general del Manager y dos métodos que "parsean"(lo que hacen es cambiar los nombres de las pripiedades) para que cuando se convierta a formato JSON que no sea con los nombres por defecto que asigna C# 
 
 El primer método es :
 
@@ -271,7 +272,7 @@ En este archivo podemos ver varias clases como:
 
 `PlayInfo`: Esta clase también guarda información de las jugadas, pero esta clase contiene más información que la otra porque es la información que se manda al frontend para que sea mostrada.
 
-`PlayerInfo`: Esta clase contiene información básica sobre un jugador( cantidad de fichas, puntos, y sus ids ). Esta clase es usada por el `refery` y se usa para cuando queremos retornar información de un jugador, pero no queremos que no se tenga acceso a sus métodos para evitar, entre otras cosas, que los jugadores que necesiten de información de otro jugador hagan trampa.
+`FacesToken & TokenInBoard`: Estas clases guardan la información de las fichas cuando están colocadas en el tablero. `FacesToken` tiene las propiedades *Left* y *Right* para las caras de las fichas y un string *Direction* que guarda la dirección de la ficha en el tablero. TokenInBoard tiene la misma información, solo que en vez de guardar las caras por separado, guarda la ficha directamente.
 
 `ResPlayer`: Esta clase también guarda la información de un jugador, pero esta clase en específico es la que se usa como parseo a JSON para que sea enviada al frontend
 
@@ -281,6 +282,7 @@ En este archivo podemos ver varias clases como:
 
 Como te habrás dado cuenta, hay clases que guardan los datos de las mismas cosas, pero una guarda más información que otra. Esto se podía guardar todo en una mima clase y solo asignarle valores a las cosas que creamos conveniente, pero esto implicaría que las demás propiedades sean nulas, dando paso a posibles errores a la hora de usar las clases, así como no tener una idea clara de cuáles SI son las propiedades que tienen valores y cuáles no. Es por eso que preferimos crear varias clases que se referieren a la misma cosa, pero guardan diferentes cantidades de información.
 
+`Search`: Esta clase es una clase estática con el método estático `SearchIndexPlayer` que representa un método auxiliar para buscar el índice de un jugador en un arreglo de jugadores.
 
 #### Manager
 
@@ -293,20 +295,53 @@ Esta clase es la encargada de controlar el flujo de la partida, y posee todas la
 - `public PlayInfo GamePlay()`: Este método realiza toda la jugada que corresponde, guarda las actualizaciones pertinentes en sus propiedades internas y devuelve un resumen de dicha jugada, todo esto mediante las variaciones seleccionadas por el usuario al inicio del juego.
 Mas específicamente, mediante el método `NextPlayer` correspondiente a dicha variación devuelve el id del jugador que le toca jugar. Este mediante el método `Play` del refery se realiza la jugada de dicho jugador y se controla que se halla hecho correctamente. Posteriormente se realiza el guardado se las informaciones que son públicas en sus propiedades y se retorna la información necesaria para que será representada en la Interfas Gráfica(esta información es la que representa la clase auxiliar `PlayInfo`).
 
-- `public int SearchPlayerIndex(int Id)`: este método simplemente busca en la lista de los jugadores el índice en el arreglo al que le corresponde el jugador con dicho `Id`.
-
 #### Refery
 
 Esta clase tiene la tarea de controlar las jugadas de cada jugador(esta clase la implementamos como forma de evitar el surgimiento de jugadores que incumplieran las reglas preestablecidas de la partida), además posee las fichas de todos los jugadores y les ordena a los mismos elegir que ficha jugar, revisando si la elegida es válida, y finalmente colocándola en el tablero. Posee varios métodos entre los que se encuentran:
 
 - `MakeTokens`: Recibe y asigna a sus propiedades internas los jugadores y las fichas que tienen respectivamente.
-- `Play`: El método más importante y se encarga de que el jugador realice una jugada correcta, o sea, controla que los jugadores no hagan trampas y devuelve la información de la jugada. Este manda a llamar el método `PlayToken` correspondiente al jugador y que devuelve la ficha que va a jugar. En Refery controla que la jugada sea válida y en caso correcto llama `PlaceToken` del board para que sea puesta en el tablero y, posteriormente se elimina esa ficha de la mano del jugador.
+- `Play`: El método más importante y se encarga de que el jugador realice una jugada correcta, o sea, controla que los jugadores no hagan trampas y devuelve la información de la jugada. Este manda a llamar el método `PlayToken` correspondiente al jugador y que devuelve la ficha que va a jugar. En Refery controla que la jugada sea válida y en caso correcto llama `PlaceToken` del board para que sea puesta en el tablero y, posteriormente se elimin`a esa ficha de la mano del jugador.
 
 Luego tenemos otros métodos auxiliares como son `Hand`, `Count`, `Points`, `Player` y otros más que ayudan a realizar funcionalidades auxiliares específicas de ayuda a los otros métodos.
+
+### Parsers
+
+En esta clase se encuentran varios métodos generales para parsear nuestra información en diferentes clases que son como una especie de platilla(tanto de una clase general con la información como la una en JSON para mi cliente en específico) a seguir para que la informacion sea usada por la interfaz gráfica de una forma mas sencilla. 
+Dentro de estos métodos tenemos los que parsean información relacionada con las fichas:
+
+```cs
+// Convertir una lista de fichas a Json
+public static List<FacesToken> GetTokensToJson( IEnumerable<Token> tokens );
+
+// "Convertir la informacion del tablero a un template json de informacion general
+public static List<List<FacesToken>>  GetTokenInBoardToJson( TokenInBoard[,] Tokens );
+
+// Convertir la informacion del tablero a un template de informacion general
+public static TokenInBoard?[,]  GetTokenInBoardTemplate( (Token, string)[,] Tokens );
+```
+
+Y también están los métodos relacionados con el parseo de los jugadores:
+
+```cs
+   // Convertir la informacion de los jugadores a un template json de informacion general
+    public static List<ResPlayerJson> GetPlayersToJson( IEnumerable<ResPlayer> players );
+
+    // Convertir la informacion de los jugadores a un template de informacion general
+    public static List<ResPlayer> GetPlayersTemplate( PlayerInfo[] players, Refery refery );
+```
 
 ### Interfaces
 
 En este directorio están todas las interfaces que se están usando en el programa. Ahi está la interfaz `IManager` que representa al manager y algunas funcionalidades variables que se pueden implementar 
+
+### Delegados
+
+Aquí hay un fichero `Delegates.cs` con la declaración global de los delegados que se usan en la aplicación. En este momento solo existe uno y es:
+
+```cs
+public delegate int SearchPlayerIndex(int IdPlayer, Player[] players);
+```
+el cual indica un método para buscar el índice de un jugador en un array de jugadores.
 
 ### Implementaciones específicas
 

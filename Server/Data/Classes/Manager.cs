@@ -1,5 +1,6 @@
 namespace Server.Data.Classes;
 using Server.Data.Interfaces;
+using Server.Data.Delegates;
 
 public class Manager : IManager {
 
@@ -19,12 +20,14 @@ public class Manager : IManager {
     IWinGame winnersGame;
     INextPlayer nextPlayer;
     Refery refery;
+    SearchPlayerIndex Search;
 
     public Manager(){}
 
     public void AssignDependencies( IEnumerable<Player> players, IBoard board, 
                     IDistributeTokens distributeTokens, IFinishGame finishGame, 
-                    IWinGame winnersGame, INextPlayer nextPlayer, Refery refery ) {
+                    IWinGame winnersGame, INextPlayer nextPlayer, Refery refery, 
+                    SearchPlayerIndex Search ) {
 
         this.board = board;
         this.distributeTokens = distributeTokens;
@@ -32,6 +35,7 @@ public class Manager : IManager {
         this.winnersGame = winnersGame;
         this.nextPlayer = nextPlayer;
         this.refery = refery;
+        this.Search = Search;
         
         // Actualizar el tamaño de las propiedades generales
         Information.PassedOfPlayers = new int[players.Count()]; 
@@ -68,31 +72,23 @@ public class Manager : IManager {
         bool played = !currentPlay.Passed;
 
         // Actualizar las propiedades estáticas
-        int indexCurrentPlayer = this.SearchPlayerIndex(idCurrentPlayer);
+        int indexCurrentPlayer = this.Search(idCurrentPlayer, this.players);
         Information.CountTokenByPlayers[ indexCurrentPlayer ] -= ( played ? 1 : 0 );
         Information.CountTokenByPlayers[ indexCurrentPlayer ] = Math.Max(0, Information.CountTokenByPlayers[ indexCurrentPlayer ] );
         Information.PassedOfPlayers[ indexCurrentPlayer ] += ( played ? 0 : 1 );
 
         // Construir la información de la jugada y retornarla
         PlayInfo CurrInfo = new PlayInfo() {
-            Players = Game.PlayersForJson( this.refery.PlayerInformation, this.refery.Clone() ),
             CurrentPlayer = idCurrentPlayer,
             points = this.refery.Points(idCurrentPlayer),
             Passed = !played,
-            TokensInBoard = Game.TokensInBoardJson( this.board.Clone().TokensInBoard ),
+            Players = Parsers.GetPlayersTemplate( this.refery.PlayerInformation, this.refery.Clone() ),
+            TokensInBoard = Parsers.GetTokenInBoardTemplate( this.board.Clone().TokensInBoard )!,
             FinishGame = this.finishGame.FinishGame( this.board.Clone(), this.refery.PlayerInformation, Information.Clone() ),
-            Winners = Game.PlayersForJson( this.winnersGame.GetWinnersGame(this.board.Clone(), this.refery.PlayerInformation).ToArray<PlayerInfo>(), this.refery.Clone() ),
+            Winners = Parsers.GetPlayersTemplate( this.winnersGame.GetWinnersGame(this.board.Clone(), this.refery.PlayerInformation).ToArray<PlayerInfo>(), this.refery.Clone() ),
         };
 
         return CurrInfo;
-    }
-
-    // Buscar el índice en el arreglo de jugadores del jugador con el ID
-    public int SearchPlayerIndex(int ID) {
-        for( int i = 0; i < Information.IdOfPlayers.Length; i ++ ) {
-            if( Information.IdOfPlayers[i] == ID ) return i;
-        }
-        return -1;
     }
 
 }
