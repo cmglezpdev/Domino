@@ -42,17 +42,6 @@ public class PlayInfo : AbstractPlayInfo {
     public TokenInBoard[,]? TokensInBoard {get; set;} // Las fichas que estan en el tablero después de la jugada
     public IEnumerable<ResPlayer>? Players {get; set;} // Lista de jugadores con su información
     public IEnumerable<ResPlayer>? Winners{get; set;} // Lista de ganadores en la ronda actual
-
-    public PlayInfoJson GetToJson () {
-
-        return new PlayInfoJson() {
-            CurrentPlayer = this.CurrentPlayer,
-            points = this.points,
-            Passed = this.Passed,
-            FinishGame = this.FinishGame,
-            TokensInBoard = Parsers.GetTokenInBoardToJson( this.TokensInBoard! )
-        };
-    }
 }
 
 public class PlayInfoJson : AbstractPlayInfo {
@@ -94,19 +83,6 @@ public class AbstractResPlayer {
 
 public class ResPlayer : AbstractResPlayer {
     public Token[]? HandTokens {get; set;}
-
-    public ResPlayerJson GetToJson() {
-        
-        List<FacesToken> HandTokens = new List<FacesToken>();
-        // foreach( var t in this.HandTokens! ) HandTokens.Add( t.GetToJson() );
-
-        return new ResPlayerJson() {
-            Id = this.Id,
-            Name = this.Name,
-            Points = this.Points,
-            HandTokens = HandTokens.ToArray()
-        };
-    }
 }
 public class ResPlayerJson : AbstractResPlayer {
     public FacesToken[]? HandTokens {get; set;}
@@ -130,14 +106,6 @@ public class FacesToken {
 public class TokenInBoard {
     public Token? token{get; set;}
     public string? Direction {get; set;} // dirección de la ficha en el tablero
-
-    public FacesToken GetToJson() {
-        return new FacesToken() {
-            Direction = this.Direction,
-            Left = this.token![0].Value,
-            Right = this.token![1].Value,
-        };
-    }
 }
 
 #endregion
