@@ -3,7 +3,7 @@ using Server.Data.Classes;
 public static class Parsers {
 
     // "Convertir" una lista de fichas a formato json
-    #region Token's Parsers
+    #region Tokens's Parsers
 
     // Convertir una lista de fichas a Json
     public static List<FacesToken> GetTokensToJson( IEnumerable<Token> tokens ) {
@@ -16,44 +16,25 @@ public static class Parsers {
 
 
     // "Convertir la informacion del tablero a un template json de informacion general
-    public static List<List<FacesToken>>  GetTokenInBoardToJson( TokenInBoard[,] Tokens ) {
+    public static IEnumerable<IEnumerable<FacesToken>> GetTokenInBoardToJson( TokenInBoard[,] Tokens ) {
         
-        List<List<FacesToken?>> TokensJson = new List<List<FacesToken>>()!;
+        List<List<FacesToken>> TokensJson = new List<List<FacesToken>>();
 
         for( int i = 0; i < Tokens.GetLength(0); i ++ ) {
-            TokensJson.Add( new List<FacesToken>()! );
+            TokensJson.Add(new List<FacesToken>());
             for( int j = 0; j < Tokens.GetLength(1); j ++ ) {
                 if(Tokens[i, j] == null )
-                    TokensJson.Last().Add(null);
+                    TokensJson[i].Add(null!);
                 else {
                     Token t = Tokens[i, j].token!;
                     string d = Tokens[i, j].Direction!;
-                    TokensJson[ TokensJson.Count - 1 ].Add( new FacesToken(){ Left = t[0].Value, Right = t[1].Value, Direction = d } );
+                    TokensJson[i].Add( new FacesToken(){ Left = t[0].Value, Right = t[1].Value, Direction = d });
                 }
             }
         }
 
-        return TokensJson!;
+        return TokensJson;
     }
-
-    // Convertir la informacion del tablero a un template de informacion general
-    public static TokenInBoard?[,]  GetTokenInBoardTemplate( (Token, string)[,] Tokens ) {
-        
-        TokenInBoard?[,] TokensTemplate = new TokenInBoard[ Tokens.GetLength(0), Tokens.GetLength(1) ];
-
-        for( int i = 0; i < Tokens.GetLength(0); i ++ ) {
-            for( int j = 0; j < Tokens.GetLength(1); j ++ ) {
-                (Token t, string d) = Tokens[i, j];
-                if(t == null )
-                    TokensTemplate[i, j] = null;
-                else
-                TokensTemplate[ i, j ] = new TokenInBoard(){ token = t, Direction = d };
-            }
-        }
-
-        return TokensTemplate!;
-    }
-
 
     #endregion
 

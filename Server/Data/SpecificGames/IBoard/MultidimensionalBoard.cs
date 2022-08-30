@@ -300,7 +300,7 @@ public class MultidimensionalBorad : IBoard
         }
 
     }
-    public (Token, string)[,] TokensInBoard {
+    public TokenInBoard[,] TokensInBoard {
         get {
             
             (int left, int top, int right, int bottom) = BordersBoard(); // Calcula los puntos extremos del tablero
@@ -308,12 +308,12 @@ public class MultidimensionalBorad : IBoard
             right -= left; // Calcular el ancho del tablero
             bottom -= top; // Calcular el alto del tablero
 
-            (Token, string) [,] tokens = new (Token, string)[bottom + 1, right + 1]; // Crear el tablero de tokens
+            TokenInBoard [,] tokens = new TokenInBoard[bottom + 1, right + 1]; // Crear el tablero de tokens
             foreach( var info in board ) {
                 Coord coords = info.Key;
                 InfoToken item = info.Value;
                 Token tok = item.token;
-                tokens[ coords.y, coords.x ] = (tok, item.direction); // Guardar el token en el tablero
+                tokens[ coords.y, coords.x ] = new TokenInBoard(){token = tok, Direction = item.direction}; // Guardar el token en el tablero
             }
 
             return tokens;

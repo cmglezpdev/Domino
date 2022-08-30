@@ -11,7 +11,7 @@ public interface IBoard {
     bool ValidPlay(Token token);
 
     // Devuelve una matris con las fichas colocadas en cada posición
-    (Token, string)[,] TokensInBoard {
+    TokenInBoard[,] TokensInBoard {
         get;
     }
     // Devuelve el orden en que se fueron jugando las fichas con sus respectivos jugadores

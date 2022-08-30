@@ -92,7 +92,7 @@ public class Manager : IManager {
             points = this.refery.Points(idCurrentPlayer),
             Passed = !played,
             Players = Parsers.GetPlayersTemplate( this.refery.PlayerInformation, this.refery.Clone() ),
-            TokensInBoard = Parsers.GetTokenInBoardTemplate( this.board.Clone().TokensInBoard )!,
+            TokensInBoard = this.board.Clone().TokensInBoard,
             FinishGame = this.finishGame.FinishGame( this.board.Clone(), this.refery.PlayerInformation, Information.Clone() ),
             Winners = Parsers.GetPlayersTemplate( this.winnersGame.GetWinnersGame(this.board.Clone(), this.refery.PlayerInformation).ToArray<PlayerInfo>(), this.refery.Clone() ),
         };

@@ -45,7 +45,7 @@ public class PlayInfo : AbstractPlayInfo {
 }
 
 public class PlayInfoJson : AbstractPlayInfo {
-    public IEnumerable< IEnumerable<FacesToken> >? TokensInBoard {get; set;} // Las fichas que estan en el tablero después de la jugada
+    public IEnumerable<IEnumerable<FacesToken>>? TokensInBoard {get; set;} // Las fichas que estan en el tablero después de la jugada
     public IEnumerable<ResPlayerJson>? Players {get; set;} // Lista de jugadores con su información
     public IEnumerable<ResPlayerJson>? Winners{get; set;} // Lista de ganadores en la ronda actual
 }

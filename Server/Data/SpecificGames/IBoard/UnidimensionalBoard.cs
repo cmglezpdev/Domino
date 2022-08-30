@@ -130,12 +130,15 @@ public class UnidimensionalBoard : IBoard {
         return clone;
     }
     // matriz con las fichas de tablero
-    public (Token, string)[,] TokensInBoard {
+    public TokenInBoard[,] TokensInBoard {
         get{ 
-            (Token, string)[,] tokens = new (Token, string)[1, this.board.Count];
+            TokenInBoard[,] tokens = new TokenInBoard[1, this.board.Count];
             for(int i = 0; i < this.board.Count; i ++) {
                 var t = this.board[i];
-                tokens[0, i] = (t, (t[0].Value == t[1].Value) ? "vertical" : "horizontal");
+                tokens[0, i] = new TokenInBoard() {
+                     token = t,
+                     Direction = (t[0].Value == t[1].Value) ? "vertical" : "horizontal"
+                };
             }
             
             return tokens; 
