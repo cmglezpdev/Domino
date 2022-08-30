@@ -3,7 +3,9 @@ using Server.Data.Classes;
 public static class Game {
 
     // "Convertir" una lista de fichas a formato json
-    public static List<FacesToken> TokenForJson( IEnumerable<Token> tokens ) {
+    #region Token's Parsers
+
+    public static List<FacesToken> GetTokensToJson( IEnumerable<Token> tokens ) {
         List<FacesToken> TokensJson = new List<FacesToken>();
         foreach( var t in tokens ) {
             TokensJson.Add( new FacesToken(){ Left = t[0].Value, Right = t[1].Value } );
@@ -12,33 +14,16 @@ public static class Game {
     }
 
 
-    // "Convertir" una lista de jugadores con su informacion a formato json
-    public static List<ResPlayer> PlayersForJson( PlayerInfo[] players, Refery refery ) {
-        List<ResPlayer> result = new List<ResPlayer>();
-        int countPlayers = players.Length;
-
-        for( int i = 0; i < countPlayers; i ++ ) {   
-            var p = players[i];
-            List<FacesToken> hand = Game.TokenForJson( refery.Hand(i) );
-            result.Add(new ResPlayer() {
-                Id = p.IDPlayer.Item1,
-                Name = p.IDPlayer.Item2,
-                Points = p.Points,
-                HandTokens = hand.ToArray()
-            });
-        }
-        return result;
-    }
-
     // "Convertir" la informacion del tablero a formato json 
-    public static List<List<FacesToken>> TokensInBoardJson ( (Token, string)[,] Tokens ) {
+    public static List<List<FacesToken>> GetTokenInBoardToJson ( TokenInBoard[,] Tokens ) {
         
         List<List<FacesToken?>> TokensJson = new List<List<FacesToken>>()!;
 
         for( int i = 0; i < Tokens.GetLength(0); i ++ ) {
             TokensJson.Add( new List<FacesToken>()! );
             for( int j = 0; j < Tokens.GetLength(1); j ++ ) {
-                (Token t, string d) = Tokens[i,j];
+                Token t = Tokens[i, j].token!;
+                string d = Tokens[i, j].Direction!;
                 if(t == null )
                     TokensJson.Last().Add(null);
                 else
@@ -48,4 +33,78 @@ public static class Game {
 
         return TokensJson!;
     }
+
+    #endregion
+
+
+
+
+
+
+
+    public static List<ResPlayerJson> GetPlayersToJson( IEnumerable<ResPlayer> players ) {
+
+        List<ResPlayerJson> playersJson = new List<ResPlayerJson>();
+        foreach( var p in players ) {
+            playersJson.Add(new ResPlayerJson(){
+                Id = p.Id,
+                Name = p.Name,
+                Points = p.Points,
+                HandTokens = Game.GetTokensToJson(p.HandTokens!).ToArray()
+            });
+        }
+        return playersJson;
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // "Convertir" una lista de jugadores en una plantilla ResPlayers
+    public static List<ResPlayer> GetPlayersTemplate( PlayerInfo[] players, Refery refery ) {
+        List<ResPlayer> result = new List<ResPlayer>();
+        int countPlayers = players.Length;
+
+        for( int i = 0; i < countPlayers; i ++ ) {   
+            var p = players[i];
+            
+            result.Add(new ResPlayer() {
+                Id = p.IDPlayer.Item1,
+                Name = p.IDPlayer.Item2,
+                Points = p.Points,
+                HandTokens = refery.Hand(i)
+            });
+        }
+        return result;
+    }
+
+
+
+
+    public static TokenInBoard?[,]  GetTokenInBoardTemplate( (Token, string)[,] Tokens ) {
+        
+        TokenInBoard?[,] TokensTemplate = new TokenInBoard[ Tokens.GetLength(0), Tokens.GetLength(1) ];
+
+        for( int i = 0; i < Tokens.GetLength(0); i ++ ) {
+            for( int j = 0; j < Tokens.GetLength(1); j ++ ) {
+                (Token t, string d) = Tokens[i, j];
+                if(t == null )
+                    TokensTemplate[i, j] = null;
+                else
+                TokensTemplate[ i, j ] = new TokenInBoard(){ token = t, Direction = d };
+            }
+        }
+
+        return TokensTemplate!;
+    }
+
+
+
+
 }

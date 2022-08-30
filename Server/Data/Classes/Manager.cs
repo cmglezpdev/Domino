@@ -79,13 +79,13 @@ public class Manager : IManager {
 
         // Construir la información de la jugada y retornarla
         PlayInfo CurrInfo = new PlayInfo() {
-            Players = Game.PlayersForJson( this.refery.PlayerInformation, this.refery.Clone() ),
             CurrentPlayer = idCurrentPlayer,
             points = this.refery.Points(idCurrentPlayer),
             Passed = !played,
-            TokensInBoard = Game.TokensInBoardJson( this.board.Clone().TokensInBoard ),
+            Players = Game.GetPlayersTemplate( this.refery.PlayerInformation, this.refery.Clone() ),
+            TokensInBoard = Game.GetTokenInBoardTemplate( this.board.Clone().TokensInBoard )!,
             FinishGame = this.finishGame.FinishGame( this.board.Clone(), this.refery.PlayerInformation, Information.Clone() ),
-            Winners = Game.PlayersForJson( this.winnersGame.GetWinnersGame(this.board.Clone(), this.refery.PlayerInformation).ToArray<PlayerInfo>(), this.refery.Clone() ),
+            Winners = Game.GetPlayersTemplate( this.winnersGame.GetWinnersGame(this.board.Clone(), this.refery.PlayerInformation).ToArray<PlayerInfo>(), this.refery.Clone() ),
         };
 
         return CurrInfo;

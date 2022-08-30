@@ -25,17 +25,48 @@ public class StatusCurrentPlay {
     }
 }
 
+
+
 // Esta representa el estado de una jugada también ,pero contiene mas información 
 //  pq es la que se envía al frontend para que se muestre la información
-public class PlayInfo {
-    public IEnumerable<ResPlayer>? Players {get; set;} // Lista de jugadores con su información
+
+#region  PlayInfo
+
+public class AbstractPlayInfo {
     public int? CurrentPlayer {get; set;} // ID del jugador que jugo
     public int? points {get; set;} // cantidad actual de puntos del jugador
     public bool? Passed {get; set;} // Si el jugador se pasó o no
-    public IEnumerable< IEnumerable<FacesToken> >? TokensInBoard {get; set;} // Las fichas que estan en el tablero después de la jugada
     public bool? FinishGame {get; set;} // True si se terminó el juego
-    public IEnumerable<ResPlayer>? Winners{get; set;} // Lista de ganadores en la ronda actual
 }
+public class PlayInfo : AbstractPlayInfo {
+    public TokenInBoard[,]? TokensInBoard {get; set;} // Las fichas que estan en el tablero después de la jugada
+    public IEnumerable<ResPlayer>? Players {get; set;} // Lista de jugadores con su información
+    public IEnumerable<ResPlayer>? Winners{get; set;} // Lista de ganadores en la ronda actual
+
+    public PlayInfoJson GetToJson () {
+
+        return new PlayInfoJson() {
+            CurrentPlayer = this.CurrentPlayer,
+            points = this.points,
+            Passed = this.Passed,
+            FinishGame = this.FinishGame,
+            TokensInBoard = Game.GetTokenInBoardToJson( this.TokensInBoard! )
+        };
+    }
+}
+
+public class PlayInfoJson : AbstractPlayInfo {
+    public IEnumerable< IEnumerable<FacesToken> >? TokensInBoard {get; set;} // Las fichas que estan en el tablero después de la jugada
+    public IEnumerable<ResPlayerJson>? Players {get; set;} // Lista de jugadores con su información
+    public IEnumerable<ResPlayerJson>? Winners{get; set;} // Lista de ganadores en la ronda actual
+}
+
+
+#endregion
+
+
+
+
 
 
 // Esta clase representa un jugador con su información
@@ -51,20 +82,68 @@ public class PlayerInfo {
     }
 }
 
+
 // Info de un jugador que es convertida a JSON para ser enviada al frontend
-public class ResPlayer {
+#region  ResPlayer
+
+public class AbstractResPlayer {
     public int? Id {get; set;}
     public string? Name {get; set;}
     public int? Points {get; set;}
+}
+
+public class ResPlayer : AbstractResPlayer {
+    public Token[]? HandTokens {get; set;}
+
+    public ResPlayerJson GetToJson() {
+        
+        List<FacesToken> HandTokens = new List<FacesToken>();
+        // foreach( var t in this.HandTokens! ) HandTokens.Add( t.GetToJson() );
+
+        return new ResPlayerJson() {
+            Id = this.Id,
+            Name = this.Name,
+            Points = this.Points,
+            HandTokens = HandTokens.ToArray()
+        };
+    }
+}
+public class ResPlayerJson : AbstractResPlayer {
     public FacesToken[]? HandTokens {get; set;}
 }
 
-// Info de una ficha parseada para un JSON
+#endregion
+
+
+
+
+#region Tokens Info
+
+// Info de una ficha en el tablero parseada para un JSON
 public class FacesToken {
     public int? Left {get; set;}
     public int? Right {get; set;}
     public string? Direction {get; set;} // dirección de la ficha en el tablero
 }
+
+// Info de una ficha en el tablero 
+public class TokenInBoard {
+    public Token? token{get; set;}
+    public string? Direction {get; set;} // dirección de la ficha en el tablero
+
+    public FacesToken GetToJson() {
+        return new FacesToken() {
+            Direction = this.Direction,
+            Left = this.token![0].Value,
+            Right = this.token![1].Value,
+        };
+    }
+}
+
+#endregion
+
+
+
 
 
 // Reperesenta toda la información que es publica durante el juego y que los jugadores pueden tener acceso
