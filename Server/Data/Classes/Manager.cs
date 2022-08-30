@@ -22,7 +22,16 @@ public class Manager : IManager {
     Refery refery;
     SearchPlayerIndex Search;
 
-    public Manager(){}
+    public Manager(){ 
+        players = null!;
+        board = null!;
+        distributeTokens = null!; 
+        finishGame = null!;
+        winnersGame = null!; 
+        nextPlayer = null!;
+        refery = null!;
+        Search = null!;
+    }
 
     public void AssignDependencies( IEnumerable<Player> players, IBoard board, 
                     IDistributeTokens distributeTokens, IFinishGame finishGame, 

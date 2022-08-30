@@ -23,12 +23,13 @@ public static class Parsers {
         for( int i = 0; i < Tokens.GetLength(0); i ++ ) {
             TokensJson.Add( new List<FacesToken>()! );
             for( int j = 0; j < Tokens.GetLength(1); j ++ ) {
-                Token t = Tokens[i, j].token!;
-                string d = Tokens[i, j].Direction!;
-                if(t == null )
+                if(Tokens[i, j] == null )
                     TokensJson.Last().Add(null);
-                else
-                TokensJson[ TokensJson.Count - 1 ].Add( new FacesToken(){ Left = t[0].Value, Right = t[1].Value, Direction = d } );
+                else {
+                    Token t = Tokens[i, j].token!;
+                    string d = Tokens[i, j].Direction!;
+                    TokensJson[ TokensJson.Count - 1 ].Add( new FacesToken(){ Left = t[0].Value, Right = t[1].Value, Direction = d } );
+                }
             }
         }
 
