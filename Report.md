@@ -8,11 +8,11 @@
   - [Server](#server)
     - [Controllers y Models](#controllers-y-models)
     - [Data](#data)
-    - [Game](#game)
     - [Clases](#classes)
         - [AuxiliarClasses](#auxiliar-classes)
         - [Manager](#manager)
         - [Refery](#refery)
+        - [Parsers](#parsers)
     - [Interfaces](#interfaces)
     - [Delegados](#delegados)
     - [Implementaciones Específicas](#implementaciones-específicas)
@@ -111,7 +111,7 @@ En el `Server` tenemos los controladores de la API(`Controllers`), los modelos(`
 
 ### Data
 
-La sección de la `Data` tiene una clase principal `Data` que tiene varios arrays de instancias de las variaciones que tenemos implementadas en el juego, así como varios métodos que `parsean` algunas informaciones del juego en una estructura específica para que sea más fácil usar esa información en el `Client`(usando JSON)
+La sección de la `Data` tiene una clase principal `Data` que tiene varios arrays de instancias de las variaciones que tenemos implementadas en el juego.
 
 ```cs
 // Datos correspondientes a la cantidad de jugadores posibles a seleccionar
@@ -202,62 +202,6 @@ public INextPlayer[] NextPlayers = new INextPlayer[] {
     new NextPlayerLongana(),
 };
 ```
-
-### Game
-
-También tenemos una clase estática `Game` la cual tiene la instancia general del Manager y dos métodos que "parsean"(lo que hacen es cambiar los nombres de las pripiedades) para que cuando se convierta a formato JSON que no sea con los nombres por defecto que asigna C# 
-
-El primer método es :
-
-```cs
-public static List<FacesToken> TokenForJson( IEnumerable<Token> tokens );
-```
-
-el cuál te parsea una lista de fichas a este formato:
-
-```cs
-public class FacesToken {
-    public int? Left {get; set;} // valor de la cara izquierda
-    public int? Right {get; set;} // valor de la cara derecha
-    public string? Direction {get; set;} // dirección de la ficha en el tablero
-}
-```
-
-que en JSON se veria asi:
-
-```json
-{
-    "left": <value:int>,
-    "right": <value:int>,
-    "direccion": "<direction:string>"
-}
-```
-
-
-El método `PlayersForJson` parsea una lista de players con su información:
-
-```cs
-public static List<ResPlayer> PlayersForJson( PlayerInfo[] players, Refery refery ); 
-```
-
-Que lo transforma a:
-
-```cs
-public class PlayerInfo {
-    public int? Id {get; set;}
-    public string? Name {get; set;}
-    public int? Points {get; set;}
-    public FacesToken[]? HandTokens {get; set;}
-}
-```
-
-y el método `TokensInBoardJson` que recibe la la matriz que representa el tablero y la convierte en una matriz de tokens parseados
-
-```cs
-public static List<List<FacesToken>> TokensInBoardJson ( (Token, string)[,] Tokens );
-```
-
-
 ### Classes
 
 Dentro de esta carpeta tenemos varias clases que representan algunas cosas generales del juego. Dentro de estas están:
@@ -270,13 +214,17 @@ En este archivo podemos ver varias clases como:
 
 `StatusCurrentPlay`: Esta clase guarda algunas informaciones del estado del juego después de cada jugada realizada. Esta clase es usada por el manager para capturar la información de cada jugada, información que es pública a todas las clases, pero principalmente pensada para los que los jugadores la puedan usar para sus estrategias.
 
-`PlayInfo`: Esta clase también guarda información de las jugadas, pero esta clase contiene más información que la otra porque es la información que se manda al frontend para que sea mostrada.
+
+`AbstractPlayInfo, PlayInfo & PlayInfoJson`: Estas clases guardan la información de las jugadas realizadas en cada turno. Para esto: `AbstractPlayInfo` tiene las propiedades de `PlayInfo` generales y `PlayInfo` y `PlayInfoJson`(ambas heredan las propiedades de `AbstractPlayInfo`) que tienen la misma información, solo que de forma diferente, ya que una está pensada para trabajarla directamente con c# y la otra optimizada para que sea más fácil su uso al convertirla a json.
+
+`AbstractResPlayer, ResPlayer & ResPlayerJson`: Estas clases guardan la información un jugador que sera usada por la interfaz gráfica. Para esto: `AbstractResPlayer` tiene todas las propiedades de `ResPlayer` generales y `ResPlayer` y `ResPlayerJson`(ambas heredan las propiedades de `AbstractResPlayer`) que tienen la misma información, solo que de forma diferente, ya que una está pensada para trabajarla directamente con c# y la otra optimizada para que sea más fácil su uso al convertirla a json.
+
+
+`FacesToken & TokenInBoard`: Estas clases guardan la información de las fichas cuando están colocadas en el tablero. `FacesToken` tiene las propiedades *Left* y *Right* para las caras de las fichas y un string *Direction* que guarda la dirección de la ficha en el tablero. TokenInBoard tiene la misma información, solo que en vez de guardar las caras por separado, guarda la ficha directamente.
+
 
 `PlayerInfo`: Esta clase contiene información básica sobre un jugador( cantidad de fichas, puntos, y sus ids ). Esta clase es usada por el `refery` y se usa para cuando queremos retornar información de un jugador, pero no queremos que no se tenga acceso a sus métodos para evitar, entre otras cosas, que los jugadores que necesiten de información de otro jugador hagan trampa.
 
-`ResPlayer`: Esta clase también guarda la información de un jugador, pero esta clase en específico es la que se usa como parseo a JSON para que sea enviada al frontend
-
-`FacesToken`: Esta clase parsea la información básica de una ficha(valor de sus caras, y su dirección en el tablero, si esta allí) a JSON para que sea usada en el frontend.
 
 `PublicInformation`: Esta clase contiene toda la información publica que se maneja durante el juego y que se usa para las distintas implementaciones que necesiten de esta información.
 
@@ -300,9 +248,35 @@ Mas específicamente, mediante el método `NextPlayer` correspondiente a dicha v
 Esta clase tiene la tarea de controlar las jugadas de cada jugador(esta clase la implementamos como forma de evitar el surgimiento de jugadores que incumplieran las reglas preestablecidas de la partida), además posee las fichas de todos los jugadores y les ordena a los mismos elegir que ficha jugar, revisando si la elegida es válida, y finalmente colocándola en el tablero. Posee varios métodos entre los que se encuentran:
 
 - `MakeTokens`: Recibe y asigna a sus propiedades internas los jugadores y las fichas que tienen respectivamente.
-- `Play`: El método más importante y se encarga de que el jugador realice una jugada correcta, o sea, controla que los jugadores no hagan trampas y devuelve la información de la jugada. Este manda a llamar el método `PlayToken` correspondiente al jugador y que devuelve la ficha que va a jugar. En Refery controla que la jugada sea válida y en caso correcto llama `PlaceToken` del board para que sea puesta en el tablero y, posteriormente se elimina esa ficha de la mano del jugador.
+- `Play`: El método más importante y se encarga de que el jugador realice una jugada correcta, o sea, controla que los jugadores no hagan trampas y devuelve la información de la jugada. Este manda a llamar el método `PlayToken` correspondiente al jugador y que devuelve la ficha que va a jugar. En Refery controla que la jugada sea válida y en caso correcto llama `PlaceToken` del board para que sea puesta en el tablero y, posteriormente se elimin`a esa ficha de la mano del jugador.
 
 Luego tenemos otros métodos auxiliares como son `Hand`, `Count`, `Points`, `Player` y otros más que ayudan a realizar funcionalidades auxiliares específicas de ayuda a los otros métodos.
+
+### Parsers
+
+En esta clase se encuentran varios métodos generales para parsear nuestra información en diferentes clases que son como una especie de platilla(tanto de una clase general con la información como la una en JSON para mi cliente en específico) a seguir para que la informacion sea usada por la interfaz gráfica de una forma mas sencilla. 
+Dentro de estos métodos tenemos los que parsean información relacionada con las fichas:
+
+```cs
+// Convertir una lista de fichas a Json
+public static List<FacesToken> GetTokensToJson( IEnumerable<Token> tokens );
+
+// "Convertir la informacion del tablero a un template json de informacion general
+public static List<List<FacesToken>>  GetTokenInBoardToJson( TokenInBoard[,] Tokens );
+
+// Convertir la informacion del tablero a un template de informacion general
+public static TokenInBoard?[,]  GetTokenInBoardTemplate( (Token, string)[,] Tokens );
+```
+
+Y también están los métodos relacionados con el parseo de los jugadores:
+
+```cs
+   // Convertir la informacion de los jugadores a un template json de informacion general
+    public static List<ResPlayerJson> GetPlayersToJson( IEnumerable<ResPlayer> players );
+
+    // Convertir la informacion de los jugadores a un template de informacion general
+    public static List<ResPlayer> GetPlayersTemplate( PlayerInfo[] players, Refery refery );
+```
 
 ### Interfaces
 
